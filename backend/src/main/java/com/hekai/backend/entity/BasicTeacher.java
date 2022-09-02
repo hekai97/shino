@@ -12,8 +12,8 @@ public class BasicTeacher {
     @Column(name = "id")
     private int id;
     @Basic
-    @Column(name = "storeid")
-    private Integer storeid;
+    @Column(name = "store_id")
+    private Integer storeId;
     @Basic
     @Column(name = "num")
     private String num;
@@ -39,20 +39,20 @@ public class BasicTeacher {
     @Column(name = "picture")
     private String picture;
     @Basic
-    @Column(name = "employmentdate")
-    private Date employmentdate;
+    @Column(name = "employment_date")
+    private Date employmentDate;
     @Basic
-    @Column(name = "goodcategory")
-    private String goodcategory;
+    @Column(name = "good_category")
+    private String goodCategory;
     @Basic
-    @Column(name = "entrydate")
-    private Date entrydate;
+    @Column(name = "entry_date")
+    private Date entryDate;
     @Basic
-    @Column(name = "leavedate")
-    private Date leavedate;
+    @Column(name = "leave_date")
+    private Date leaveDate;
     @Basic
-    @Column(name = "discription")
-    private String discription;
+    @Column(name = "description")
+    private String description;
     @Basic
     @Column(name = "feature")
     private String feature;
@@ -60,11 +60,11 @@ public class BasicTeacher {
     @Column(name = "status")
     private Integer status;
     @Basic
-    @Column(name = "createDate")
-    private Date createDate;
+    @Column(name = "created_date")
+    private Date createdDate;
     @Basic
-    @Column(name = "createUser")
-    private Integer createUser;
+    @Column(name = "created_user")
+    private Integer createdUser;
 
     public int getId() {
         return id;
@@ -74,12 +74,12 @@ public class BasicTeacher {
         this.id = id;
     }
 
-    public Integer getStoreid() {
-        return storeid;
+    public Integer getStoreId() {
+        return storeId;
     }
 
-    public void setStoreid(Integer storeid) {
-        this.storeid = storeid;
+    public void setStoreId(Integer storeId) {
+        this.storeId = storeId;
     }
 
     public String getNum() {
@@ -146,44 +146,44 @@ public class BasicTeacher {
         this.picture = picture;
     }
 
-    public Date getEmploymentdate() {
-        return employmentdate;
+    public Date getEmploymentDate() {
+        return employmentDate;
     }
 
-    public void setEmploymentdate(Date employmentdate) {
-        this.employmentdate = employmentdate;
+    public void setEmploymentDate(Date employmentDate) {
+        this.employmentDate = employmentDate;
     }
 
-    public String getGoodcategory() {
-        return goodcategory;
+    public String getGoodCategory() {
+        return goodCategory;
     }
 
-    public void setGoodcategory(String goodcategory) {
-        this.goodcategory = goodcategory;
+    public void setGoodCategory(String goodCategory) {
+        this.goodCategory = goodCategory;
     }
 
-    public Date getEntrydate() {
-        return entrydate;
+    public Date getEntryDate() {
+        return entryDate;
     }
 
-    public void setEntrydate(Date entrydate) {
-        this.entrydate = entrydate;
+    public void setEntryDate(Date entryDate) {
+        this.entryDate = entryDate;
     }
 
-    public Date getLeavedate() {
-        return leavedate;
+    public Date getLeaveDate() {
+        return leaveDate;
     }
 
-    public void setLeavedate(Date leavedate) {
-        this.leavedate = leavedate;
+    public void setLeaveDate(Date leaveDate) {
+        this.leaveDate = leaveDate;
     }
 
-    public String getDiscription() {
-        return discription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDiscription(String discription) {
-        this.discription = discription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getFeature() {
@@ -202,20 +202,20 @@ public class BasicTeacher {
         this.status = status;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
-    public Integer getCreateUser() {
-        return createUser;
+    public Integer getCreatedUser() {
+        return createdUser;
     }
 
-    public void setCreateUser(Integer createUser) {
-        this.createUser = createUser;
+    public void setCreatedUser(Integer createdUser) {
+        this.createdUser = createdUser;
     }
 
     @Override
@@ -223,11 +223,11 @@ public class BasicTeacher {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BasicTeacher that = (BasicTeacher) o;
-        return id == that.id && Objects.equals(storeid, that.storeid) && Objects.equals(num, that.num) && Objects.equals(name, that.name) && Objects.equals(address, that.address) && Objects.equals(phone, that.phone) && Objects.equals(email, that.email) && Objects.equals(birthday, that.birthday) && Objects.equals(sex, that.sex) && Objects.equals(picture, that.picture) && Objects.equals(employmentdate, that.employmentdate) && Objects.equals(goodcategory, that.goodcategory) && Objects.equals(entrydate, that.entrydate) && Objects.equals(leavedate, that.leavedate) && Objects.equals(discription, that.discription) && Objects.equals(feature, that.feature) && Objects.equals(status, that.status) && Objects.equals(createDate, that.createDate) && Objects.equals(createUser, that.createUser);
+        return id == that.id && Objects.equals(storeId, that.storeId) && Objects.equals(num, that.num) && Objects.equals(name, that.name) && Objects.equals(address, that.address) && Objects.equals(phone, that.phone) && Objects.equals(email, that.email) && Objects.equals(birthday, that.birthday) && Objects.equals(sex, that.sex) && Objects.equals(picture, that.picture) && Objects.equals(employmentDate, that.employmentDate) && Objects.equals(goodCategory, that.goodCategory) && Objects.equals(entryDate, that.entryDate) && Objects.equals(leaveDate, that.leaveDate) && Objects.equals(description, that.description) && Objects.equals(feature, that.feature) && Objects.equals(status, that.status) && Objects.equals(createdDate, that.createdDate) && Objects.equals(createdUser, that.createdUser);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, storeid, num, name, address, phone, email, birthday, sex, picture, employmentdate, goodcategory, entrydate, leavedate, discription, feature, status, createDate, createUser);
+        return Objects.hash(id, storeId, num, name, address, phone, email, birthday, sex, picture, employmentDate, goodCategory, entryDate, leaveDate, description, feature, status, createdDate, createdUser);
     }
 }

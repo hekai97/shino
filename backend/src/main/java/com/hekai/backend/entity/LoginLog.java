@@ -5,16 +5,17 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-public class Loginlog {
+@Table(name = "login_log", schema = "shinho", catalog = "")
+public class LoginLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private int id;
     @Basic
-    @Column(name = "userId")
+    @Column(name = "user_Id")
     private Integer userId;
     @Basic
-    @Column(name = "loginDate")
+    @Column(name = "login_date")
     private Timestamp loginDate;
 
     public int getId() {
@@ -45,8 +46,8 @@ public class Loginlog {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Loginlog loginlog = (Loginlog) o;
-        return id == loginlog.id && Objects.equals(userId, loginlog.userId) && Objects.equals(loginDate, loginlog.loginDate);
+        LoginLog loginLog = (LoginLog) o;
+        return id == loginLog.id && Objects.equals(userId, loginLog.userId) && Objects.equals(loginDate, loginLog.loginDate);
     }
 
     @Override

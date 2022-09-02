@@ -12,32 +12,32 @@ public class CmsCategory {
     @Column(name = "id")
     private int id;
     @Basic
-    @Column(name = "cmstitle")
-    private String cmstitle;
+    @Column(name = "cms_title")
+    private String cmsTitle;
     @Basic
-    @Column(name = "cmscode")
-    private String cmscode;
+    @Column(name = "cms_code")
+    private String cmsCode;
     @Basic
-    @Column(name = "articlecount")
-    private Integer articlecount;
+    @Column(name = "article_count")
+    private Integer articleCount;
     @Basic
-    @Column(name = "cmstype")
-    private String cmstype;
+    @Column(name = "cms_type")
+    private String cmsType;
     @Basic
-    @Column(name = "ispublished")
-    private Byte ispublished;
+    @Column(name = "is_published")
+    private Byte isPublished;
     @Basic
     @Column(name = "creater")
     private String creater;
     @Basic
-    @Column(name = "createtime")
-    private Timestamp createtime;
+    @Column(name = "create_time")
+    private Timestamp createTime;
     @Basic
     @Column(name = "updater")
     private String updater;
     @Basic
-    @Column(name = "updatetime")
-    private Timestamp updatetime;
+    @Column(name = "update_time")
+    private Timestamp updateTime;
 
     public int getId() {
         return id;
@@ -47,44 +47,44 @@ public class CmsCategory {
         this.id = id;
     }
 
-    public String getCmstitle() {
-        return cmstitle;
+    public String getCmsTitle() {
+        return cmsTitle;
     }
 
-    public void setCmstitle(String cmstitle) {
-        this.cmstitle = cmstitle;
+    public void setCmsTitle(String cmsTitle) {
+        this.cmsTitle = cmsTitle;
     }
 
-    public String getCmscode() {
-        return cmscode;
+    public String getCmsCode() {
+        return cmsCode;
     }
 
-    public void setCmscode(String cmscode) {
-        this.cmscode = cmscode;
+    public void setCmsCode(String cmsCode) {
+        this.cmsCode = cmsCode;
     }
 
-    public Integer getArticlecount() {
-        return articlecount;
+    public Integer getArticleCount() {
+        return articleCount;
     }
 
-    public void setArticlecount(Integer articlecount) {
-        this.articlecount = articlecount;
+    public void setArticleCount(Integer articleCount) {
+        this.articleCount = articleCount;
     }
 
-    public String getCmstype() {
-        return cmstype;
+    public String getCmsType() {
+        return cmsType;
     }
 
-    public void setCmstype(String cmstype) {
-        this.cmstype = cmstype;
+    public void setCmsType(String cmsType) {
+        this.cmsType = cmsType;
     }
 
-    public Byte getIspublished() {
-        return ispublished;
+    public Byte getIsPublished() {
+        return isPublished;
     }
 
-    public void setIspublished(Byte ispublished) {
-        this.ispublished = ispublished;
+    public void setIsPublished(Byte isPublished) {
+        this.isPublished = isPublished;
     }
 
     public String getCreater() {
@@ -95,12 +95,12 @@ public class CmsCategory {
         this.creater = creater;
     }
 
-    public Timestamp getCreatetime() {
-        return createtime;
+    public Timestamp getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatetime(Timestamp createtime) {
-        this.createtime = createtime;
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 
     public String getUpdater() {
@@ -111,12 +111,12 @@ public class CmsCategory {
         this.updater = updater;
     }
 
-    public Timestamp getUpdatetime() {
-        return updatetime;
+    public Timestamp getUpdateTime() {
+        return updateTime;
     }
 
-    public void setUpdatetime(Timestamp updatetime) {
-        this.updatetime = updatetime;
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
     }
 
     @Override
@@ -124,11 +124,11 @@ public class CmsCategory {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CmsCategory that = (CmsCategory) o;
-        return id == that.id && Objects.equals(cmstitle, that.cmstitle) && Objects.equals(cmscode, that.cmscode) && Objects.equals(articlecount, that.articlecount) && Objects.equals(cmstype, that.cmstype) && Objects.equals(ispublished, that.ispublished) && Objects.equals(creater, that.creater) && Objects.equals(createtime, that.createtime) && Objects.equals(updater, that.updater) && Objects.equals(updatetime, that.updatetime);
+        return id == that.id && Objects.equals(cmsTitle, that.cmsTitle) && Objects.equals(cmsCode, that.cmsCode) && Objects.equals(articleCount, that.articleCount) && Objects.equals(cmsType, that.cmsType) && Objects.equals(isPublished, that.isPublished) && Objects.equals(creater, that.creater) && Objects.equals(createTime, that.createTime) && Objects.equals(updater, that.updater) && Objects.equals(updateTime, that.updateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, cmstitle, cmscode, articlecount, cmstype, ispublished, creater, createtime, updater, updatetime);
+        return Objects.hash(id, cmsTitle, cmsCode, articleCount, cmsType, isPublished, creater, createTime, updater, updateTime);
     }
 }

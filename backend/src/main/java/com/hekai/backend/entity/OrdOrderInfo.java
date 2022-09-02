@@ -13,32 +13,32 @@ public class OrdOrderInfo {
     @Column(name = "id")
     private int id;
     @Basic
-    @Column(name = "ordernum")
-    private String ordernum;
+    @Column(name = "order_number")
+    private String orderNumber;
     @Basic
-    @Column(name = "paytime")
-    private Timestamp paytime;
+    @Column(name = "pay_time")
+    private Timestamp payTime;
     @Basic
     @Column(name = "status")
     private Integer status;
     @Basic
-    @Column(name = "paymentway")
-    private String paymentway;
+    @Column(name = "payment_way")
+    private String paymentWay;
     @Basic
-    @Column(name = "paymentordernum")
-    private String paymentordernum;
+    @Column(name = "payment_order_number")
+    private String paymentOrderNumber;
     @Basic
-    @Column(name = "totalamount")
-    private BigDecimal totalamount;
+    @Column(name = "total_amount")
+    private BigDecimal totalAmount;
     @Basic
-    @Column(name = "payamount")
-    private BigDecimal payamount;
+    @Column(name = "pay_amount")
+    private BigDecimal payAmount;
     @Basic
-    @Column(name = "userid")
-    private Integer userid;
+    @Column(name = "user_id")
+    private Integer userId;
     @Basic
-    @Column(name = "userlevel")
-    private String userlevel;
+    @Column(name = "user_level")
+    private String userLevel;
 
     public int getId() {
         return id;
@@ -48,20 +48,20 @@ public class OrdOrderInfo {
         this.id = id;
     }
 
-    public String getOrdernum() {
-        return ordernum;
+    public String getOrderNumber() {
+        return orderNumber;
     }
 
-    public void setOrdernum(String ordernum) {
-        this.ordernum = ordernum;
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
-    public Timestamp getPaytime() {
-        return paytime;
+    public Timestamp getPayTime() {
+        return payTime;
     }
 
-    public void setPaytime(Timestamp paytime) {
-        this.paytime = paytime;
+    public void setPayTime(Timestamp payTime) {
+        this.payTime = payTime;
     }
 
     public Integer getStatus() {
@@ -72,52 +72,52 @@ public class OrdOrderInfo {
         this.status = status;
     }
 
-    public String getPaymentway() {
-        return paymentway;
+    public String getPaymentWay() {
+        return paymentWay;
     }
 
-    public void setPaymentway(String paymentway) {
-        this.paymentway = paymentway;
+    public void setPaymentWay(String paymentWay) {
+        this.paymentWay = paymentWay;
     }
 
-    public String getPaymentordernum() {
-        return paymentordernum;
+    public String getPaymentOrderNumber() {
+        return paymentOrderNumber;
     }
 
-    public void setPaymentordernum(String paymentordernum) {
-        this.paymentordernum = paymentordernum;
+    public void setPaymentOrderNumber(String paymentOrderNumber) {
+        this.paymentOrderNumber = paymentOrderNumber;
     }
 
-    public BigDecimal getTotalamount() {
-        return totalamount;
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
     }
 
-    public void setTotalamount(BigDecimal totalamount) {
-        this.totalamount = totalamount;
+    public void setTotalAmount(BigDecimal totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
-    public BigDecimal getPayamount() {
-        return payamount;
+    public BigDecimal getPayAmount() {
+        return payAmount;
     }
 
-    public void setPayamount(BigDecimal payamount) {
-        this.payamount = payamount;
+    public void setPayAmount(BigDecimal payAmount) {
+        this.payAmount = payAmount;
     }
 
-    public Integer getUserid() {
-        return userid;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public String getUserlevel() {
-        return userlevel;
+    public String getUserLevel() {
+        return userLevel;
     }
 
-    public void setUserlevel(String userlevel) {
-        this.userlevel = userlevel;
+    public void setUserLevel(String userLevel) {
+        this.userLevel = userLevel;
     }
 
     @Override
@@ -125,11 +125,11 @@ public class OrdOrderInfo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrdOrderInfo that = (OrdOrderInfo) o;
-        return id == that.id && Objects.equals(ordernum, that.ordernum) && Objects.equals(paytime, that.paytime) && Objects.equals(status, that.status) && Objects.equals(paymentway, that.paymentway) && Objects.equals(paymentordernum, that.paymentordernum) && Objects.equals(totalamount, that.totalamount) && Objects.equals(payamount, that.payamount) && Objects.equals(userid, that.userid) && Objects.equals(userlevel, that.userlevel);
+        return id == that.id && Objects.equals(orderNumber, that.orderNumber) && Objects.equals(payTime, that.payTime) && Objects.equals(status, that.status) && Objects.equals(paymentWay, that.paymentWay) && Objects.equals(paymentOrderNumber, that.paymentOrderNumber) && Objects.equals(totalAmount, that.totalAmount) && Objects.equals(payAmount, that.payAmount) && Objects.equals(userId, that.userId) && Objects.equals(userLevel, that.userLevel);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, ordernum, paytime, status, paymentway, paymentordernum, totalamount, payamount, userid, userlevel);
+        return Objects.hash(id, orderNumber, payTime, status, paymentWay, paymentOrderNumber, totalAmount, payAmount, userId, userLevel);
     }
 }

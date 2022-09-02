@@ -1,7 +1,4 @@
 package com.hekai.backend.repository;
 
-import com.hekai.backend.entity.CurCourseConfig;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface CurCourseConfigRepository extends JpaRepository<CurCourseConfig, Integer> {
+public interface CurCourseConfigRepository extends org.springframework.data.jpa.repository.JpaRepository<com.hekai.backend.entity.CurCourseConfig, int> {
 }

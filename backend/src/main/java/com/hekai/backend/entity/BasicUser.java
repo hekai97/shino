@@ -18,14 +18,14 @@ public class BasicUser {
     @Column(name = "name")
     private String name;
     @Basic
-    @Column(name = "roleid")
-    private Integer roleid;
+    @Column(name = "role_id")
+    private Integer roleId;
     @Basic
     @Column(name = "password")
     private String password;
     @Basic
-    @Column(name = "lastlogintime")
-    private Timestamp lastlogintime;
+    @Column(name = "last_login_time")
+    private Timestamp lastLoginTime;
     @Basic
     @Column(name = "enabled")
     private Byte enabled;
@@ -33,17 +33,17 @@ public class BasicUser {
     @Column(name = "creater")
     private String creater;
     @Basic
-    @Column(name = "createtime")
-    private Timestamp createtime;
+    @Column(name = "created_time")
+    private Timestamp createdTime;
     @Basic
     @Column(name = "updater")
     private String updater;
     @Basic
-    @Column(name = "updatetime")
-    private Timestamp updatetime;
+    @Column(name = "updated_time")
+    private Timestamp updatedTime;
     @Basic
-    @Column(name = "storeid")
-    private Integer storeid;
+    @Column(name = "store_id")
+    private Integer storeId;
 
     public int getId() {
         return id;
@@ -69,12 +69,12 @@ public class BasicUser {
         this.name = name;
     }
 
-    public Integer getRoleid() {
-        return roleid;
+    public Integer getRoleId() {
+        return roleId;
     }
 
-    public void setRoleid(Integer roleid) {
-        this.roleid = roleid;
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
     public String getPassword() {
@@ -85,12 +85,12 @@ public class BasicUser {
         this.password = password;
     }
 
-    public Timestamp getLastlogintime() {
-        return lastlogintime;
+    public Timestamp getLastLoginTime() {
+        return lastLoginTime;
     }
 
-    public void setLastlogintime(Timestamp lastlogintime) {
-        this.lastlogintime = lastlogintime;
+    public void setLastLoginTime(Timestamp lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
     }
 
     public Byte getEnabled() {
@@ -109,12 +109,12 @@ public class BasicUser {
         this.creater = creater;
     }
 
-    public Timestamp getCreatetime() {
-        return createtime;
+    public Timestamp getCreatedTime() {
+        return createdTime;
     }
 
-    public void setCreatetime(Timestamp createtime) {
-        this.createtime = createtime;
+    public void setCreatedTime(Timestamp createdTime) {
+        this.createdTime = createdTime;
     }
 
     public String getUpdater() {
@@ -125,20 +125,20 @@ public class BasicUser {
         this.updater = updater;
     }
 
-    public Timestamp getUpdatetime() {
-        return updatetime;
+    public Timestamp getUpdatedTime() {
+        return updatedTime;
     }
 
-    public void setUpdatetime(Timestamp updatetime) {
-        this.updatetime = updatetime;
+    public void setUpdatedTime(Timestamp updatedTime) {
+        this.updatedTime = updatedTime;
     }
 
-    public Integer getStoreid() {
-        return storeid;
+    public Integer getStoreId() {
+        return storeId;
     }
 
-    public void setStoreid(Integer storeid) {
-        this.storeid = storeid;
+    public void setStoreId(Integer storeId) {
+        this.storeId = storeId;
     }
 
     @Override
@@ -146,11 +146,11 @@ public class BasicUser {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BasicUser basicUser = (BasicUser) o;
-        return id == basicUser.id && Objects.equals(num, basicUser.num) && Objects.equals(name, basicUser.name) && Objects.equals(roleid, basicUser.roleid) && Objects.equals(password, basicUser.password) && Objects.equals(lastlogintime, basicUser.lastlogintime) && Objects.equals(enabled, basicUser.enabled) && Objects.equals(creater, basicUser.creater) && Objects.equals(createtime, basicUser.createtime) && Objects.equals(updater, basicUser.updater) && Objects.equals(updatetime, basicUser.updatetime) && Objects.equals(storeid, basicUser.storeid);
+        return id == basicUser.id && Objects.equals(num, basicUser.num) && Objects.equals(name, basicUser.name) && Objects.equals(roleId, basicUser.roleId) && Objects.equals(password, basicUser.password) && Objects.equals(lastLoginTime, basicUser.lastLoginTime) && Objects.equals(enabled, basicUser.enabled) && Objects.equals(creater, basicUser.creater) && Objects.equals(createdTime, basicUser.createdTime) && Objects.equals(updater, basicUser.updater) && Objects.equals(updatedTime, basicUser.updatedTime) && Objects.equals(storeId, basicUser.storeId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, num, name, roleid, password, lastlogintime, enabled, creater, createtime, updater, updatetime, storeid);
+        return Objects.hash(id, num, name, roleId, password, lastLoginTime, enabled, creater, createdTime, updater, updatedTime, storeId);
     }
 }

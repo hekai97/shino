@@ -11,14 +11,14 @@ public class CfgVideoPath {
     @Column(name = "id")
     private int id;
     @Basic
-    @Column(name = "positionid")
-    private Integer positionid;
+    @Column(name = "position_id")
+    private Integer positionId;
     @Basic
-    @Column(name = "vdopath")
-    private String vdopath;
+    @Column(name = "video_path")
+    private String videoPath;
     @Basic
-    @Column(name = "phopath")
-    private String phopath;
+    @Column(name = "photo_path")
+    private String photoPath;
     @Basic
     @Column(name = "ord")
     private Integer ord;
@@ -31,28 +31,28 @@ public class CfgVideoPath {
         this.id = id;
     }
 
-    public Integer getPositionid() {
-        return positionid;
+    public Integer getPositionId() {
+        return positionId;
     }
 
-    public void setPositionid(Integer positionid) {
-        this.positionid = positionid;
+    public void setPositionId(Integer positionId) {
+        this.positionId = positionId;
     }
 
-    public String getVdopath() {
-        return vdopath;
+    public String getVideoPath() {
+        return videoPath;
     }
 
-    public void setVdopath(String vdopath) {
-        this.vdopath = vdopath;
+    public void setVideoPath(String videoPath) {
+        this.videoPath = videoPath;
     }
 
-    public String getPhopath() {
-        return phopath;
+    public String getPhotoPath() {
+        return photoPath;
     }
 
-    public void setPhopath(String phopath) {
-        this.phopath = phopath;
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
     }
 
     public Integer getOrd() {
@@ -68,11 +68,11 @@ public class CfgVideoPath {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CfgVideoPath that = (CfgVideoPath) o;
-        return id == that.id && Objects.equals(positionid, that.positionid) && Objects.equals(vdopath, that.vdopath) && Objects.equals(phopath, that.phopath) && Objects.equals(ord, that.ord);
+        return id == that.id && Objects.equals(positionId, that.positionId) && Objects.equals(videoPath, that.videoPath) && Objects.equals(photoPath, that.photoPath) && Objects.equals(ord, that.ord);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, positionid, vdopath, phopath, ord);
+        return Objects.hash(id, positionId, videoPath, photoPath, ord);
     }
 }

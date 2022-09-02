@@ -11,8 +11,8 @@ public class BasicPermissionPage {
     @Column(name = "id")
     private int id;
     @Basic
-    @Column(name = "pagename")
-    private String pagename;
+    @Column(name = "page_name")
+    private String pageName;
 
     public int getId() {
         return id;
@@ -22,12 +22,12 @@ public class BasicPermissionPage {
         this.id = id;
     }
 
-    public String getPagename() {
-        return pagename;
+    public String getPageName() {
+        return pageName;
     }
 
-    public void setPagename(String pagename) {
-        this.pagename = pagename;
+    public void setPageName(String pageName) {
+        this.pageName = pageName;
     }
 
     @Override
@@ -35,11 +35,11 @@ public class BasicPermissionPage {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BasicPermissionPage that = (BasicPermissionPage) o;
-        return id == that.id && Objects.equals(pagename, that.pagename);
+        return id == that.id && Objects.equals(pageName, that.pageName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, pagename);
+        return Objects.hash(id, pageName);
     }
 }

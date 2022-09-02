@@ -11,14 +11,14 @@ public class CfgNavConfig {
     @Column(name = "id")
     private int id;
     @Basic
-    @Column(name = "iconurl")
-    private String iconurl;
+    @Column(name = "icon_url")
+    private String iconUrl;
     @Basic
-    @Column(name = "navtitle")
-    private String navtitle;
+    @Column(name = "nav_title")
+    private String navTitle;
     @Basic
-    @Column(name = "linkurl")
-    private String linkurl;
+    @Column(name = "link_url")
+    private String linkUrl;
     @Basic
     @Column(name = "sort")
     private Integer sort;
@@ -31,28 +31,28 @@ public class CfgNavConfig {
         this.id = id;
     }
 
-    public String getIconurl() {
-        return iconurl;
+    public String getIconUrl() {
+        return iconUrl;
     }
 
-    public void setIconurl(String iconurl) {
-        this.iconurl = iconurl;
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
     }
 
-    public String getNavtitle() {
-        return navtitle;
+    public String getNavTitle() {
+        return navTitle;
     }
 
-    public void setNavtitle(String navtitle) {
-        this.navtitle = navtitle;
+    public void setNavTitle(String navTitle) {
+        this.navTitle = navTitle;
     }
 
-    public String getLinkurl() {
-        return linkurl;
+    public String getLinkUrl() {
+        return linkUrl;
     }
 
-    public void setLinkurl(String linkurl) {
-        this.linkurl = linkurl;
+    public void setLinkUrl(String linkUrl) {
+        this.linkUrl = linkUrl;
     }
 
     public Integer getSort() {
@@ -68,11 +68,11 @@ public class CfgNavConfig {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CfgNavConfig that = (CfgNavConfig) o;
-        return id == that.id && Objects.equals(iconurl, that.iconurl) && Objects.equals(navtitle, that.navtitle) && Objects.equals(linkurl, that.linkurl) && Objects.equals(sort, that.sort);
+        return id == that.id && Objects.equals(iconUrl, that.iconUrl) && Objects.equals(navTitle, that.navTitle) && Objects.equals(linkUrl, that.linkUrl) && Objects.equals(sort, that.sort);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, iconurl, navtitle, linkurl, sort);
+        return Objects.hash(id, iconUrl, navTitle, linkUrl, sort);
     }
 }

@@ -17,53 +17,53 @@ public class CmsArticle {
     @Column(name = "catid")
     private Integer catid;
     @Basic
-    @Column(name = "conttitle")
-    private String conttitle;
+    @Column(name = "content_title")
+    private String contentTitle;
     @Basic
-    @Column(name = "contkeys")
-    private String contkeys;
+    @Column(name = "content_keys")
+    private String contentKeys;
     @Basic
-    @Column(name = "contdesc")
-    private String contdesc;
+    @Column(name = "content_desc")
+    private String contentDesc;
     @Basic
-    @Column(name = "contcoverurl")
-    private String contcoverurl;
+    @Column(name = "content_cover_url")
+    private String contentCoverUrl;
     @Basic
-    @Column(name = "contvdourl")
-    private String contvdourl;
+    @Column(name = "content_video_url")
+    private String contentVideoUrl;
     @Basic
-    @Column(name = "conthtml")
-    private String conthtml;
+    @Column(name = "content_html")
+    private String contentHtml;
     @Basic
     @Column(name = "position")
     private String position;
     @Basic
-    @Column(name = "contpublicdate")
-    private Date contpublicdate;
+    @Column(name = "content_public_date")
+    private Date contentPublicDate;
     @Basic
-    @Column(name = "accesscount")
-    private Integer accesscount;
+    @Column(name = "access_count")
+    private Integer accessCount;
     @Basic
-    @Column(name = "timeonsite")
-    private Time timeonsite;
+    @Column(name = "time_onsite")
+    private Time timeOnsite;
     @Basic
-    @Column(name = "ispublished")
-    private Byte ispublished;
+    @Column(name = "is_published")
+    private Byte isPublished;
     @Basic
     @Column(name = "creater")
     private String creater;
     @Basic
-    @Column(name = "createtime")
-    private Timestamp createtime;
+    @Column(name = "create_time")
+    private Timestamp createTime;
     @Basic
     @Column(name = "updater")
     private String updater;
     @Basic
-    @Column(name = "updatetime")
-    private Timestamp updatetime;
+    @Column(name = "update_time")
+    private Timestamp updateTime;
     @Basic
-    @Column(name = "contclslevel")
-    private Integer contclslevel;
+    @Column(name = "contcls_level")
+    private Integer contclsLevel;
 
     public int getId() {
         return id;
@@ -81,52 +81,52 @@ public class CmsArticle {
         this.catid = catid;
     }
 
-    public String getConttitle() {
-        return conttitle;
+    public String getContentTitle() {
+        return contentTitle;
     }
 
-    public void setConttitle(String conttitle) {
-        this.conttitle = conttitle;
+    public void setContentTitle(String contentTitle) {
+        this.contentTitle = contentTitle;
     }
 
-    public String getContkeys() {
-        return contkeys;
+    public String getContentKeys() {
+        return contentKeys;
     }
 
-    public void setContkeys(String contkeys) {
-        this.contkeys = contkeys;
+    public void setContentKeys(String contentKeys) {
+        this.contentKeys = contentKeys;
     }
 
-    public String getContdesc() {
-        return contdesc;
+    public String getContentDesc() {
+        return contentDesc;
     }
 
-    public void setContdesc(String contdesc) {
-        this.contdesc = contdesc;
+    public void setContentDesc(String contentDesc) {
+        this.contentDesc = contentDesc;
     }
 
-    public String getContcoverurl() {
-        return contcoverurl;
+    public String getContentCoverUrl() {
+        return contentCoverUrl;
     }
 
-    public void setContcoverurl(String contcoverurl) {
-        this.contcoverurl = contcoverurl;
+    public void setContentCoverUrl(String contentCoverUrl) {
+        this.contentCoverUrl = contentCoverUrl;
     }
 
-    public String getContvdourl() {
-        return contvdourl;
+    public String getContentVideoUrl() {
+        return contentVideoUrl;
     }
 
-    public void setContvdourl(String contvdourl) {
-        this.contvdourl = contvdourl;
+    public void setContentVideoUrl(String contentVideoUrl) {
+        this.contentVideoUrl = contentVideoUrl;
     }
 
-    public String getConthtml() {
-        return conthtml;
+    public String getContentHtml() {
+        return contentHtml;
     }
 
-    public void setConthtml(String conthtml) {
-        this.conthtml = conthtml;
+    public void setContentHtml(String contentHtml) {
+        this.contentHtml = contentHtml;
     }
 
     public String getPosition() {
@@ -137,36 +137,36 @@ public class CmsArticle {
         this.position = position;
     }
 
-    public Date getContpublicdate() {
-        return contpublicdate;
+    public Date getContentPublicDate() {
+        return contentPublicDate;
     }
 
-    public void setContpublicdate(Date contpublicdate) {
-        this.contpublicdate = contpublicdate;
+    public void setContentPublicDate(Date contentPublicDate) {
+        this.contentPublicDate = contentPublicDate;
     }
 
-    public Integer getAccesscount() {
-        return accesscount;
+    public Integer getAccessCount() {
+        return accessCount;
     }
 
-    public void setAccesscount(Integer accesscount) {
-        this.accesscount = accesscount;
+    public void setAccessCount(Integer accessCount) {
+        this.accessCount = accessCount;
     }
 
-    public Time getTimeonsite() {
-        return timeonsite;
+    public Time getTimeOnsite() {
+        return timeOnsite;
     }
 
-    public void setTimeonsite(Time timeonsite) {
-        this.timeonsite = timeonsite;
+    public void setTimeOnsite(Time timeOnsite) {
+        this.timeOnsite = timeOnsite;
     }
 
-    public Byte getIspublished() {
-        return ispublished;
+    public Byte getIsPublished() {
+        return isPublished;
     }
 
-    public void setIspublished(Byte ispublished) {
-        this.ispublished = ispublished;
+    public void setIsPublished(Byte isPublished) {
+        this.isPublished = isPublished;
     }
 
     public String getCreater() {
@@ -177,12 +177,12 @@ public class CmsArticle {
         this.creater = creater;
     }
 
-    public Timestamp getCreatetime() {
-        return createtime;
+    public Timestamp getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatetime(Timestamp createtime) {
-        this.createtime = createtime;
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 
     public String getUpdater() {
@@ -193,20 +193,20 @@ public class CmsArticle {
         this.updater = updater;
     }
 
-    public Timestamp getUpdatetime() {
-        return updatetime;
+    public Timestamp getUpdateTime() {
+        return updateTime;
     }
 
-    public void setUpdatetime(Timestamp updatetime) {
-        this.updatetime = updatetime;
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
     }
 
-    public Integer getContclslevel() {
-        return contclslevel;
+    public Integer getContclsLevel() {
+        return contclsLevel;
     }
 
-    public void setContclslevel(Integer contclslevel) {
-        this.contclslevel = contclslevel;
+    public void setContclsLevel(Integer contclsLevel) {
+        this.contclsLevel = contclsLevel;
     }
 
     @Override
@@ -214,11 +214,11 @@ public class CmsArticle {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CmsArticle that = (CmsArticle) o;
-        return id == that.id && Objects.equals(catid, that.catid) && Objects.equals(conttitle, that.conttitle) && Objects.equals(contkeys, that.contkeys) && Objects.equals(contdesc, that.contdesc) && Objects.equals(contcoverurl, that.contcoverurl) && Objects.equals(contvdourl, that.contvdourl) && Objects.equals(conthtml, that.conthtml) && Objects.equals(position, that.position) && Objects.equals(contpublicdate, that.contpublicdate) && Objects.equals(accesscount, that.accesscount) && Objects.equals(timeonsite, that.timeonsite) && Objects.equals(ispublished, that.ispublished) && Objects.equals(creater, that.creater) && Objects.equals(createtime, that.createtime) && Objects.equals(updater, that.updater) && Objects.equals(updatetime, that.updatetime) && Objects.equals(contclslevel, that.contclslevel);
+        return id == that.id && Objects.equals(catid, that.catid) && Objects.equals(contentTitle, that.contentTitle) && Objects.equals(contentKeys, that.contentKeys) && Objects.equals(contentDesc, that.contentDesc) && Objects.equals(contentCoverUrl, that.contentCoverUrl) && Objects.equals(contentVideoUrl, that.contentVideoUrl) && Objects.equals(contentHtml, that.contentHtml) && Objects.equals(position, that.position) && Objects.equals(contentPublicDate, that.contentPublicDate) && Objects.equals(accessCount, that.accessCount) && Objects.equals(timeOnsite, that.timeOnsite) && Objects.equals(isPublished, that.isPublished) && Objects.equals(creater, that.creater) && Objects.equals(createTime, that.createTime) && Objects.equals(updater, that.updater) && Objects.equals(updateTime, that.updateTime) && Objects.equals(contclsLevel, that.contclsLevel);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, catid, conttitle, contkeys, contdesc, contcoverurl, contvdourl, conthtml, position, contpublicdate, accesscount, timeonsite, ispublished, creater, createtime, updater, updatetime, contclslevel);
+        return Objects.hash(id, catid, contentTitle, contentKeys, contentDesc, contentCoverUrl, contentVideoUrl, contentHtml, position, contentPublicDate, accessCount, timeOnsite, isPublished, creater, createTime, updater, updateTime, contclsLevel);
     }
 }

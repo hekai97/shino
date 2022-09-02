@@ -18,17 +18,17 @@ public class BasicRole {
     @Column(name = "creater")
     private String creater;
     @Basic
-    @Column(name = "createtime")
-    private Timestamp createtime;
+    @Column(name = "create_time")
+    private Timestamp createTime;
     @Basic
     @Column(name = "updater")
     private String updater;
     @Basic
-    @Column(name = "updatetime")
-    private Timestamp updatetime;
+    @Column(name = "update_time")
+    private Timestamp updateTime;
     @Basic
-    @Column(name = "issysacct")
-    private Integer issysacct;
+    @Column(name = "is_system_account")
+    private Integer isSystemAccount;
 
     public int getId() {
         return id;
@@ -54,12 +54,12 @@ public class BasicRole {
         this.creater = creater;
     }
 
-    public Timestamp getCreatetime() {
-        return createtime;
+    public Timestamp getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatetime(Timestamp createtime) {
-        this.createtime = createtime;
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 
     public String getUpdater() {
@@ -70,20 +70,20 @@ public class BasicRole {
         this.updater = updater;
     }
 
-    public Timestamp getUpdatetime() {
-        return updatetime;
+    public Timestamp getUpdateTime() {
+        return updateTime;
     }
 
-    public void setUpdatetime(Timestamp updatetime) {
-        this.updatetime = updatetime;
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
     }
 
-    public Integer getIssysacct() {
-        return issysacct;
+    public Integer getIsSystemAccount() {
+        return isSystemAccount;
     }
 
-    public void setIssysacct(Integer issysacct) {
-        this.issysacct = issysacct;
+    public void setIsSystemAccount(Integer isSystemAccount) {
+        this.isSystemAccount = isSystemAccount;
     }
 
     @Override
@@ -91,11 +91,11 @@ public class BasicRole {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BasicRole basicRole = (BasicRole) o;
-        return id == basicRole.id && Objects.equals(name, basicRole.name) && Objects.equals(creater, basicRole.creater) && Objects.equals(createtime, basicRole.createtime) && Objects.equals(updater, basicRole.updater) && Objects.equals(updatetime, basicRole.updatetime) && Objects.equals(issysacct, basicRole.issysacct);
+        return id == basicRole.id && Objects.equals(name, basicRole.name) && Objects.equals(creater, basicRole.creater) && Objects.equals(createTime, basicRole.createTime) && Objects.equals(updater, basicRole.updater) && Objects.equals(updateTime, basicRole.updateTime) && Objects.equals(isSystemAccount, basicRole.isSystemAccount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, creater, createtime, updater, updatetime, issysacct);
+        return Objects.hash(id, name, creater, createTime, updater, updateTime, isSystemAccount);
     }
 }

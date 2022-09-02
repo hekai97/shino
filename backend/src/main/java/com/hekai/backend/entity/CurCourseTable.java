@@ -14,29 +14,29 @@ public class CurCourseTable {
     @Column(name = "id")
     private int id;
     @Basic
-    @Column(name = "storeid")
-    private Integer storeid;
+    @Column(name = "store_id")
+    private Integer storeId;
     @Basic
-    @Column(name = "courseid")
-    private Integer courseid;
+    @Column(name = "course_id")
+    private Integer courseId;
     @Basic
-    @Column(name = "instructorid")
-    private Integer instructorid;
+    @Column(name = "instructor_id")
+    private Integer instructorId;
     @Basic
-    @Column(name = "userid")
-    private Integer userid;
+    @Column(name = "user_id")
+    private Integer userId;
     @Basic
-    @Column(name = "createtime")
-    private Timestamp createtime;
+    @Column(name = "create_time")
+    private Timestamp createTime;
     @Basic
-    @Column(name = "reservationdate")
-    private Date reservationdate;
+    @Column(name = "reservation_date")
+    private Date reservationDate;
     @Basic
-    @Column(name = "begintime")
-    private Time begintime;
+    @Column(name = "begin_time")
+    private Time beginTime;
     @Basic
-    @Column(name = "endtime")
-    private Time endtime;
+    @Column(name = "end_time")
+    private Time endTime;
 
     public int getId() {
         return id;
@@ -46,68 +46,68 @@ public class CurCourseTable {
         this.id = id;
     }
 
-    public Integer getStoreid() {
-        return storeid;
+    public Integer getStoreId() {
+        return storeId;
     }
 
-    public void setStoreid(Integer storeid) {
-        this.storeid = storeid;
+    public void setStoreId(Integer storeId) {
+        this.storeId = storeId;
     }
 
-    public Integer getCourseid() {
-        return courseid;
+    public Integer getCourseId() {
+        return courseId;
     }
 
-    public void setCourseid(Integer courseid) {
-        this.courseid = courseid;
+    public void setCourseId(Integer courseId) {
+        this.courseId = courseId;
     }
 
-    public Integer getInstructorid() {
-        return instructorid;
+    public Integer getInstructorId() {
+        return instructorId;
     }
 
-    public void setInstructorid(Integer instructorid) {
-        this.instructorid = instructorid;
+    public void setInstructorId(Integer instructorId) {
+        this.instructorId = instructorId;
     }
 
-    public Integer getUserid() {
-        return userid;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public Timestamp getCreatetime() {
-        return createtime;
+    public Timestamp getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatetime(Timestamp createtime) {
-        this.createtime = createtime;
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 
-    public Date getReservationdate() {
-        return reservationdate;
+    public Date getReservationDate() {
+        return reservationDate;
     }
 
-    public void setReservationdate(Date reservationdate) {
-        this.reservationdate = reservationdate;
+    public void setReservationDate(Date reservationDate) {
+        this.reservationDate = reservationDate;
     }
 
-    public Time getBegintime() {
-        return begintime;
+    public Time getBeginTime() {
+        return beginTime;
     }
 
-    public void setBegintime(Time begintime) {
-        this.begintime = begintime;
+    public void setBeginTime(Time beginTime) {
+        this.beginTime = beginTime;
     }
 
-    public Time getEndtime() {
-        return endtime;
+    public Time getEndTime() {
+        return endTime;
     }
 
-    public void setEndtime(Time endtime) {
-        this.endtime = endtime;
+    public void setEndTime(Time endTime) {
+        this.endTime = endTime;
     }
 
     @Override
@@ -115,11 +115,11 @@ public class CurCourseTable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CurCourseTable that = (CurCourseTable) o;
-        return id == that.id && Objects.equals(storeid, that.storeid) && Objects.equals(courseid, that.courseid) && Objects.equals(instructorid, that.instructorid) && Objects.equals(userid, that.userid) && Objects.equals(createtime, that.createtime) && Objects.equals(reservationdate, that.reservationdate) && Objects.equals(begintime, that.begintime) && Objects.equals(endtime, that.endtime);
+        return id == that.id && Objects.equals(storeId, that.storeId) && Objects.equals(courseId, that.courseId) && Objects.equals(instructorId, that.instructorId) && Objects.equals(userId, that.userId) && Objects.equals(createTime, that.createTime) && Objects.equals(reservationDate, that.reservationDate) && Objects.equals(beginTime, that.beginTime) && Objects.equals(endTime, that.endTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, storeid, courseid, instructorid, userid, createtime, reservationdate, begintime, endtime);
+        return Objects.hash(id, storeId, courseId, instructorId, userId, createTime, reservationDate, beginTime, endTime);
     }
 }

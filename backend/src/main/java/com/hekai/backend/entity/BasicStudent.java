@@ -22,8 +22,8 @@ public class BasicStudent {
     @Column(name = "nick")
     private String nick;
     @Basic
-    @Column(name = "openid")
-    private String openid;
+    @Column(name = "open_id")
+    private String openId;
     @Basic
     @Column(name = "name")
     private String name;
@@ -46,17 +46,17 @@ public class BasicStudent {
     @Column(name = "picture")
     private String picture;
     @Basic
-    @Column(name = "registertime")
-    private Timestamp registertime;
+    @Column(name = "register_time")
+    private Timestamp registerTime;
     @Basic
-    @Column(name = "registerway")
-    private String registerway;
+    @Column(name = "register_way")
+    private String registerWay;
     @Basic
     @Column(name = "status")
     private Integer status;
     @Basic
-    @Column(name = "lastlogintime")
-    private Timestamp lastlogintime;
+    @Column(name = "last_login_time")
+    private Timestamp lastLoginTime;
 
     public int getId() {
         return id;
@@ -90,12 +90,12 @@ public class BasicStudent {
         this.nick = nick;
     }
 
-    public String getOpenid() {
-        return openid;
+    public String getOpenId() {
+        return openId;
     }
 
-    public void setOpenid(String openid) {
-        this.openid = openid;
+    public void setOpenId(String openId) {
+        this.openId = openId;
     }
 
     public String getName() {
@@ -154,20 +154,20 @@ public class BasicStudent {
         this.picture = picture;
     }
 
-    public Timestamp getRegistertime() {
-        return registertime;
+    public Timestamp getRegisterTime() {
+        return registerTime;
     }
 
-    public void setRegistertime(Timestamp registertime) {
-        this.registertime = registertime;
+    public void setRegisterTime(Timestamp registerTime) {
+        this.registerTime = registerTime;
     }
 
-    public String getRegisterway() {
-        return registerway;
+    public String getRegisterWay() {
+        return registerWay;
     }
 
-    public void setRegisterway(String registerway) {
-        this.registerway = registerway;
+    public void setRegisterWay(String registerWay) {
+        this.registerWay = registerWay;
     }
 
     public Integer getStatus() {
@@ -178,12 +178,12 @@ public class BasicStudent {
         this.status = status;
     }
 
-    public Timestamp getLastlogintime() {
-        return lastlogintime;
+    public Timestamp getLastLoginTime() {
+        return lastLoginTime;
     }
 
-    public void setLastlogintime(Timestamp lastlogintime) {
-        this.lastlogintime = lastlogintime;
+    public void setLastLoginTime(Timestamp lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
     }
 
     @Override
@@ -191,11 +191,11 @@ public class BasicStudent {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BasicStudent that = (BasicStudent) o;
-        return id == that.id && Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(nick, that.nick) && Objects.equals(openid, that.openid) && Objects.equals(name, that.name) && Objects.equals(phone, that.phone) && Objects.equals(address, that.address) && Objects.equals(sex, that.sex) && Objects.equals(birthday, that.birthday) && Objects.equals(email, that.email) && Objects.equals(picture, that.picture) && Objects.equals(registertime, that.registertime) && Objects.equals(registerway, that.registerway) && Objects.equals(status, that.status) && Objects.equals(lastlogintime, that.lastlogintime);
+        return id == that.id && Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(nick, that.nick) && Objects.equals(openId, that.openId) && Objects.equals(name, that.name) && Objects.equals(phone, that.phone) && Objects.equals(address, that.address) && Objects.equals(sex, that.sex) && Objects.equals(birthday, that.birthday) && Objects.equals(email, that.email) && Objects.equals(picture, that.picture) && Objects.equals(registerTime, that.registerTime) && Objects.equals(registerWay, that.registerWay) && Objects.equals(status, that.status) && Objects.equals(lastLoginTime, that.lastLoginTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, nick, openid, name, phone, address, sex, birthday, email, picture, registertime, registerway, status, lastlogintime);
+        return Objects.hash(id, username, password, nick, openId, name, phone, address, sex, birthday, email, picture, registerTime, registerWay, status, lastLoginTime);
     }
 }

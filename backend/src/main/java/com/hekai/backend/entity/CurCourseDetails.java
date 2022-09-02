@@ -12,14 +12,14 @@ public class CurCourseDetails {
     @Column(name = "id")
     private int id;
     @Basic
-    @Column(name = "orderid")
-    private Integer orderid;
+    @Column(name = "order_id")
+    private Integer orderId;
     @Basic
-    @Column(name = "courseid")
-    private Integer courseid;
+    @Column(name = "course_id")
+    private Integer courseId;
     @Basic
-    @Column(name = "coursetypeid")
-    private Integer coursetypeid;
+    @Column(name = "course_type_id")
+    private Integer courseTypeId;
     @Basic
     @Column(name = "price")
     private BigDecimal price;
@@ -32,28 +32,28 @@ public class CurCourseDetails {
         this.id = id;
     }
 
-    public Integer getOrderid() {
-        return orderid;
+    public Integer getOrderId() {
+        return orderId;
     }
 
-    public void setOrderid(Integer orderid) {
-        this.orderid = orderid;
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
     }
 
-    public Integer getCourseid() {
-        return courseid;
+    public Integer getCourseId() {
+        return courseId;
     }
 
-    public void setCourseid(Integer courseid) {
-        this.courseid = courseid;
+    public void setCourseId(Integer courseId) {
+        this.courseId = courseId;
     }
 
-    public Integer getCoursetypeid() {
-        return coursetypeid;
+    public Integer getCourseTypeId() {
+        return courseTypeId;
     }
 
-    public void setCoursetypeid(Integer coursetypeid) {
-        this.coursetypeid = coursetypeid;
+    public void setCourseTypeId(Integer courseTypeId) {
+        this.courseTypeId = courseTypeId;
     }
 
     public BigDecimal getPrice() {
@@ -69,11 +69,11 @@ public class CurCourseDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CurCourseDetails that = (CurCourseDetails) o;
-        return id == that.id && Objects.equals(orderid, that.orderid) && Objects.equals(courseid, that.courseid) && Objects.equals(coursetypeid, that.coursetypeid) && Objects.equals(price, that.price);
+        return id == that.id && Objects.equals(orderId, that.orderId) && Objects.equals(courseId, that.courseId) && Objects.equals(courseTypeId, that.courseTypeId) && Objects.equals(price, that.price);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, orderid, courseid, coursetypeid, price);
+        return Objects.hash(id, orderId, courseId, courseTypeId, price);
     }
 }

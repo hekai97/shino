@@ -11,31 +11,31 @@ public class CourseTimeConfig {
     @Column(name = "id")
     private int id;
     @Basic
-    @Column(name = "course1StartTime")
+    @Column(name = "course1_start_time")
     private String course1StartTime;
     @Basic
-    @Column(name = "course1EndTime")
+    @Column(name = "course1_end_time")
     private String course1EndTime;
     @Basic
-    @Column(name = "course2StartTime")
+    @Column(name = "course2_start_time")
     private String course2StartTime;
     @Basic
-    @Column(name = "course2EndTime")
+    @Column(name = "course2_end_time")
     private String course2EndTime;
     @Basic
-    @Column(name = "course3StartTime")
+    @Column(name = "course3_start_time")
     private String course3StartTime;
     @Basic
-    @Column(name = "course3EndTime")
+    @Column(name = "course3_end_time")
     private String course3EndTime;
     @Basic
-    @Column(name = "course4StartTime")
+    @Column(name = "course4_start_time")
     private String course4StartTime;
     @Basic
-    @Column(name = "course4EndTime")
+    @Column(name = "course4_end_time")
     private String course4EndTime;
     @Basic
-    @Column(name = "ClassAttendance")
+    @Column(name = "class_attendance")
     private Integer classAttendance;
 
     public int getId() {

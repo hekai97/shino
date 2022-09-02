@@ -13,32 +13,32 @@ public class CurCourseConfig {
     @Column(name = "id")
     private int id;
     @Basic
-    @Column(name = "coursetypeid")
-    private Integer coursetypeid;
+    @Column(name = "course_type_id")
+    private Integer courseTypeId;
     @Basic
-    @Column(name = "courseprice")
-    private BigDecimal courseprice;
+    @Column(name = "course_price")
+    private BigDecimal coursePrice;
     @Basic
-    @Column(name = "coursepoints")
-    private Integer coursepoints;
+    @Column(name = "course_points")
+    private Integer coursePoints;
     @Basic
-    @Column(name = "slideposition")
-    private Integer slideposition;
+    @Column(name = "slide_position")
+    private Integer slidePosition;
     @Basic
-    @Column(name = "ispublished")
-    private Integer ispublished;
+    @Column(name = "is_published")
+    private Integer isPublished;
     @Basic
     @Column(name = "creater")
     private String creater;
     @Basic
-    @Column(name = "createtime")
-    private Timestamp createtime;
+    @Column(name = "create_time")
+    private Timestamp createTime;
     @Basic
     @Column(name = "updater")
     private String updater;
     @Basic
-    @Column(name = "updatetime")
-    private Timestamp updatetime;
+    @Column(name = "update_time")
+    private Timestamp updateTime;
 
     public int getId() {
         return id;
@@ -48,44 +48,44 @@ public class CurCourseConfig {
         this.id = id;
     }
 
-    public Integer getCoursetypeid() {
-        return coursetypeid;
+    public Integer getCourseTypeId() {
+        return courseTypeId;
     }
 
-    public void setCoursetypeid(Integer coursetypeid) {
-        this.coursetypeid = coursetypeid;
+    public void setCourseTypeId(Integer courseTypeId) {
+        this.courseTypeId = courseTypeId;
     }
 
-    public BigDecimal getCourseprice() {
-        return courseprice;
+    public BigDecimal getCoursePrice() {
+        return coursePrice;
     }
 
-    public void setCourseprice(BigDecimal courseprice) {
-        this.courseprice = courseprice;
+    public void setCoursePrice(BigDecimal coursePrice) {
+        this.coursePrice = coursePrice;
     }
 
-    public Integer getCoursepoints() {
-        return coursepoints;
+    public Integer getCoursePoints() {
+        return coursePoints;
     }
 
-    public void setCoursepoints(Integer coursepoints) {
-        this.coursepoints = coursepoints;
+    public void setCoursePoints(Integer coursePoints) {
+        this.coursePoints = coursePoints;
     }
 
-    public Integer getSlideposition() {
-        return slideposition;
+    public Integer getSlidePosition() {
+        return slidePosition;
     }
 
-    public void setSlideposition(Integer slideposition) {
-        this.slideposition = slideposition;
+    public void setSlidePosition(Integer slidePosition) {
+        this.slidePosition = slidePosition;
     }
 
-    public Integer getIspublished() {
-        return ispublished;
+    public Integer getIsPublished() {
+        return isPublished;
     }
 
-    public void setIspublished(Integer ispublished) {
-        this.ispublished = ispublished;
+    public void setIsPublished(Integer isPublished) {
+        this.isPublished = isPublished;
     }
 
     public String getCreater() {
@@ -96,12 +96,12 @@ public class CurCourseConfig {
         this.creater = creater;
     }
 
-    public Timestamp getCreatetime() {
-        return createtime;
+    public Timestamp getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatetime(Timestamp createtime) {
-        this.createtime = createtime;
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 
     public String getUpdater() {
@@ -112,12 +112,12 @@ public class CurCourseConfig {
         this.updater = updater;
     }
 
-    public Timestamp getUpdatetime() {
-        return updatetime;
+    public Timestamp getUpdateTime() {
+        return updateTime;
     }
 
-    public void setUpdatetime(Timestamp updatetime) {
-        this.updatetime = updatetime;
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
     }
 
     @Override
@@ -125,11 +125,11 @@ public class CurCourseConfig {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CurCourseConfig that = (CurCourseConfig) o;
-        return id == that.id && Objects.equals(coursetypeid, that.coursetypeid) && Objects.equals(courseprice, that.courseprice) && Objects.equals(coursepoints, that.coursepoints) && Objects.equals(slideposition, that.slideposition) && Objects.equals(ispublished, that.ispublished) && Objects.equals(creater, that.creater) && Objects.equals(createtime, that.createtime) && Objects.equals(updater, that.updater) && Objects.equals(updatetime, that.updatetime);
+        return id == that.id && Objects.equals(courseTypeId, that.courseTypeId) && Objects.equals(coursePrice, that.coursePrice) && Objects.equals(coursePoints, that.coursePoints) && Objects.equals(slidePosition, that.slidePosition) && Objects.equals(isPublished, that.isPublished) && Objects.equals(creater, that.creater) && Objects.equals(createTime, that.createTime) && Objects.equals(updater, that.updater) && Objects.equals(updateTime, that.updateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, coursetypeid, courseprice, coursepoints, slideposition, ispublished, creater, createtime, updater, updatetime);
+        return Objects.hash(id, courseTypeId, coursePrice, coursePoints, slidePosition, isPublished, creater, createTime, updater, updateTime);
     }
 }

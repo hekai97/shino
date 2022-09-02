@@ -11,20 +11,20 @@ public class OrdOrderGoods {
     @Column(name = "id")
     private int id;
     @Basic
-    @Column(name = "coursedetailid")
-    private Integer coursedetailid;
+    @Column(name = "course_detail_id")
+    private Integer courseDetailId;
     @Basic
-    @Column(name = "courseid")
-    private Integer courseid;
+    @Column(name = "course_id")
+    private Integer courseId;
     @Basic
-    @Column(name = "writeoffcode")
-    private String writeoffcode;
+    @Column(name = "write_off_code")
+    private String writeOffCode;
     @Basic
-    @Column(name = "reserveid")
-    private Integer reserveid;
+    @Column(name = "reserve_id")
+    private Integer reserveId;
     @Basic
-    @Column(name = "coursetableid")
-    private Integer coursetableid;
+    @Column(name = "course_table_id")
+    private Integer courseTableId;
 
     public int getId() {
         return id;
@@ -34,44 +34,44 @@ public class OrdOrderGoods {
         this.id = id;
     }
 
-    public Integer getCoursedetailid() {
-        return coursedetailid;
+    public Integer getCourseDetailId() {
+        return courseDetailId;
     }
 
-    public void setCoursedetailid(Integer coursedetailid) {
-        this.coursedetailid = coursedetailid;
+    public void setCourseDetailId(Integer courseDetailId) {
+        this.courseDetailId = courseDetailId;
     }
 
-    public Integer getCourseid() {
-        return courseid;
+    public Integer getCourseId() {
+        return courseId;
     }
 
-    public void setCourseid(Integer courseid) {
-        this.courseid = courseid;
+    public void setCourseId(Integer courseId) {
+        this.courseId = courseId;
     }
 
-    public String getWriteoffcode() {
-        return writeoffcode;
+    public String getWriteOffCode() {
+        return writeOffCode;
     }
 
-    public void setWriteoffcode(String writeoffcode) {
-        this.writeoffcode = writeoffcode;
+    public void setWriteOffCode(String writeOffCode) {
+        this.writeOffCode = writeOffCode;
     }
 
-    public Integer getReserveid() {
-        return reserveid;
+    public Integer getReserveId() {
+        return reserveId;
     }
 
-    public void setReserveid(Integer reserveid) {
-        this.reserveid = reserveid;
+    public void setReserveId(Integer reserveId) {
+        this.reserveId = reserveId;
     }
 
-    public Integer getCoursetableid() {
-        return coursetableid;
+    public Integer getCourseTableId() {
+        return courseTableId;
     }
 
-    public void setCoursetableid(Integer coursetableid) {
-        this.coursetableid = coursetableid;
+    public void setCourseTableId(Integer courseTableId) {
+        this.courseTableId = courseTableId;
     }
 
     @Override
@@ -79,11 +79,11 @@ public class OrdOrderGoods {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrdOrderGoods that = (OrdOrderGoods) o;
-        return id == that.id && Objects.equals(coursedetailid, that.coursedetailid) && Objects.equals(courseid, that.courseid) && Objects.equals(writeoffcode, that.writeoffcode) && Objects.equals(reserveid, that.reserveid) && Objects.equals(coursetableid, that.coursetableid);
+        return id == that.id && Objects.equals(courseDetailId, that.courseDetailId) && Objects.equals(courseId, that.courseId) && Objects.equals(writeOffCode, that.writeOffCode) && Objects.equals(reserveId, that.reserveId) && Objects.equals(courseTableId, that.courseTableId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, coursedetailid, courseid, writeoffcode, reserveid, coursetableid);
+        return Objects.hash(id, courseDetailId, courseId, writeOffCode, reserveId, courseTableId);
     }
 }

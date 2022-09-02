@@ -14,11 +14,11 @@ public class BasicPermission {
     @Column(name = "code")
     private String code;
     @Basic
-    @Column(name = "permissionname")
-    private String permissionname;
+    @Column(name = "permission_name")
+    private String permissionName;
     @Basic
-    @Column(name = "pageid")
-    private Integer pageid;
+    @Column(name = "page_id")
+    private Integer pageId;
 
     public int getId() {
         return id;
@@ -36,20 +36,20 @@ public class BasicPermission {
         this.code = code;
     }
 
-    public String getPermissionname() {
-        return permissionname;
+    public String getPermissionName() {
+        return permissionName;
     }
 
-    public void setPermissionname(String permissionname) {
-        this.permissionname = permissionname;
+    public void setPermissionName(String permissionName) {
+        this.permissionName = permissionName;
     }
 
-    public Integer getPageid() {
-        return pageid;
+    public Integer getPageId() {
+        return pageId;
     }
 
-    public void setPageid(Integer pageid) {
-        this.pageid = pageid;
+    public void setPageId(Integer pageId) {
+        this.pageId = pageId;
     }
 
     @Override
@@ -57,11 +57,11 @@ public class BasicPermission {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BasicPermission that = (BasicPermission) o;
-        return id == that.id && Objects.equals(code, that.code) && Objects.equals(permissionname, that.permissionname) && Objects.equals(pageid, that.pageid);
+        return id == that.id && Objects.equals(code, that.code) && Objects.equals(permissionName, that.permissionName) && Objects.equals(pageId, that.pageId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, code, permissionname, pageid);
+        return Objects.hash(id, code, permissionName, pageId);
     }
 }

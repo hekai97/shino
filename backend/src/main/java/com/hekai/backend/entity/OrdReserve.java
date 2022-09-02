@@ -14,44 +14,44 @@ public class OrdReserve {
     @Column(name = "id")
     private int id;
     @Basic
-    @Column(name = "courseid")
-    private Integer courseid;
+    @Column(name = "course_id")
+    private Integer courseId;
     @Basic
-    @Column(name = "storeid")
-    private Integer storeid;
+    @Column(name = "store_id")
+    private Integer storeId;
     @Basic
     @Column(name = "date")
     private Timestamp date;
     @Basic
-    @Column(name = "begintime")
-    private Timestamp begintime;
+    @Column(name = "begin_time")
+    private Timestamp beginTime;
     @Basic
-    @Column(name = "endtime")
-    private Timestamp endtime;
+    @Column(name = "end_time")
+    private Timestamp endTime;
     @Basic
-    @Column(name = "arrangementdate")
-    private Date arrangementdate;
+    @Column(name = "arrangement_date")
+    private Date arrangementDate;
     @Basic
-    @Column(name = "orderbegintime")
-    private Time orderbegintime;
+    @Column(name = "order_begin_time")
+    private Time orderBeginTime;
     @Basic
-    @Column(name = "orderendtime")
-    private Time orderendtime;
+    @Column(name = "order_end_time")
+    private Time orderEndTime;
     @Basic
-    @Column(name = "orderid")
-    private Integer orderid;
+    @Column(name = "order_id")
+    private Integer orderId;
     @Basic
-    @Column(name = "operatetime")
-    private Timestamp operatetime;
+    @Column(name = "operate_time")
+    private Timestamp operateTime;
     @Basic
-    @Column(name = "ordertype")
-    private Integer ordertype;
+    @Column(name = "order_type")
+    private Integer orderType;
     @Basic
     @Column(name = "display")
     private Integer display;
     @Basic
-    @Column(name = "starttime")
-    private Date starttime;
+    @Column(name = "start_time")
+    private Date startTime;
     @Basic
     @Column(name = "state")
     private Integer state;
@@ -64,20 +64,20 @@ public class OrdReserve {
         this.id = id;
     }
 
-    public Integer getCourseid() {
-        return courseid;
+    public Integer getCourseId() {
+        return courseId;
     }
 
-    public void setCourseid(Integer courseid) {
-        this.courseid = courseid;
+    public void setCourseId(Integer courseId) {
+        this.courseId = courseId;
     }
 
-    public Integer getStoreid() {
-        return storeid;
+    public Integer getStoreId() {
+        return storeId;
     }
 
-    public void setStoreid(Integer storeid) {
-        this.storeid = storeid;
+    public void setStoreId(Integer storeId) {
+        this.storeId = storeId;
     }
 
     public Timestamp getDate() {
@@ -88,68 +88,68 @@ public class OrdReserve {
         this.date = date;
     }
 
-    public Timestamp getBegintime() {
-        return begintime;
+    public Timestamp getBeginTime() {
+        return beginTime;
     }
 
-    public void setBegintime(Timestamp begintime) {
-        this.begintime = begintime;
+    public void setBeginTime(Timestamp beginTime) {
+        this.beginTime = beginTime;
     }
 
-    public Timestamp getEndtime() {
-        return endtime;
+    public Timestamp getEndTime() {
+        return endTime;
     }
 
-    public void setEndtime(Timestamp endtime) {
-        this.endtime = endtime;
+    public void setEndTime(Timestamp endTime) {
+        this.endTime = endTime;
     }
 
-    public Date getArrangementdate() {
-        return arrangementdate;
+    public Date getArrangementDate() {
+        return arrangementDate;
     }
 
-    public void setArrangementdate(Date arrangementdate) {
-        this.arrangementdate = arrangementdate;
+    public void setArrangementDate(Date arrangementDate) {
+        this.arrangementDate = arrangementDate;
     }
 
-    public Time getOrderbegintime() {
-        return orderbegintime;
+    public Time getOrderBeginTime() {
+        return orderBeginTime;
     }
 
-    public void setOrderbegintime(Time orderbegintime) {
-        this.orderbegintime = orderbegintime;
+    public void setOrderBeginTime(Time orderBeginTime) {
+        this.orderBeginTime = orderBeginTime;
     }
 
-    public Time getOrderendtime() {
-        return orderendtime;
+    public Time getOrderEndTime() {
+        return orderEndTime;
     }
 
-    public void setOrderendtime(Time orderendtime) {
-        this.orderendtime = orderendtime;
+    public void setOrderEndTime(Time orderEndTime) {
+        this.orderEndTime = orderEndTime;
     }
 
-    public Integer getOrderid() {
-        return orderid;
+    public Integer getOrderId() {
+        return orderId;
     }
 
-    public void setOrderid(Integer orderid) {
-        this.orderid = orderid;
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
     }
 
-    public Timestamp getOperatetime() {
-        return operatetime;
+    public Timestamp getOperateTime() {
+        return operateTime;
     }
 
-    public void setOperatetime(Timestamp operatetime) {
-        this.operatetime = operatetime;
+    public void setOperateTime(Timestamp operateTime) {
+        this.operateTime = operateTime;
     }
 
-    public Integer getOrdertype() {
-        return ordertype;
+    public Integer getOrderType() {
+        return orderType;
     }
 
-    public void setOrdertype(Integer ordertype) {
-        this.ordertype = ordertype;
+    public void setOrderType(Integer orderType) {
+        this.orderType = orderType;
     }
 
     public Integer getDisplay() {
@@ -160,12 +160,12 @@ public class OrdReserve {
         this.display = display;
     }
 
-    public Date getStarttime() {
-        return starttime;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setStarttime(Date starttime) {
-        this.starttime = starttime;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
     public Integer getState() {
@@ -181,11 +181,11 @@ public class OrdReserve {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrdReserve that = (OrdReserve) o;
-        return id == that.id && Objects.equals(courseid, that.courseid) && Objects.equals(storeid, that.storeid) && Objects.equals(date, that.date) && Objects.equals(begintime, that.begintime) && Objects.equals(endtime, that.endtime) && Objects.equals(arrangementdate, that.arrangementdate) && Objects.equals(orderbegintime, that.orderbegintime) && Objects.equals(orderendtime, that.orderendtime) && Objects.equals(orderid, that.orderid) && Objects.equals(operatetime, that.operatetime) && Objects.equals(ordertype, that.ordertype) && Objects.equals(display, that.display) && Objects.equals(starttime, that.starttime) && Objects.equals(state, that.state);
+        return id == that.id && Objects.equals(courseId, that.courseId) && Objects.equals(storeId, that.storeId) && Objects.equals(date, that.date) && Objects.equals(beginTime, that.beginTime) && Objects.equals(endTime, that.endTime) && Objects.equals(arrangementDate, that.arrangementDate) && Objects.equals(orderBeginTime, that.orderBeginTime) && Objects.equals(orderEndTime, that.orderEndTime) && Objects.equals(orderId, that.orderId) && Objects.equals(operateTime, that.operateTime) && Objects.equals(orderType, that.orderType) && Objects.equals(display, that.display) && Objects.equals(startTime, that.startTime) && Objects.equals(state, that.state);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, courseid, storeid, date, begintime, endtime, arrangementdate, orderbegintime, orderendtime, orderid, operatetime, ordertype, display, starttime, state);
+        return Objects.hash(id, courseId, storeId, date, beginTime, endTime, arrangementDate, orderBeginTime, orderEndTime, orderId, operateTime, orderType, display, startTime, state);
     }
 }

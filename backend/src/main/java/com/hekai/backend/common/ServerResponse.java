@@ -1,5 +1,6 @@
 package com.hekai.backend.common;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonSerialize
 public class SverResponse<T> implements Serializable {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 	private int status;
 	private String msg;

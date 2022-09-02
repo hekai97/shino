@@ -11,11 +11,11 @@ public class CurCourseImg {
     @Column(name = "id")
     private int id;
     @Basic
-    @Column(name = "courseid")
-    private Integer courseid;
+    @Column(name = "course_id")
+    private Integer courseId;
     @Basic
-    @Column(name = "imgurl")
-    private String imgurl;
+    @Column(name = "img_url")
+    private String imgUrl;
 
     public int getId() {
         return id;
@@ -25,20 +25,20 @@ public class CurCourseImg {
         this.id = id;
     }
 
-    public Integer getCourseid() {
-        return courseid;
+    public Integer getCourseId() {
+        return courseId;
     }
 
-    public void setCourseid(Integer courseid) {
-        this.courseid = courseid;
+    public void setCourseId(Integer courseId) {
+        this.courseId = courseId;
     }
 
-    public String getImgurl() {
-        return imgurl;
+    public String getImgUrl() {
+        return imgUrl;
     }
 
-    public void setImgurl(String imgurl) {
-        this.imgurl = imgurl;
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     @Override
@@ -46,11 +46,11 @@ public class CurCourseImg {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CurCourseImg that = (CurCourseImg) o;
-        return id == that.id && Objects.equals(courseid, that.courseid) && Objects.equals(imgurl, that.imgurl);
+        return id == that.id && Objects.equals(courseId, that.courseId) && Objects.equals(imgUrl, that.imgUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, courseid, imgurl);
+        return Objects.hash(id, courseId, imgUrl);
     }
 }

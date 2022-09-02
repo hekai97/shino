@@ -11,23 +11,23 @@ public class BasicStore {
     @Column(name = "id")
     private int id;
     @Basic
-    @Column(name = "storenum")
-    private String storenum;
+    @Column(name = "store_number")
+    private String storeNumber;
     @Basic
-    @Column(name = "storename")
-    private String storename;
+    @Column(name = "store_name")
+    private String storeName;
     @Basic
     @Column(name = "type")
     private String type;
     @Basic
-    @Column(name = "userid")
-    private Integer userid;
+    @Column(name = "store_manager_id")
+    private Integer storeManagerId;
     @Basic
     @Column(name = "address")
     private String address;
     @Basic
-    @Column(name = "picurl")
-    private String picurl;
+    @Column(name = "picture_url")
+    private String pictureUrl;
     @Basic
     @Column(name = "summary")
     private String summary;
@@ -40,20 +40,20 @@ public class BasicStore {
         this.id = id;
     }
 
-    public String getStorenum() {
-        return storenum;
+    public String getStoreNumber() {
+        return storeNumber;
     }
 
-    public void setStorenum(String storenum) {
-        this.storenum = storenum;
+    public void setStoreNumber(String storeNumber) {
+        this.storeNumber = storeNumber;
     }
 
-    public String getStorename() {
-        return storename;
+    public String getStoreName() {
+        return storeName;
     }
 
-    public void setStorename(String storename) {
-        this.storename = storename;
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
     }
 
     public String getType() {
@@ -64,12 +64,12 @@ public class BasicStore {
         this.type = type;
     }
 
-    public Integer getUserid() {
-        return userid;
+    public Integer getStoreManagerId() {
+        return storeManagerId;
     }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    public void setStoreManagerId(Integer storeManagerId) {
+        this.storeManagerId = storeManagerId;
     }
 
     public String getAddress() {
@@ -80,12 +80,12 @@ public class BasicStore {
         this.address = address;
     }
 
-    public String getPicurl() {
-        return picurl;
+    public String getPictureUrl() {
+        return pictureUrl;
     }
 
-    public void setPicurl(String picurl) {
-        this.picurl = picurl;
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
     }
 
     public String getSummary() {
@@ -101,11 +101,11 @@ public class BasicStore {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BasicStore that = (BasicStore) o;
-        return id == that.id && Objects.equals(storenum, that.storenum) && Objects.equals(storename, that.storename) && Objects.equals(type, that.type) && Objects.equals(userid, that.userid) && Objects.equals(address, that.address) && Objects.equals(picurl, that.picurl) && Objects.equals(summary, that.summary);
+        return id == that.id && Objects.equals(storeNumber, that.storeNumber) && Objects.equals(storeName, that.storeName) && Objects.equals(type, that.type) && Objects.equals(storeManagerId, that.storeManagerId) && Objects.equals(address, that.address) && Objects.equals(pictureUrl, that.pictureUrl) && Objects.equals(summary, that.summary);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, storenum, storename, type, userid, address, picurl, summary);
+        return Objects.hash(id, storeNumber, storeName, type, storeManagerId, address, pictureUrl, summary);
     }
 }

@@ -12,20 +12,20 @@ public class CurCourseType {
     @Column(name = "id")
     private int id;
     @Basic
-    @Column(name = "classifyname")
-    private String classifyname;
+    @Column(name = "classify_name")
+    private String classifyName;
     @Basic
-    @Column(name = "iconurl")
-    private String iconurl;
+    @Column(name = "icon_url")
+    private String iconUrl;
     @Basic
-    @Column(name = "ispublished")
-    private Integer ispublished;
+    @Column(name = "is_published")
+    private Integer isPublished;
     @Basic
-    @Column(name = "createId")
-    private Integer createId;
+    @Column(name = "created_Id")
+    private Integer createdId;
     @Basic
-    @Column(name = "courteDate")
-    private Date courteDate;
+    @Column(name = "create_time")
+    private Date createTime;
 
     public int getId() {
         return id;
@@ -35,44 +35,44 @@ public class CurCourseType {
         this.id = id;
     }
 
-    public String getClassifyname() {
-        return classifyname;
+    public String getClassifyName() {
+        return classifyName;
     }
 
-    public void setClassifyname(String classifyname) {
-        this.classifyname = classifyname;
+    public void setClassifyName(String classifyName) {
+        this.classifyName = classifyName;
     }
 
-    public String getIconurl() {
-        return iconurl;
+    public String getIconUrl() {
+        return iconUrl;
     }
 
-    public void setIconurl(String iconurl) {
-        this.iconurl = iconurl;
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
     }
 
-    public Integer getIspublished() {
-        return ispublished;
+    public Integer getIsPublished() {
+        return isPublished;
     }
 
-    public void setIspublished(Integer ispublished) {
-        this.ispublished = ispublished;
+    public void setIsPublished(Integer isPublished) {
+        this.isPublished = isPublished;
     }
 
-    public Integer getCreateId() {
-        return createId;
+    public Integer getCreatedId() {
+        return createdId;
     }
 
-    public void setCreateId(Integer createId) {
-        this.createId = createId;
+    public void setCreatedId(Integer createdId) {
+        this.createdId = createdId;
     }
 
-    public Date getCourteDate() {
-        return courteDate;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCourteDate(Date courteDate) {
-        this.courteDate = courteDate;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     @Override
@@ -80,11 +80,11 @@ public class CurCourseType {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CurCourseType that = (CurCourseType) o;
-        return id == that.id && Objects.equals(classifyname, that.classifyname) && Objects.equals(iconurl, that.iconurl) && Objects.equals(ispublished, that.ispublished) && Objects.equals(createId, that.createId) && Objects.equals(courteDate, that.courteDate);
+        return id == that.id && Objects.equals(classifyName, that.classifyName) && Objects.equals(iconUrl, that.iconUrl) && Objects.equals(isPublished, that.isPublished) && Objects.equals(createdId, that.createdId) && Objects.equals(createTime, that.createTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, classifyname, iconurl, ispublished, createId, courteDate);
+        return Objects.hash(id, classifyName, iconUrl, isPublished, createdId, createTime);
     }
 }

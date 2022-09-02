@@ -12,47 +12,47 @@ public class CurCourse {
     @Column(name = "id")
     private int id;
     @Basic
-    @Column(name = "coursetypeid")
-    private Integer coursetypeid;
+    @Column(name = "course_type_id")
+    private Integer courseTypeId;
     @Basic
-    @Column(name = "coursename")
-    private String coursename;
+    @Column(name = "course_name")
+    private String courseName;
     @Basic
-    @Column(name = "coursenum")
-    private String coursenum;
+    @Column(name = "course_number")
+    private String courseNumber;
     @Basic
     @Column(name = "description")
     private String description;
     @Basic
-    @Column(name = "courseurl")
-    private String courseurl;
+    @Column(name = "course_url")
+    private String courseUrl;
     @Basic
-    @Column(name = "picurl")
-    private String picurl;
+    @Column(name = "picture_url")
+    private String pictureUrl;
     @Basic
-    @Column(name = "coursecontent")
-    private String coursecontent;
+    @Column(name = "course_content")
+    private String courseContent;
     @Basic
-    @Column(name = "courselevel")
-    private String courselevel;
+    @Column(name = "course_level")
+    private String courseLevel;
     @Basic
-    @Column(name = "ispublic")
-    private Integer ispublic;
+    @Column(name = "is_public")
+    private Integer isPublic;
     @Basic
     @Column(name = "creater")
     private String creater;
     @Basic
-    @Column(name = "createtime")
-    private Timestamp createtime;
+    @Column(name = "created_time")
+    private Timestamp createdTime;
     @Basic
     @Column(name = "updater")
     private String updater;
     @Basic
-    @Column(name = "updatetime")
-    private Timestamp updatetime;
+    @Column(name = "updated_time")
+    private Timestamp updatedTime;
     @Basic
-    @Column(name = "carouselimg")
-    private String carouselimg;
+    @Column(name = "carousel_img")
+    private String carouselImg;
 
     public int getId() {
         return id;
@@ -62,28 +62,28 @@ public class CurCourse {
         this.id = id;
     }
 
-    public Integer getCoursetypeid() {
-        return coursetypeid;
+    public Integer getCourseTypeId() {
+        return courseTypeId;
     }
 
-    public void setCoursetypeid(Integer coursetypeid) {
-        this.coursetypeid = coursetypeid;
+    public void setCourseTypeId(Integer courseTypeId) {
+        this.courseTypeId = courseTypeId;
     }
 
-    public String getCoursename() {
-        return coursename;
+    public String getCourseName() {
+        return courseName;
     }
 
-    public void setCoursename(String coursename) {
-        this.coursename = coursename;
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
-    public String getCoursenum() {
-        return coursenum;
+    public String getCourseNumber() {
+        return courseNumber;
     }
 
-    public void setCoursenum(String coursenum) {
-        this.coursenum = coursenum;
+    public void setCourseNumber(String courseNumber) {
+        this.courseNumber = courseNumber;
     }
 
     public String getDescription() {
@@ -94,44 +94,44 @@ public class CurCourse {
         this.description = description;
     }
 
-    public String getCourseurl() {
-        return courseurl;
+    public String getCourseUrl() {
+        return courseUrl;
     }
 
-    public void setCourseurl(String courseurl) {
-        this.courseurl = courseurl;
+    public void setCourseUrl(String courseUrl) {
+        this.courseUrl = courseUrl;
     }
 
-    public String getPicurl() {
-        return picurl;
+    public String getPictureUrl() {
+        return pictureUrl;
     }
 
-    public void setPicurl(String picurl) {
-        this.picurl = picurl;
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
     }
 
-    public String getCoursecontent() {
-        return coursecontent;
+    public String getCourseContent() {
+        return courseContent;
     }
 
-    public void setCoursecontent(String coursecontent) {
-        this.coursecontent = coursecontent;
+    public void setCourseContent(String courseContent) {
+        this.courseContent = courseContent;
     }
 
-    public String getCourselevel() {
-        return courselevel;
+    public String getCourseLevel() {
+        return courseLevel;
     }
 
-    public void setCourselevel(String courselevel) {
-        this.courselevel = courselevel;
+    public void setCourseLevel(String courseLevel) {
+        this.courseLevel = courseLevel;
     }
 
-    public Integer getIspublic() {
-        return ispublic;
+    public Integer getIsPublic() {
+        return isPublic;
     }
 
-    public void setIspublic(Integer ispublic) {
-        this.ispublic = ispublic;
+    public void setIsPublic(Integer isPublic) {
+        this.isPublic = isPublic;
     }
 
     public String getCreater() {
@@ -142,12 +142,12 @@ public class CurCourse {
         this.creater = creater;
     }
 
-    public Timestamp getCreatetime() {
-        return createtime;
+    public Timestamp getCreatedTime() {
+        return createdTime;
     }
 
-    public void setCreatetime(Timestamp createtime) {
-        this.createtime = createtime;
+    public void setCreatedTime(Timestamp createdTime) {
+        this.createdTime = createdTime;
     }
 
     public String getUpdater() {
@@ -158,20 +158,20 @@ public class CurCourse {
         this.updater = updater;
     }
 
-    public Timestamp getUpdatetime() {
-        return updatetime;
+    public Timestamp getUpdatedTime() {
+        return updatedTime;
     }
 
-    public void setUpdatetime(Timestamp updatetime) {
-        this.updatetime = updatetime;
+    public void setUpdatedTime(Timestamp updatedTime) {
+        this.updatedTime = updatedTime;
     }
 
-    public String getCarouselimg() {
-        return carouselimg;
+    public String getCarouselImg() {
+        return carouselImg;
     }
 
-    public void setCarouselimg(String carouselimg) {
-        this.carouselimg = carouselimg;
+    public void setCarouselImg(String carouselImg) {
+        this.carouselImg = carouselImg;
     }
 
     @Override
@@ -179,11 +179,11 @@ public class CurCourse {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CurCourse curCourse = (CurCourse) o;
-        return id == curCourse.id && Objects.equals(coursetypeid, curCourse.coursetypeid) && Objects.equals(coursename, curCourse.coursename) && Objects.equals(coursenum, curCourse.coursenum) && Objects.equals(description, curCourse.description) && Objects.equals(courseurl, curCourse.courseurl) && Objects.equals(picurl, curCourse.picurl) && Objects.equals(coursecontent, curCourse.coursecontent) && Objects.equals(courselevel, curCourse.courselevel) && Objects.equals(ispublic, curCourse.ispublic) && Objects.equals(creater, curCourse.creater) && Objects.equals(createtime, curCourse.createtime) && Objects.equals(updater, curCourse.updater) && Objects.equals(updatetime, curCourse.updatetime) && Objects.equals(carouselimg, curCourse.carouselimg);
+        return id == curCourse.id && Objects.equals(courseTypeId, curCourse.courseTypeId) && Objects.equals(courseName, curCourse.courseName) && Objects.equals(courseNumber, curCourse.courseNumber) && Objects.equals(description, curCourse.description) && Objects.equals(courseUrl, curCourse.courseUrl) && Objects.equals(pictureUrl, curCourse.pictureUrl) && Objects.equals(courseContent, curCourse.courseContent) && Objects.equals(courseLevel, curCourse.courseLevel) && Objects.equals(isPublic, curCourse.isPublic) && Objects.equals(creater, curCourse.creater) && Objects.equals(createdTime, curCourse.createdTime) && Objects.equals(updater, curCourse.updater) && Objects.equals(updatedTime, curCourse.updatedTime) && Objects.equals(carouselImg, curCourse.carouselImg);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, coursetypeid, coursename, coursenum, description, courseurl, picurl, coursecontent, courselevel, ispublic, creater, createtime, updater, updatetime, carouselimg);
+        return Objects.hash(id, courseTypeId, courseName, courseNumber, description, courseUrl, pictureUrl, courseContent, courseLevel, isPublic, creater, createdTime, updater, updatedTime, carouselImg);
     }
 }

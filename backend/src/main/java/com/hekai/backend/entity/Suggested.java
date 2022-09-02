@@ -20,8 +20,8 @@ public class Suggested {
     @Column(name = "description")
     private String description;
     @Basic
-    @Column(name = "createtime")
-    private Timestamp createtime;
+    @Column(name = "create_time")
+    private Timestamp createTime;
 
     public int getId() {
         return id;
@@ -55,12 +55,12 @@ public class Suggested {
         this.description = description;
     }
 
-    public Timestamp getCreatetime() {
-        return createtime;
+    public Timestamp getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatetime(Timestamp createtime) {
-        this.createtime = createtime;
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 
     @Override
@@ -68,11 +68,11 @@ public class Suggested {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Suggested suggested = (Suggested) o;
-        return id == suggested.id && Objects.equals(phone, suggested.phone) && Objects.equals(question, suggested.question) && Objects.equals(description, suggested.description) && Objects.equals(createtime, suggested.createtime);
+        return id == suggested.id && Objects.equals(phone, suggested.phone) && Objects.equals(question, suggested.question) && Objects.equals(description, suggested.description) && Objects.equals(createTime, suggested.createTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, phone, question, description, createtime);
+        return Objects.hash(id, phone, question, description, createTime);
     }
 }
