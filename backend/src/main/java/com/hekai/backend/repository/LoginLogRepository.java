@@ -1,4 +1,7 @@
 package com.hekai.backend.repository;
 
-public interface LoginLogRepository extends org.springframework.data.jpa.repository.JpaRepository<com.hekai.backend.entity.LoginLog, int> {
+import com.hekai.backend.entity.LoginLog;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface LoginLogRepository extends JpaRepository<LoginLog, Integer> {
 }

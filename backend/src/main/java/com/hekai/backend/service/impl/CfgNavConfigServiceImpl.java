@@ -7,7 +7,7 @@ import com.hekai.backend.service.CfgNavConfigService;
 /**
  * 导航配置(CfgNavConfig)表服务实现类
  *
- * @author makejava
+ * @author hekai
  * @since 2022-09-02 11:16:02
  */
 @Service("cfgNavConfigService")

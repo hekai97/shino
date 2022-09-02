@@ -1,4 +1,7 @@
 package com.hekai.backend.repository;
 
-public interface OrdOrderGoodsRepository extends org.springframework.data.jpa.repository.JpaRepository<com.hekai.backend.entity.OrdOrderGoods, int> {
+import com.hekai.backend.entity.OrdOrderGoods;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface OrdOrderGoodsRepository extends JpaRepository<OrdOrderGoods, Integer> {
 }

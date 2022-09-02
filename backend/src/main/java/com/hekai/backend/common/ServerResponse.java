@@ -8,12 +8,12 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 //字段为空的话，不序列化进json数据，即不像前台返回空的值。
 @JsonSerialize
-public class SverResponse<T> implements Serializable {
+public class ServerResponse<T> implements Serializable {
 
 	@Serial
 	private static final long serialVersionUID = 1L;
 	private int status;
-	private String msg;
+	private String message;
 	private T data;
 	public int getStatus() {
 		return this.status;
@@ -22,8 +22,8 @@ public class SverResponse<T> implements Serializable {
 		return data;
 	}
 
-	public String getMsg() {
-		return msg;
+	public String getMessage() {
+		return message;
 	}
 	
 	@JsonIgnore
@@ -31,51 +31,51 @@ public class SverResponse<T> implements Serializable {
 		return this.status==ResponseCode.SUCCESS.getCode();
 	}
 
-	private SverResponse(int status) {
+	private ServerResponse(int status) {
 		this.status = status;
 	}
 
-	private SverResponse(int status, T data) {
+	private ServerResponse(int status, T data) {
 		this.status = status;
 		this.data = data;
 	}
 
-	private SverResponse(int status, String msg, T data) {
+	private ServerResponse(int status, String message, T data) {
 		this.status = status;
-		this.msg = msg;
+		this.message = message;
 		this.data = data;
 	}
 
-	private SverResponse(int status, String msg) {
+	private ServerResponse(int status, String message) {
 		this.status = status;
-		this.msg = msg;
+		this.message = message;
 	}
 
-	public static <T> SverResponse<T> createRespBySuccess() {
-		return new SverResponse<>(ResponseCode.SUCCESS.getCode());
+	public static <T> ServerResponse<T> createRespBySuccess() {
+		return new ServerResponse<>(ResponseCode.SUCCESS.getCode());
 	}
 
-	public static <T> SverResponse<T> createRespBySuccess(T data) {
-		return new SverResponse<>(ResponseCode.SUCCESS.getCode(), data);
+	public static <T> ServerResponse<T> createRespBySuccess(T data) {
+		return new ServerResponse<>(ResponseCode.SUCCESS.getCode(), data);
 	}
 
-	public static <T> SverResponse<T> createRespBySuccess(String msg, T data) {
-		return new SverResponse<>(ResponseCode.SUCCESS.getCode(), msg, data);
+	public static <T> ServerResponse<T> createRespBySuccess(String msg, T data) {
+		return new ServerResponse<>(ResponseCode.SUCCESS.getCode(), msg, data);
 	}
 
-	public static <T> SverResponse<T> createRespBySuccessMessage(String msg) {
-		return new SverResponse<>(ResponseCode.SUCCESS.getCode(), msg);
+	public static <T> ServerResponse<T> createRespBySuccessMessage(String msg) {
+		return new ServerResponse<>(ResponseCode.SUCCESS.getCode(), msg);
 	}
 
-	public static <T> SverResponse<T> createRespByError() {
-		return new SverResponse<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getDesc());
+	public static <T> ServerResponse<T> createRespByError() {
+		return new ServerResponse<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getDesc());
 	}
 
-	public static <T> SverResponse<T> createByErrorMessage(String errorMessage) {
-		return new SverResponse<T>(ResponseCode.ERROR.getCode(), errorMessage);
+	public static <T> ServerResponse<T> createByErrorMessage(String errorMessage) {
+		return new ServerResponse<T>(ResponseCode.ERROR.getCode(), errorMessage);
 	}
 	
-	public static <T> SverResponse<T> createByErrorCodeMessage(int errorCode, String errorMessage) {
-		return new SverResponse<T>(errorCode, errorMessage);
+	public static <T> ServerResponse<T> createByErrorCodeMessage(int errorCode, String errorMessage) {
+		return new ServerResponse<T>(errorCode, errorMessage);
 	}
 }

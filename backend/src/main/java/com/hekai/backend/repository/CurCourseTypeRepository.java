@@ -1,4 +1,7 @@
 package com.hekai.backend.repository;
 
-public interface CurCourseTypeRepository extends org.springframework.data.jpa.repository.JpaRepository<com.hekai.backend.entity.CurCourseType, int> {
+import com.hekai.backend.entity.CurCourseType;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CurCourseTypeRepository extends JpaRepository<CurCourseType, Integer> {
 }

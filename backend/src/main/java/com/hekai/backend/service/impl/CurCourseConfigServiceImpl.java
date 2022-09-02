@@ -7,7 +7,7 @@ import com.hekai.backend.service.CurCourseConfigService;
 /**
  * 课程配置(CurCourseConfig)表服务实现类
  *
- * @author makejava
+ * @author hekai
  * @since 2022-09-02 11:16:03
  */
 @Service("curCourseConfigService")

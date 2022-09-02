@@ -7,7 +7,7 @@ import com.hekai.backend.service.CurCourseDetailsService;
 /**
  * 订单详情表(CurCourseDetails)表服务实现类
  *
- * @author makejava
+ * @author hekai
  * @since 2022-09-02 11:16:03
  */
 @Service("curCourseDetailsService")

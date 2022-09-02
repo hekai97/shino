@@ -7,7 +7,7 @@ import com.hekai.backend.service.CurRlCourseChildcourseService;
 /**
  * 套餐课配置(CurRlCourseChildcourse)表服务实现类
  *
- * @author makejava
+ * @author hekai
  * @since 2022-09-02 11:16:03
  */
 @Service("curRlCourseChildcourseService")

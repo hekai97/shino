@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 /**
  * 权限(BasicPermission)表服务实现类
  *
- * @author makejava
+ * @author hekai
  * @since 2022-09-02 11:15:15
  */
 @Service("basicPermissionService")

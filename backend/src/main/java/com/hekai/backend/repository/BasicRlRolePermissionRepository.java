@@ -1,4 +1,7 @@
 package com.hekai.backend.repository;
 
-public interface BasicRlRolePermissionRepository extends org.springframework.data.jpa.repository.JpaRepository<com.hekai.backend.entity.BasicRlRolePermission, int> {
+import com.hekai.backend.entity.BasicRlRolePermission;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface BasicRlRolePermissionRepository extends JpaRepository<BasicRlRolePermission, Integer> {
 }

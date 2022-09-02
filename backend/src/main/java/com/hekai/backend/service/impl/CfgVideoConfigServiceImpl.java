@@ -7,7 +7,7 @@ import com.hekai.backend.service.CfgVideoConfigService;
 /**
  * 视频位置配置(CfgVideoConfig)表服务实现类
  *
- * @author makejava
+ * @author hekai
  * @since 2022-09-02 11:16:02
  */
 @Service("cfgVideoConfigService")

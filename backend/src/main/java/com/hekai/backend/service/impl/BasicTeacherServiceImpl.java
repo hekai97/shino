@@ -7,7 +7,7 @@ import com.hekai.backend.service.BasicTeacherService;
 /**
  * 讲师信息(BasicTeacher)表服务实现类
  *
- * @author makejava
+ * @author hekai
  * @since 2022-09-02 11:16:02
  */
 @Service("basicTeacherService")

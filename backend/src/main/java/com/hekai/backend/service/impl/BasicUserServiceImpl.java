@@ -7,7 +7,7 @@ import com.hekai.backend.service.BasicUserService;
 /**
  * 用户(BasicUser)表服务实现类
  *
- * @author makejava
+ * @author hekai
  * @since 2022-09-02 11:16:02
  */
 @Service("basicUserService")

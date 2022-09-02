@@ -7,7 +7,7 @@ import com.hekai.backend.service.CmsCategoryService;
 /**
  * CMS分类管理(CmsCategory)表服务实现类
  *
- * @author makejava
+ * @author hekai
  * @since 2022-09-02 11:16:03
  */
 @Service("cmsCategoryService")
