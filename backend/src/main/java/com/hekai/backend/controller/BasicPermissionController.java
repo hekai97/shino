@@ -11,5 +11,5 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("basicPermission")
 public class BasicPermissionController {
-}
 
+}
