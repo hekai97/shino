@@ -2,8 +2,6 @@ package com.hekai.backend.controller.client;
 
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.entity.BasicStudent;
-import com.hekai.backend.service.BasicStudentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,8 +19,8 @@ import javax.servlet.http.HttpSession;
 @RequestMapping(value = "/student")
 public class ClientUserController {
 
-    @Autowired
-    private BasicStudentService basicStudentService;
+    // @Autowired
+    // private BasicStudentService basicStudentService;
 
     /**
      * 登录
