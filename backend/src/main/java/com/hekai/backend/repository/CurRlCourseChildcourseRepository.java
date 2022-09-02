@@ -1,4 +1,7 @@
 package com.hekai.backend.repository;
 
-public interface CurRlCourseChildcourseRepository<, ID> extends org.springframework.data.jpa.repository.JpaRepository<com.hekai.backend.entity.CurRlCourseChildcourse, ID> {
+import com.hekai.backend.entity.CurRlCourseChildcourse;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CurRlCourseChildcourseRepository<, ID> extends JpaRepository<CurRlCourseChildcourse, ID> {
 }

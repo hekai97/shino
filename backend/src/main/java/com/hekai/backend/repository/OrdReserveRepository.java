@@ -1,4 +1,7 @@
 package com.hekai.backend.repository;
 
-public interface OrdReserveRepository extends org.springframework.data.jpa.repository.JpaRepository<com.hekai.backend.entity.OrdReserve, int> {
+import com.hekai.backend.entity.OrdReserve;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface OrdReserveRepository extends JpaRepository<OrdReserve, Integer> {
 }

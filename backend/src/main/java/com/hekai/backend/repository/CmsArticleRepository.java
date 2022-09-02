@@ -1,4 +1,7 @@
 package com.hekai.backend.repository;
 
-public interface CmsArticleRepository extends org.springframework.data.jpa.repository.JpaRepository<com.hekai.backend.entity.CmsArticle, int> {
+import com.hekai.backend.entity.CmsArticle;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CmsArticleRepository extends JpaRepository<CmsArticle, Integer> {
 }

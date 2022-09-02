@@ -1,4 +1,7 @@
 package com.hekai.backend.repository;
 
-public interface BasicStoreRepository extends org.springframework.data.jpa.repository.JpaRepository<com.hekai.backend.entity.BasicStore, int> {
+import com.hekai.backend.entity.BasicStore;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface BasicStoreRepository extends JpaRepository<BasicStore, Integer> {
 }
