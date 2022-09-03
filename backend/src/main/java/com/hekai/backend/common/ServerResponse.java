@@ -6,7 +6,7 @@ import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-//字段为空的话，不序列化进json数据，即不像前台返回空的值。
+//字段为空的话，不序列化进json数据，即不向前台返回空的值。
 @JsonSerialize
 public class ServerResponse<T> implements Serializable {
 

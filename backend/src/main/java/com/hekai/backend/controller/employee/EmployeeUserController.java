@@ -1,7 +1,7 @@
 package com.hekai.backend.controller.employee;
 
 import com.hekai.backend.common.ServerResponse;
-import com.hekai.backend.entity.BasicUser;
+import com.hekai.backend.entity.User;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +12,11 @@ import javax.servlet.http.HttpSession;
 @RequestMapping(value = "/employee/user")
 public class EmployeeUserController {
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public ServerResponse<BasicUser> login(HttpSession httpSession,String account,String password){
+    public ServerResponse<User> login(HttpSession httpSession, String account, String password){
+        return null;
+    }
+    @RequestMapping(value = "/logout",method = RequestMethod.POST)
+    public ServerResponse<String> logout(HttpSession httpSession){
         return null;
     }
 }
