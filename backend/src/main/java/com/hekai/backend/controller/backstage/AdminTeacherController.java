@@ -2,7 +2,6 @@ package com.hekai.backend.controller.backstage;
 
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.entity.Teacher;
-import com.hekai.backend.entity.User;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;

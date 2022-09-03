@@ -1,10 +1,6 @@
 package com.hekai.backend.dto;
 
-import jdk.jfr.Category;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 
