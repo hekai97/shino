@@ -2,12 +2,13 @@ package com.hekai.backend.controller.backstage;
 
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.entity.Course;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  * 课程管理控制器
@@ -19,15 +20,14 @@ import java.util.List;
 @RequestMapping(value = "/admin/course")
 public class AdminCourseController {
     /**
-     * 通过分页查询所有课程页面
+     * 把所有课程可分页
      *
      * @param httpSession http会话
-     * @param pageSize    页面大小
-     * @param pageNumber  页码
-     * @return {@link ServerResponse}<{@link List}<{@link Course}>>
+     * @param pageable    可分页
+     * @return {@link ServerResponse}<{@link Page}<{@link Course}>>
      */
-    @RequestMapping(value = "/getAllCourseByPage",method = RequestMethod.GET)
-    public ServerResponse<List<Course>> getAllCourseByPage(HttpSession httpSession, int pageSize, int pageNumber){
+    @RequestMapping(value = "/getAllCoursePageable",method = RequestMethod.GET)
+    public ServerResponse<Page<Course>> getAllCoursePageable(HttpSession httpSession, Pageable pageable){
         return null;
     }
 

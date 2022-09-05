@@ -1,69 +1,35 @@
-package com.hekai.backend.entity;
+package com.hekai.backend.dto;
 
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 import java.sql.Date;
-import java.util.Objects;
 
-@Entity
-@Table(name = "teacher",schema = "my_shinho")
-public class Teacher {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class TeacherDto implements Serializable {
     private int id;
-    @Basic
-    @Column(name = "store_id")
     private Integer storeId;
-    @Basic
-    @Column(name = "number")
+    private String storeName;
     private String number;
-    @Basic
-    @Column(name = "name")
     private String name;
-    @Basic
-    @Column(name = "address")
     private String address;
-    @Basic
-    @Column(name = "phone")
     private String phone;
-    @Basic
-    @Column(name = "email")
     private String email;
-    @Basic
-    @Column(name = "birthday")
     private Date birthday;
-    @Basic
-    @Column(name = "sex")
     private String sex;
-    @Basic
-    @Column(name = "picture_url")
     private String pictureUrl;
-    @Basic
-    @Column(name = "employment_date")
     private Date employmentDate;
-    @Basic
-    @Column(name = "good_category")
     private String goodCategory;
-    @Basic
-    @Column(name = "entry_date")
     private Date entryDate;
-    @Basic
-    @Column(name = "leave_date")
     private Date leaveDate;
-    @Basic
-    @Column(name = "description")
     private String description;
-    @Basic
-    @Column(name = "feature")
     private String feature;
-    @Basic
-    @Column(name = "status")
     private Integer status;
-    @Basic
-    @Column(name = "created_date")
     private Date createdDate;
-    @Basic
-    @Column(name = "created_user_number")
     private String createdUserNumber;
 
     public int getId() {
@@ -80,6 +46,14 @@ public class Teacher {
 
     public void setStoreId(Integer storeId) {
         this.storeId = storeId;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
     }
 
     public String getNumber() {
@@ -216,18 +190,5 @@ public class Teacher {
 
     public void setCreatedUserNumber(String createdUserNumber) {
         this.createdUserNumber = createdUserNumber;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Teacher teacher = (Teacher) o;
-        return id == teacher.id && Objects.equals(storeId, teacher.storeId) && Objects.equals(number, teacher.number) && Objects.equals(name, teacher.name) && Objects.equals(address, teacher.address) && Objects.equals(phone, teacher.phone) && Objects.equals(email, teacher.email) && Objects.equals(birthday, teacher.birthday) && Objects.equals(sex, teacher.sex) && Objects.equals(pictureUrl, teacher.pictureUrl) && Objects.equals(employmentDate, teacher.employmentDate) && Objects.equals(goodCategory, teacher.goodCategory) && Objects.equals(entryDate, teacher.entryDate) && Objects.equals(leaveDate, teacher.leaveDate) && Objects.equals(description, teacher.description) && Objects.equals(feature, teacher.feature) && Objects.equals(status, teacher.status) && Objects.equals(createdDate, teacher.createdDate) && Objects.equals(createdUserNumber, teacher.createdUserNumber);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, storeId, number, name, address, phone, email, birthday, sex, pictureUrl, employmentDate, goodCategory, entryDate, leaveDate, description, feature, status, createdDate, createdUserNumber);
     }
 }

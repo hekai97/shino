@@ -3,12 +3,13 @@ package com.hekai.backend.controller.employee;
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.entity.CourseTable;
 import com.hekai.backend.entity.CourseTimeConfig;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  * 员工调度控制器
@@ -23,12 +24,11 @@ public class EmployeeSchedulingController {
      * 得到所有调度可分页
      *
      * @param httpSession http会话
-     * @param pageSize    页面大小
-     * @param pageNumber  页码
-     * @return {@link ServerResponse}<{@link List}<{@link CourseTable}>>
+     * @param pageable    可分页
+     * @return {@link ServerResponse}<{@link Page}<{@link CourseTable}>>
      */
     @RequestMapping(value = "/getAllSchedulingPageable",method = RequestMethod.GET)
-    public ServerResponse<List<CourseTable>> getAllSchedulingPageable(HttpSession httpSession,Integer pageSize,Integer pageNumber){
+    public ServerResponse<Page<CourseTable>> getAllSchedulingPageable(HttpSession httpSession, Pageable pageable){
         return null;
     }
 
