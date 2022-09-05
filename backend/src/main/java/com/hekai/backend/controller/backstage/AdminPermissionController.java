@@ -78,20 +78,4 @@ public class AdminPermissionController {
         }
         return permissionService.deleteRole(role);
     }
-    @RequestMapping(value = "/getEmployeeUserListPageable",method = RequestMethod.POST)
-    public ServerResponse<Page<EmployeeUser>> getEmployeeUserListPageable(HttpSession httpSession,Pageable pageable){
-        return null;
-    }
-    @RequestMapping(value = "/createEmployeeAccount",method = RequestMethod.POST)
-    public ServerResponse<EmployeeUser> createEmployeeAccount(HttpSession httpSession,EmployeeUser employeeUser){
-        return null;
-    }
-    @RequestMapping(value = "/deleteEmployeeAccount",method = RequestMethod.POST)
-    public ServerResponse<String> deleteEmployeeAccount(HttpSession httpSession,EmployeeUser employeeUser){
-        return null;
-    }
-    @RequestMapping(value = "/updateEmployeeAccount",method = RequestMethod.POST)
-    public ServerResponse<EmployeeUser> updateEmployeeAccount(HttpSession httpSession,EmployeeUser employeeUser){
-        return null;
-    }
 }

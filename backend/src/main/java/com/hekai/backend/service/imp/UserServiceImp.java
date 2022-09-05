@@ -6,11 +6,15 @@ import com.hekai.backend.entity.User;
 import com.hekai.backend.repository.EmployeeUserRepository;
 import com.hekai.backend.repository.UserRepository;
 import com.hekai.backend.service.UserService;
+import com.hekai.backend.utils.ConstUtil;
 import com.hekai.backend.utils.RegexUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.sql.Timestamp;
+import java.util.Date;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -127,5 +131,44 @@ public class UserServiceImp implements UserService {
         user.setStatus(0);
         save(user);
         return ServerResponse.createRespBySuccess();
+    }
+
+    @Override
+    public ServerResponse<Page<EmployeeUser>> findEmployeeUserListPageable(Pageable pageable) {
+        Page<EmployeeUser> employeeUsers=employeeUserRepository.findEmployeeUsersByRoleIdNot(pageable, ConstUtil.ADMIN_ROLE);
+        return ServerResponse.createRespBySuccess(employeeUsers);
+    }
+
+    @Override
+    public ServerResponse<EmployeeUser> createEmployeeUser(EmployeeUser creator, EmployeeUser employeeUser) {
+        if(employeeUser.getNumber()==null){
+            return ServerResponse.createByErrorMessage("员工号不能为空！");
+        }
+        EmployeeUser temp = employeeUserRepository.findEmployeeUserByNumber(employeeUser.getNumber());
+        if(temp!=null){
+            return ServerResponse.createByErrorMessage("该员工号已存在！");
+        }
+        Timestamp timestamp=new Timestamp(new Date().getTime());
+        employeeUser.setCreatedTime(timestamp);
+        employeeUser.setCreator(creator.getName());
+        return ServerResponse.createRespBySuccess(employeeUserRepository.save(employeeUser));
+    }
+
+    @Override
+    public ServerResponse<String> deleteEmployeeUser(EmployeeUser operator, EmployeeUser employeeUser) {
+        EmployeeUser waitForDelete = employeeUserRepository.findEmployeeUserById(employeeUser.getId());
+        waitForDelete.setEnabled((byte)0);
+        Timestamp timestamp=new Timestamp(new Date().getTime());
+        employeeUser.setUpdatedTime(timestamp);
+        employeeUser.setUpdater(operator.getName());
+        employeeUserRepository.save(waitForDelete);
+        return ServerResponse.createRespBySuccessMessage("删除成功！");
+    }
+
+    @Override
+    public ServerResponse<EmployeeUser> updateEmployeeAccount(EmployeeUser operator, EmployeeUser employeeUser) {
+        employeeUser.setUpdatedTime(new Timestamp(new Date().getTime()));
+        employeeUser.setUpdater(operator.getName());
+        return ServerResponse.createRespBySuccess(employeeUserRepository.save(employeeUser));
     }
 }

@@ -13,6 +13,7 @@ public class OrderItemDto implements Serializable {
     private Timestamp createdTime;
     private Timestamp payTime;
     private Integer status;
+    private String statusDesc;
     private String paymentWay;
     private BigDecimal totalAmount;
     private Integer userId;
@@ -56,6 +57,14 @@ public class OrderItemDto implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getStatusDesc() {
+        return statusDesc;
+    }
+
+    public void setStatusDesc(String statusDesc) {
+        this.statusDesc = statusDesc;
     }
 
     public String getPaymentWay() {

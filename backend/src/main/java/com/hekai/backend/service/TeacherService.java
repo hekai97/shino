@@ -6,6 +6,8 @@ import com.hekai.backend.entity.Teacher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface TeacherService {
     ServerResponse<Page<TeacherDto>> getTeacherListPageable(Pageable pageable);
 
@@ -16,4 +18,6 @@ public interface TeacherService {
     ServerResponse<Teacher> save(Teacher teacher);
 
     ServerResponse<Teacher> updateTeacher(Teacher teacher);
+
+    ServerResponse<List<Teacher>> getTeachersByStoreId(Integer storeId);
 }

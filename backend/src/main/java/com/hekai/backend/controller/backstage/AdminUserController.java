@@ -67,4 +67,39 @@ public class AdminUserController {
         }
         return userService.deleteUser(userId);
     }
+
+    //////////////////////////////////////////////////////////////////////////////////////////
+
+    @RequestMapping(value = "/getEmployeeUserListPageable",method = RequestMethod.POST)
+    public ServerResponse<Page<EmployeeUser>> getEmployeeUserListPageable(HttpSession httpSession,Pageable pageable){
+        EmployeeUser employeeUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(employeeUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return userService.findEmployeeUserListPageable(pageable);
+    }
+    @RequestMapping(value = "/createEmployeeAccount",method = RequestMethod.POST)
+    public ServerResponse<EmployeeUser> createEmployeeAccount(HttpSession httpSession,EmployeeUser employeeUser){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return userService.createEmployeeUser(curUser,employeeUser);
+    }
+    @RequestMapping(value = "/deleteEmployeeAccount",method = RequestMethod.POST)
+    public ServerResponse<String> deleteEmployeeAccount(HttpSession httpSession,EmployeeUser employeeUser){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return userService.deleteEmployeeUser(curUser,employeeUser);
+    }
+    @RequestMapping(value = "/updateEmployeeAccount",method = RequestMethod.POST)
+    public ServerResponse<EmployeeUser> updateEmployeeAccount(HttpSession httpSession,EmployeeUser employeeUser){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return userService.updateEmployeeAccount(curUser,employeeUser);
+    }
 }

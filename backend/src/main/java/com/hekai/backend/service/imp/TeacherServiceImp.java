@@ -82,4 +82,10 @@ public class TeacherServiceImp implements TeacherService {
     public ServerResponse<Teacher> updateTeacher(Teacher teacher) {
         return save(teacher);
     }
+
+    @Override
+    public ServerResponse<List<Teacher>> getTeachersByStoreId(Integer storeId) {
+        List<Teacher> teachers=teacherRepository.findTeachersByStoreId(storeId);
+        return ServerResponse.createRespBySuccess(teachers);
+    }
 }
