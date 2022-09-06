@@ -121,4 +121,13 @@ public interface UserService {
      * @return {@link ServerResponse}<{@link EmployeeUser}>
      */
     ServerResponse<EmployeeUser> updateEmployeeAccount(EmployeeUser operator, EmployeeUser employeeUser);
+
+    /**
+     * 员工登录
+     *
+     * @param account  账户
+     * @param password 密码
+     * @return {@link ServerResponse}<{@link EmployeeUser}>
+     */
+    ServerResponse<EmployeeUser> employeeLogin(String account, String password);
 }

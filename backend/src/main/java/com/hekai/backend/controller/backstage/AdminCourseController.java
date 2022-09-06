@@ -9,6 +9,7 @@ import com.hekai.backend.utils.ConstUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,12 +28,13 @@ import java.util.List;
 public class AdminCourseController {
     @Autowired
     private CourseService courseService;
+
     /**
      * 把所有课程可分页
      *
      * @param httpSession http会话
      * @param pageable    可分页
-     * @return {@link ServerResponse}<{@link Page}<{@link Course}>>
+     * @return {@link ServerResponse}<{@link Page}<{@link CourseDto}>>
      */
     @RequestMapping(value = "/getAllCoursePageable",method = RequestMethod.GET)
     public ServerResponse<Page<CourseDto>> getAllCoursePageable(HttpSession httpSession, Pageable pageable){
@@ -42,6 +44,15 @@ public class AdminCourseController {
         }
         return courseService.getAllCoursePageable(pageable);
     }
+
+    /**
+     * 课程可分页按类别id
+     *
+     * @param httpSession http会话
+     * @param pageable    可分页
+     * @param categoryId  类别id
+     * @return {@link ServerResponse}<{@link Page}<{@link CourseDto}>>
+     */
     @RequestMapping(value = "/getCoursesPageableByCategoryId",method = RequestMethod.GET)
     public ServerResponse<Page<CourseDto>> getCoursesPageableByCategoryId(HttpSession httpSession,Pageable pageable,Integer categoryId){
         EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
@@ -50,6 +61,13 @@ public class AdminCourseController {
         }
         return courseService.getCoursesPageableByCategoryId(pageable,categoryId);
     }
+
+    /**
+     * 获得课程列表
+     *
+     * @param httpSession http会话
+     * @return {@link ServerResponse}<{@link List}<{@link CourseDto}>>
+     */
     @RequestMapping(value = "/getCourseList",method = RequestMethod.GET)
     public ServerResponse<List<CourseDto>> getCourseList(HttpSession httpSession){
         EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
@@ -58,15 +76,16 @@ public class AdminCourseController {
         }
         return courseService.getCourseList();
     }
+
     /**
      * 创建课程
      *
      * @param httpSession http会话
      * @param course      课程
-     * @return {@link ServerResponse}<{@link String}>
+     * @return {@link ServerResponse}<{@link Course}>
      */
     @RequestMapping(value = "/createCourse",method = RequestMethod.POST)
-    public ServerResponse<Course> createCourse(HttpSession httpSession,Course course){
+    public ServerResponse<Course> createCourse(HttpSession httpSession,@RequestBody Course course){
         EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
         if(curUser==null){
             return ServerResponse.createByErrorMessage("未登录！");
@@ -74,8 +93,15 @@ public class AdminCourseController {
         return courseService.createCourse(curUser,course);
     }
 
+    /**
+     * 更新课程信息
+     *
+     * @param httpSession http会话
+     * @param course      课程
+     * @return {@link ServerResponse}<{@link Course}>
+     */
     @RequestMapping(value = "/updateCourseInfo",method = RequestMethod.POST)
-    public ServerResponse<Course> updateCourseInfo(HttpSession httpSession,Course course){
+    public ServerResponse<Course> updateCourseInfo(HttpSession httpSession,@RequestBody Course course){
         EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
         if(curUser==null){
             return ServerResponse.createByErrorMessage("未登录！");
@@ -83,6 +109,13 @@ public class AdminCourseController {
         return courseService.updateCourseInfo(curUser,course);
     }
 
+    /**
+     * 删除课程数量
+     *
+     * @param httpSession  http会话
+     * @param courseNumber 课程数量
+     * @return {@link ServerResponse}<{@link String}>
+     */
     @RequestMapping(value = "/deleteCourseByNumber",method = RequestMethod.POST)
     public ServerResponse<String> deleteCourseByNumber(HttpSession httpSession,String courseNumber){
         EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);

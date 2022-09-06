@@ -1,15 +1,10 @@
 package com.hekai.backend.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
 import java.sql.Date;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class TeacherDto implements Serializable {
     private int id;
     private Integer storeId;

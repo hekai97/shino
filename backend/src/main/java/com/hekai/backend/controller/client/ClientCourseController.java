@@ -11,6 +11,7 @@ import com.hekai.backend.utils.ConstUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,6 +49,7 @@ public class ClientCourseController {
     }
 
     /**
+     * 把所有课程类别
      * 获取所有课程类别
      *
      * @return {@link ServerResponse}<{@link List}<{@link CourseCategory}>>
@@ -58,10 +60,12 @@ public class ClientCourseController {
     }
 
     /**
+     * 课程可分页按类别id
      * 按类别获取课程列表
      *
-     * @param id id
-     * @return {@link ServerResponse}<{@link List}<{@link Course}>>
+     * @param id       id
+     * @param pageable 可分页
+     * @return {@link ServerResponse}<{@link Page}<{@link CourseDto}>>
      */
     @RequestMapping(value = "/getCoursesPageableByCategoryId",method = RequestMethod.GET)
     public ServerResponse<Page<CourseDto>> getCoursesPageableByCategoryId(Pageable pageable, Integer id){
@@ -69,6 +73,7 @@ public class ClientCourseController {
     }
 
     /**
+     * 得到课程细节
      * 按id获取课程详细内容
      *
      * @param id id
@@ -79,37 +84,79 @@ public class ClientCourseController {
         return courseService.getCourseDetail(id);
     }
 
+    /**
+     * 获取存储列表
+     *
+     * @return {@link ServerResponse}<{@link List}<{@link Store}>>
+     */
     @RequestMapping(value = "/getStoreList",method = RequestMethod.GET)
     public ServerResponse<List<Store>> getStoreList(){
         return courseService.getStoreList();
     }
 
+    /**
+     * 得到存储,存储数字
+     *
+     * @param storeNumber 商店数量
+     * @return {@link ServerResponse}<{@link Store}>
+     */
     @RequestMapping(value = "/getStoreByStoreNumber",method = RequestMethod.GET)
     public ServerResponse<Store> getStoreByStoreNumber(String storeNumber){
         return courseService.getStoreByStoreNumber(storeNumber);
     }
 
+    /**
+     * 得到老师名单
+     *
+     * @param pageable 可分页
+     * @return {@link ServerResponse}<{@link Page}<{@link TeacherDto}>>
+     */
     @RequestMapping(value = "/getTeacherListPageable",method = RequestMethod.POST)
     public ServerResponse<Page<TeacherDto>> getTeacherList(Pageable pageable){
         return teacherService.getTeacherListPageable(pageable);
     }
 
+    /**
+     * 教师通过存储id
+     *
+     * @param storeId 存储id
+     * @return {@link ServerResponse}<{@link List}<{@link Teacher}>>
+     */
     @RequestMapping(value = "/getTeachersByStoreId",method = RequestMethod.POST)
     public ServerResponse<List<Teacher>> getTeachersByStoreId(Integer storeId){
         return teacherService.getTeachersByStoreId(storeId);
     }
 
+    /**
+     * 通过教师编号获取教师详情
+     *
+     * @param number 数量
+     * @return {@link ServerResponse}<{@link TeacherDto}>
+     */
     @RequestMapping(value = "/getTeacherByNumber",method = RequestMethod.POST)
     public ServerResponse<TeacherDto> getTeacherByNumber(String number){
         return teacherService.getTeacherByNumber(number);
     }
 
+    /**
+     * 创建预订
+     *
+     * @param courseReservation 课程预订
+     * @return {@link ServerResponse}<{@link CourseReservation}>
+     */
     @RequestMapping(value = "/createReservation",method = RequestMethod.POST)
-    public ServerResponse<CourseReservation> createReservation(CourseReservation courseReservation){
+    public ServerResponse<CourseReservation> createReservation(@RequestBody CourseReservation courseReservation){
         return null;
     }
+
+    /**
+     * 取消预订
+     *
+     * @param courseReservation 课程预订
+     * @return {@link ServerResponse}<{@link String}>
+     */
     @RequestMapping(value = "/cancelReservation",method = RequestMethod.POST)
-    public ServerResponse<String> cancelReservation(CourseReservation courseReservation){
+    public ServerResponse<String> cancelReservation(@RequestBody CourseReservation courseReservation){
         return null;
     }
 }

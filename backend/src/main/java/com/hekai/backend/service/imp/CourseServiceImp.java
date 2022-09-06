@@ -121,6 +121,7 @@ public class CourseServiceImp implements CourseService {
         return ServerResponse.createRespBySuccess(storeRepository.findStoreByStoreNumber(storeNumber));
     }
 
+
     private List<CourseDto> courseListToCourseDtoList(List<Course> courses){
         List<CourseDto> courseDtos=new ArrayList<>();
         for(Course c:courses){
@@ -132,8 +133,8 @@ public class CourseServiceImp implements CourseService {
         CourseDto courseDto=modelMapper.map(c,CourseDto.class);
         courseDto.setCourseCategoryName(courseCategoryRepository.findCourseCategoryById(c.getCourseCategoryId()).getCategoryName());
         courseDto.setCourseTypeName(ConstUtil.CourseType.getCourseTypeDesc(c.getCourseTypeId()));
-        courseDto.setCreatedTime(DateFormatUtil.formatTime(c.getCreatedTime()));
-        courseDto.setUpdatedTime(DateFormatUtil.formatTime(c.getUpdatedTime()));
+        courseDto.setCreatedTime(DateFormatUtil.formatTimeNoSecond(c.getCreatedTime()));
+        courseDto.setUpdatedTime(DateFormatUtil.formatTimeNoSecond(c.getUpdatedTime()));
         return courseDto;
     }
 }

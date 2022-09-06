@@ -9,6 +9,9 @@ public class RegexUtil {
         UN_KNOW
     };
     public static AccountType getAccountType(String account){
+        if(account==null){
+            return AccountType.UN_KNOW;
+        }
         if(isPhoneNumber(account)) {
             return AccountType.PHONE_NUMBER;
         }
