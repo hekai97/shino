@@ -171,4 +171,9 @@ public class UserServiceImp implements UserService {
         employeeUser.setUpdater(operator.getName());
         return ServerResponse.createRespBySuccess(employeeUserRepository.save(employeeUser));
     }
+
+    @Override
+    public ServerResponse<EmployeeUser> employeeLogin(String account, String password) {
+        return adminLogin(account,password);
+    }
 }

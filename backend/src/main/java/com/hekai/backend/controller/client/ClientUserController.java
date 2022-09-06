@@ -6,6 +6,7 @@ import com.hekai.backend.service.UserService;
 import com.hekai.backend.utils.ConstUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,6 +38,7 @@ public class ClientUserController {
      */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public ServerResponse<User> login(HttpSession httpSession,String account,String password){
+        System.out.println(account+" "+password);
         ServerResponse<User> response=userService.login(account,password);
         if(response.isSuccess()){
             httpSession.setAttribute(ConstUtil.NORMAL_USER,response.getData());
@@ -45,6 +47,12 @@ public class ClientUserController {
         return response;
     }
 
+    /**
+     * 注销
+     *
+     * @param httpSession http会话
+     * @return {@link ServerResponse}<{@link String}>
+     */
     @RequestMapping(value = "/logout",method = RequestMethod.POST)
     public ServerResponse<String> logout(HttpSession httpSession){
         httpSession.removeAttribute(ConstUtil.NORMAL_USER);
@@ -58,7 +66,7 @@ public class ClientUserController {
      * @return {@link ServerResponse}<{@link User}>
      */
     @RequestMapping(value = "/register",method = RequestMethod.POST)
-    public ServerResponse<User> register(User user){
+    public ServerResponse<User> register(@RequestBody User user){
         return userService.save(user);
     }
 
@@ -74,24 +82,8 @@ public class ClientUserController {
         return userService.checkRegisterInfo(info);
     }
 
-//    /**
-//     * 获取登录信息
-//     *
-//     * @param httpSession http会话
-//     * @return {@link ServerResponse}<{@link User}>
-//     */
-//    @RequestMapping(value = "/getLoginInfo",method = RequestMethod.GET)
-//    public ServerResponse<User> getLoginInfo(HttpSession httpSession){
-//        User user=(User) httpSession.getAttribute(ConstUtil.NORMAL_USER);
-//        if(user==null){
-//            return ServerResponse.createByErrorMessage("用户未登录！");
-//        }
-//        ServerResponse<User> response=userService.findUserById(user.getId());
-//        response.getData().setPassword(null);
-//        return response;
-//    }
-
     /**
+     * 获取用户信息
      * 获取用户信息,在修改用户个人信息时候用以及每次跳转页面时候判断用户登录情况
      *
      * @param httpSession http会话
@@ -116,7 +108,7 @@ public class ClientUserController {
      * @return {@link ServerResponse}<{@link User}>
      */
     @RequestMapping(value = "updateUserInfo",method = RequestMethod.POST)
-    public ServerResponse<User> updateUserInfo(HttpSession httpSession, User user){
+    public ServerResponse<User> updateUserInfo(HttpSession httpSession, @RequestBody User user){
         User currentUser=(User) httpSession.getAttribute(ConstUtil.NORMAL_USER);
         if(user==null){
             return ServerResponse.createByErrorMessage("用户未登录！");

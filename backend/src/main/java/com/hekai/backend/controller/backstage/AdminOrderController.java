@@ -16,11 +16,25 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+/**
+ * 管理顺序控制器
+ *
+ * @author 17316
+ * @date 2022/09/06
+ */
 @RestController
 @RequestMapping(value = "/admin/order")
 public class AdminOrderController {
     @Autowired
     private OrderService orderService;
+
+    /**
+     * 得到订单列表可分页
+     *
+     * @param httpSession http会话
+     * @param pageable    可分页
+     * @return {@link ServerResponse}<{@link Page}<{@link OrderItemDto}>>
+     */
     @RequestMapping(value = "/getOrderListPageable",method = RequestMethod.POST)
     public ServerResponse<Page<OrderItemDto>> getOrderListPageable(HttpSession httpSession, Pageable pageable){
         EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
@@ -29,6 +43,14 @@ public class AdminOrderController {
         }
         return orderService.getOrderListPageable(pageable);
     }
+
+    /**
+     * 被订单号订单细节
+     *
+     * @param httpSession http会话
+     * @param orderNumber 订单号
+     * @return {@link ServerResponse}<{@link List}<{@link OrderDetailDto}>>
+     */
     @RequestMapping(value = "/getOrderDetailByOrderNumber",method = RequestMethod.POST)
     public ServerResponse<List<OrderDetailDto>> getOrderDetailByOrderNumber(HttpSession httpSession, String orderNumber){
         EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
