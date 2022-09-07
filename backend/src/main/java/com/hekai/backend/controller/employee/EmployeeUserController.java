@@ -4,6 +4,7 @@ import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.entity.EmployeeUser;
 import com.hekai.backend.service.UserService;
 import com.hekai.backend.utils.ConstUtil;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,7 +33,7 @@ public class EmployeeUserController {
      * @return {@link ServerResponse}<{@link EmployeeUser}>
      */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public ServerResponse<EmployeeUser> login(HttpSession httpSession, String account, String password){
+    public ServerResponse<EmployeeUser> login(HttpSession httpSession, @Parameter String account, @Parameter String password){
         ServerResponse<EmployeeUser> response=userService.employeeLogin(account,password);
         if(response.isSuccess()){
             httpSession.setAttribute(ConstUtil.EMPLOYEE_USER,response.getData());

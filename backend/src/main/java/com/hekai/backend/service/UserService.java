@@ -130,4 +130,6 @@ public interface UserService {
      * @return {@link ServerResponse}<{@link EmployeeUser}>
      */
     ServerResponse<EmployeeUser> employeeLogin(String account, String password);
+
+    ServerResponse<String> forgetPassword(String account, String oldPassword, String newPassword);
 }

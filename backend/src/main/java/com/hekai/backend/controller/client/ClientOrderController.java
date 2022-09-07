@@ -50,7 +50,7 @@ public class ClientOrderController {
      * @return {@link ServerResponse}<{@link List}<{@link OrderDetailDto}>>
      */
     @RequestMapping(value = "/getUserOrderDetailByOrderNumber",method = RequestMethod.POST)
-    public ServerResponse<List<OrderDetailDto>> getUserOrderDetailByOrderNumber(HttpSession httpSession,String orderNumber){
+    public ServerResponse<List<OrderDetailDto>> getUserOrderDetailByOrderNumber(HttpSession httpSession,@Parameter String orderNumber){
         User user=(User) httpSession.getAttribute(ConstUtil.NORMAL_USER);
         if(user==null){
             return ServerResponse.createByErrorMessage("用户未登录！");
@@ -85,7 +85,7 @@ public class ClientOrderController {
      * @return {@link ServerResponse}<{@link OrderItemDto}>
      */
     @RequestMapping(value = "/cancelOrder",method = RequestMethod.POST)
-    public ServerResponse<OrderItemDto> cancelOrder(HttpSession httpSession,String orderNo){
+    public ServerResponse<OrderItemDto> cancelOrder(HttpSession httpSession,@Parameter String orderNo){
         User user=(User) httpSession.getAttribute(ConstUtil.NORMAL_USER);
         if(user==null){
             return ServerResponse.createByErrorMessage("用户未登录！");

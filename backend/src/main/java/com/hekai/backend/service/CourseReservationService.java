@@ -2,9 +2,13 @@ package com.hekai.backend.service;
 
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.CourseReservationDto;
+import com.hekai.backend.entity.CourseReservation;
 import com.hekai.backend.entity.EmployeeUser;
+import com.hekai.backend.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 /**
  * 课程预订服务
@@ -29,4 +33,10 @@ public interface CourseReservationService {
      * @return {@link ServerResponse}<{@link String}>
      */
     ServerResponse<String> deleteReservation(Integer reservationId);
+
+    ServerResponse<List<CourseReservationDto>> getReservations(Integer userId);
+
+    ServerResponse<CourseReservationDto> createReservation(User user, CourseReservation courseReservation);
+
+    ServerResponse<String> cancelReservation(Integer courseReservationId);
 }

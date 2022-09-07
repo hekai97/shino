@@ -2,12 +2,16 @@ package com.hekai.backend.controller.client;
 
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.CourseDto;
+import com.hekai.backend.dto.CourseReservationDto;
 import com.hekai.backend.dto.TeacherDto;
 import com.hekai.backend.entity.*;
+import com.hekai.backend.service.CourseReservationService;
 import com.hekai.backend.service.CourseService;
 import com.hekai.backend.service.TeacherService;
 
 import com.hekai.backend.utils.ConstUtil;
+import io.swagger.v3.oas.annotations.Parameter;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +36,8 @@ public class ClientCourseController {
     private CourseService courseService;
     @Autowired
     private TeacherService teacherService;
+    @Autowired
+    private CourseReservationService courseReservationService;
 
     /**
      * 用户购买课程列表
@@ -68,7 +74,7 @@ public class ClientCourseController {
      * @return {@link ServerResponse}<{@link Page}<{@link CourseDto}>>
      */
     @RequestMapping(value = "/getCoursesPageableByCategoryId",method = RequestMethod.GET)
-    public ServerResponse<Page<CourseDto>> getCoursesPageableByCategoryId(Pageable pageable, Integer id){
+    public ServerResponse<Page<CourseDto>> getCoursesPageableByCategoryId(@ParameterObject Pageable pageable, @Parameter Integer id){
         return courseService.getCoursesPageableByCategoryId(pageable,id);
     }
 
@@ -80,7 +86,7 @@ public class ClientCourseController {
      * @return {@link ServerResponse}<{@link Course}>
      */
     @RequestMapping(value = "/getCourseDetailById",method = RequestMethod.GET)
-    public ServerResponse<Course> getCourseDetail(Integer id){
+    public ServerResponse<Course> getCourseDetail(@Parameter Integer id){
         return courseService.getCourseDetail(id);
     }
 
@@ -101,7 +107,7 @@ public class ClientCourseController {
      * @return {@link ServerResponse}<{@link Store}>
      */
     @RequestMapping(value = "/getStoreByStoreNumber",method = RequestMethod.GET)
-    public ServerResponse<Store> getStoreByStoreNumber(String storeNumber){
+    public ServerResponse<Store> getStoreByStoreNumber(@Parameter String storeNumber){
         return courseService.getStoreByStoreNumber(storeNumber);
     }
 
@@ -112,7 +118,7 @@ public class ClientCourseController {
      * @return {@link ServerResponse}<{@link Page}<{@link TeacherDto}>>
      */
     @RequestMapping(value = "/getTeacherListPageable",method = RequestMethod.POST)
-    public ServerResponse<Page<TeacherDto>> getTeacherList(Pageable pageable){
+    public ServerResponse<Page<TeacherDto>> getTeacherList(@ParameterObject Pageable pageable){
         return teacherService.getTeacherListPageable(pageable);
     }
 
@@ -123,7 +129,7 @@ public class ClientCourseController {
      * @return {@link ServerResponse}<{@link List}<{@link Teacher}>>
      */
     @RequestMapping(value = "/getTeachersByStoreId",method = RequestMethod.POST)
-    public ServerResponse<List<Teacher>> getTeachersByStoreId(Integer storeId){
+    public ServerResponse<List<Teacher>> getTeachersByStoreId(@Parameter Integer storeId){
         return teacherService.getTeachersByStoreId(storeId);
     }
 
@@ -134,8 +140,17 @@ public class ClientCourseController {
      * @return {@link ServerResponse}<{@link TeacherDto}>
      */
     @RequestMapping(value = "/getTeacherByNumber",method = RequestMethod.POST)
-    public ServerResponse<TeacherDto> getTeacherByNumber(String number){
+    public ServerResponse<TeacherDto> getTeacherByNumber(@Parameter String number){
         return teacherService.getTeacherByNumber(number);
+    }
+
+    @RequestMapping(value="/getReservations",method = RequestMethod.GET)
+    public ServerResponse<List<CourseReservationDto>> getReservations(HttpSession httpSession){
+        User user = (User) httpSession.getAttribute(ConstUtil.NORMAL_USER);
+        if (user == null){
+            return ServerResponse.createByErrorMessage("用户未登录");
+        }
+        return courseReservationService.getReservations(user.getId());
     }
 
     /**
@@ -145,18 +160,26 @@ public class ClientCourseController {
      * @return {@link ServerResponse}<{@link CourseReservation}>
      */
     @RequestMapping(value = "/createReservation",method = RequestMethod.POST)
-    public ServerResponse<CourseReservation> createReservation(@RequestBody CourseReservation courseReservation){
-        return null;
+    public ServerResponse<CourseReservationDto> createReservation(HttpSession httpSession,@RequestBody CourseReservation courseReservation){
+        User user = (User) httpSession.getAttribute(ConstUtil.NORMAL_USER);
+        if (user == null){
+            return ServerResponse.createByErrorMessage("用户未登录");
+        }
+        return courseReservationService.createReservation(user,courseReservation);
     }
 
     /**
      * 取消预订
      *
-     * @param courseReservation 课程预订
+     * @param courseReservationId 课程预订Id
      * @return {@link ServerResponse}<{@link String}>
      */
     @RequestMapping(value = "/cancelReservation",method = RequestMethod.POST)
-    public ServerResponse<String> cancelReservation(@RequestBody CourseReservation courseReservation){
-        return null;
+    public ServerResponse<String> cancelReservation(HttpSession httpSession,@Parameter Integer courseReservationId){
+        User user = (User) httpSession.getAttribute(ConstUtil.NORMAL_USER);
+        if (user == null){
+            return ServerResponse.createByErrorMessage("用户未登录");
+        }
+        return courseReservationService.cancelReservation(courseReservationId);
     }
 }

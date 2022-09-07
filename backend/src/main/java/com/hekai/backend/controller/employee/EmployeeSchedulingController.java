@@ -2,14 +2,18 @@ package com.hekai.backend.controller.employee;
 
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.CourseTableDto;
+import com.hekai.backend.entity.CourseTable;
 import com.hekai.backend.entity.CourseTimeConfig;
 import com.hekai.backend.entity.EmployeeUser;
 import com.hekai.backend.service.CourseTableService;
 import com.hekai.backend.service.CourseTimeConfigService;
 import com.hekai.backend.utils.ConstUtil;
+import io.swagger.v3.oas.annotations.Parameter;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,13 +41,13 @@ public class EmployeeSchedulingController {
      * @param pageable    可分页
      * @return {@link ServerResponse}<{@link Page}<{@link CourseTableDto}>>
      */
-    @RequestMapping(value = "/getAllSchedulingPageable",method = RequestMethod.GET)
-    public ServerResponse<Page<CourseTableDto>> getAllSchedulingPageable(HttpSession httpSession, Pageable pageable){
-        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.EMPLOYEE_USER);
-        if(curUser==null){
+    @RequestMapping(value = "/getAllSchedulingPageable", method = RequestMethod.GET)
+    public ServerResponse<Page<CourseTableDto>> getAllSchedulingPageable(HttpSession httpSession,@ParameterObject Pageable pageable) {
+        EmployeeUser curUser = (EmployeeUser) httpSession.getAttribute(ConstUtil.EMPLOYEE_USER);
+        if (curUser == null) {
             return ServerResponse.createByErrorMessage("未登录！");
         }
-        return courseTableService.getAllSchedulingPageable(curUser,pageable);
+        return courseTableService.getAllSchedulingPageable(curUser, pageable);
     }
 
     /**
@@ -53,13 +57,13 @@ public class EmployeeSchedulingController {
      * @param id          id
      * @return {@link ServerResponse}<{@link CourseTableDto}>
      */
-    @RequestMapping(value = "/getSchedulingDetailById",method = RequestMethod.GET)
-    public ServerResponse<CourseTableDto> getSchedulingDetailById(HttpSession httpSession,Integer id){
-        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.EMPLOYEE_USER);
-        if(curUser==null){
+    @RequestMapping(value = "/getSchedulingDetailById", method = RequestMethod.GET)
+    public ServerResponse<CourseTableDto> getSchedulingDetailById(HttpSession httpSession,@Parameter Integer id) {
+        EmployeeUser curUser = (EmployeeUser) httpSession.getAttribute(ConstUtil.EMPLOYEE_USER);
+        if (curUser == null) {
             return ServerResponse.createByErrorMessage("未登录！");
         }
-        return courseTableService.getSchedulingDetailById(curUser,id);
+        return courseTableService.getSchedulingDetailById(curUser, id);
     }
 
     /**
@@ -68,9 +72,34 @@ public class EmployeeSchedulingController {
      * @param httpSession http会话
      * @return {@link ServerResponse}<{@link CourseTimeConfig}>
      */
-    @RequestMapping(value = "/getCourseTimeConfig",method = RequestMethod.GET)
-    public ServerResponse<CourseTimeConfig> getCourseTimeConfig(HttpSession httpSession){
+    @RequestMapping(value = "/getCourseTimeConfig", method = RequestMethod.GET)
+    public ServerResponse<CourseTimeConfig> getCourseTimeConfig(HttpSession httpSession) {
         return courseTimeConfigService.getCourseTimeConfig();
     }
 
+    @RequestMapping(value = "/createScheduling", method = RequestMethod.POST)
+    public ServerResponse<CourseTableDto> createScheduling(HttpSession httpSession,@RequestBody CourseTable courseTable) {
+        EmployeeUser curUser = (EmployeeUser) httpSession.getAttribute(ConstUtil.EMPLOYEE_USER);
+        if (curUser == null) {
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return courseTableService.createScheduling(courseTable);
+    }
+
+    @RequestMapping(value = "/deleteCourseTableById", method = RequestMethod.GET)
+    public ServerResponse<String> deleteCourseTableById(HttpSession httpSession,@Parameter Integer courseTableId) {
+        EmployeeUser curUser = (EmployeeUser) httpSession.getAttribute(ConstUtil.EMPLOYEE_USER);
+        if (curUser == null) {
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return courseTableService.deleteCourseTableById(courseTableId);
+    }
+    @RequestMapping(value = "/updateCourseTable", method = RequestMethod.POST)
+    public ServerResponse<CourseTableDto> updateCourseTable(HttpSession httpSession,@RequestBody CourseTable courseTable) {
+        EmployeeUser curUser = (EmployeeUser) httpSession.getAttribute(ConstUtil.EMPLOYEE_USER);
+        if (curUser == null) {
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return courseTableService.updateCourseTable(courseTable);
+    }
 }

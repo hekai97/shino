@@ -6,6 +6,8 @@ import com.hekai.backend.entity.Course;
 import com.hekai.backend.entity.EmployeeUser;
 import com.hekai.backend.service.CourseService;
 import com.hekai.backend.utils.ConstUtil;
+import io.swagger.v3.oas.annotations.Parameter;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,7 +39,7 @@ public class AdminCourseController {
      * @return {@link ServerResponse}<{@link Page}<{@link CourseDto}>>
      */
     @RequestMapping(value = "/getAllCoursePageable",method = RequestMethod.GET)
-    public ServerResponse<Page<CourseDto>> getAllCoursePageable(HttpSession httpSession, Pageable pageable){
+    public ServerResponse<Page<CourseDto>> getAllCoursePageable(HttpSession httpSession, @ParameterObject Pageable pageable){
         EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
         if(curUser==null){
             return ServerResponse.createByErrorMessage("未登录！");
@@ -54,7 +56,7 @@ public class AdminCourseController {
      * @return {@link ServerResponse}<{@link Page}<{@link CourseDto}>>
      */
     @RequestMapping(value = "/getCoursesPageableByCategoryId",method = RequestMethod.GET)
-    public ServerResponse<Page<CourseDto>> getCoursesPageableByCategoryId(HttpSession httpSession,Pageable pageable,Integer categoryId){
+    public ServerResponse<Page<CourseDto>> getCoursesPageableByCategoryId(HttpSession httpSession,@ParameterObject Pageable pageable,@Parameter Integer categoryId){
         EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
         if(curUser==null){
             return ServerResponse.createByErrorMessage("未登录！");
@@ -117,7 +119,7 @@ public class AdminCourseController {
      * @return {@link ServerResponse}<{@link String}>
      */
     @RequestMapping(value = "/deleteCourseByNumber",method = RequestMethod.POST)
-    public ServerResponse<String> deleteCourseByNumber(HttpSession httpSession,String courseNumber){
+    public ServerResponse<String> deleteCourseByNumber(HttpSession httpSession,@Parameter String courseNumber){
         EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
         if(curUser==null){
             return ServerResponse.createByErrorMessage("未登录！");

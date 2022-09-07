@@ -6,6 +6,8 @@ import com.hekai.backend.entity.EmployeeUser;
 import com.hekai.backend.entity.Teacher;
 import com.hekai.backend.service.TeacherService;
 import com.hekai.backend.utils.ConstUtil;
+import io.swagger.v3.oas.annotations.Parameter;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,7 +39,7 @@ public class AdminTeacherController {
      * @return {@link ServerResponse}<{@link Page}<{@link TeacherDto}>>
      */
     @RequestMapping(value = "/getTeacherListPageable", method = RequestMethod.POST)
-    public ServerResponse<Page<TeacherDto>> getTeacherListPageable(HttpSession httpSession, Pageable pageable) {
+    public ServerResponse<Page<TeacherDto>> getTeacherListPageable(HttpSession httpSession, @ParameterObject Pageable pageable) {
         EmployeeUser employeeUser = (EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
         if (employeeUser == null) {
             return ServerResponse.createByErrorMessage("未登录！");
@@ -53,7 +55,7 @@ public class AdminTeacherController {
      * @return {@link ServerResponse}<{@link TeacherDto}>
      */
     @RequestMapping(value = "/getTeacherByNumber", method = RequestMethod.POST)
-    public ServerResponse<TeacherDto> getTeacherByNumber(HttpSession httpSession, String number) {
+    public ServerResponse<TeacherDto> getTeacherByNumber(HttpSession httpSession, @Parameter String number) {
         EmployeeUser employeeUser = (EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
         if (employeeUser == null) {
             return ServerResponse.createByErrorMessage("未登录！");
@@ -69,7 +71,7 @@ public class AdminTeacherController {
      * @return {@link ServerResponse}<{@link TeacherDto}>
      */
     @RequestMapping(value = "/getTeacherById", method = RequestMethod.POST)
-    public ServerResponse<TeacherDto> getTeacherById(HttpSession httpSession, Integer id) {
+    public ServerResponse<TeacherDto> getTeacherById(HttpSession httpSession, @Parameter Integer id) {
         EmployeeUser employeeUser = (EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
         if (employeeUser == null) {
             return ServerResponse.createByErrorMessage("未登录！");

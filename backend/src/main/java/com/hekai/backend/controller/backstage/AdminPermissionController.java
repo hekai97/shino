@@ -7,6 +7,8 @@ import com.hekai.backend.entity.RelationRolePermission;
 import com.hekai.backend.entity.Role;
 import com.hekai.backend.service.PermissionService;
 import com.hekai.backend.utils.ConstUtil;
+import io.swagger.v3.oas.annotations.Parameter;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,7 +40,7 @@ public class AdminPermissionController {
      * @return {@link ServerResponse}<{@link Page}<{@link Role}>>
      */
     @RequestMapping(value = "/getRoleListPageable",method = RequestMethod.GET)
-    public ServerResponse<Page<Role>> getRoleListPageable(HttpSession httpSession, Pageable pageable){
+    public ServerResponse<Page<Role>> getRoleListPageable(HttpSession httpSession, @ParameterObject Pageable pageable){
         EmployeeUser employeeUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
         if(employeeUser==null){
             return ServerResponse.createByErrorMessage("未登录！");
@@ -54,7 +56,7 @@ public class AdminPermissionController {
      * @return {@link ServerResponse}<{@link List}<{@link PermissionList}>>
      */
     @RequestMapping(value = "/getPermissionOfRole",method = RequestMethod.GET)
-    public ServerResponse<List<PermissionList>> getPermissionOfRole(HttpSession httpSession,Integer roleId){
+    public ServerResponse<List<PermissionList>> getPermissionOfRole(HttpSession httpSession,@Parameter Integer roleId){
         EmployeeUser employeeUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
         if(employeeUser==null){
             return ServerResponse.createByErrorMessage("未登录！");

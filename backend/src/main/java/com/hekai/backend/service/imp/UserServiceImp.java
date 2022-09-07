@@ -46,8 +46,10 @@ public class UserServiceImp implements UserService {
             return ServerResponse.createByErrorMessage("无此用户！");
         }else{
             if(user.getPassword().equals(password)){
-                user.hidePassword();
-                return ServerResponse.createRespBySuccess(user);
+                user.setLastLoginTime(new Timestamp(new Date().getTime()));
+                User result=userRepository.save(user);
+                result.hidePassword();
+                return ServerResponse.createRespBySuccess(result);
             }else{
                 return ServerResponse.createByErrorMessage("密码错误！");
             }
@@ -175,5 +177,32 @@ public class UserServiceImp implements UserService {
     @Override
     public ServerResponse<EmployeeUser> employeeLogin(String account, String password) {
         return adminLogin(account,password);
+    }
+
+    @Override
+    public ServerResponse<String> forgetPassword(String account, String oldPassword, String newPassword) {
+        if(account==null){
+            return ServerResponse.createByErrorMessage("账号不能为空！");
+        }
+        User user;
+        if(RegexUtil.getAccountType(account)==RegexUtil.AccountType.PHONE_NUMBER){
+            user=userRepository.findUserByPhoneNumber(account);
+            if(user==null){
+                return ServerResponse.createByErrorMessage("该手机号未注册！");
+            }
+        }else if(RegexUtil.getAccountType(account)==RegexUtil.AccountType.EMAIL) {
+            user = userRepository.findUserByEmail(account);
+            if (user == null) {
+                return ServerResponse.createByErrorMessage("该邮箱未注册！");
+            }
+        }else{
+            return ServerResponse.createByErrorMessage("账号格式不正确！");
+        }
+        if(!user.getPassword().equals(oldPassword)){
+            return ServerResponse.createByErrorMessage("原密码错误！");
+        }
+        user.setPassword(newPassword);
+        userRepository.save(user);
+        return ServerResponse.createRespBySuccessMessage("修改成功！");
     }
 }

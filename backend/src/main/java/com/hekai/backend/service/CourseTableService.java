@@ -2,6 +2,7 @@ package com.hekai.backend.service;
 
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.CourseTableDto;
+import com.hekai.backend.entity.CourseTable;
 import com.hekai.backend.entity.EmployeeUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,4 +31,10 @@ public interface CourseTableService {
      * @return {@link ServerResponse}<{@link CourseTableDto}>
      */
     ServerResponse<CourseTableDto> getSchedulingDetailById(EmployeeUser curUser, Integer id);
+
+    ServerResponse<CourseTableDto> createScheduling(CourseTable courseTable);
+
+    ServerResponse<String> deleteCourseTableById(Integer courseTableId);
+
+    ServerResponse<CourseTableDto> updateCourseTable(CourseTable courseTable);
 }

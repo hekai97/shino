@@ -5,6 +5,8 @@ import com.hekai.backend.entity.EmployeeUser;
 import com.hekai.backend.entity.User;
 import com.hekai.backend.service.UserService;
 import com.hekai.backend.utils.ConstUtil;
+import io.swagger.v3.oas.annotations.Parameter;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,7 +38,7 @@ public class AdminUserController {
      * @return {@link ServerResponse}<{@link EmployeeUser}>
      */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public ServerResponse<EmployeeUser> login(HttpSession httpSession, String account, String password){
+    public ServerResponse<EmployeeUser> login(HttpSession httpSession, @Parameter String account, @Parameter String password){
         System.out.println(account+" "+password);
         System.out.println(httpSession.getId());
         ServerResponse<EmployeeUser> response=userService.adminLogin(account,password);
@@ -67,7 +69,7 @@ public class AdminUserController {
      * @return {@link ServerResponse}<{@link Page}<{@link User}>>
      */
     @RequestMapping(value = "/getAllUserPageable",method = RequestMethod.POST)
-    public ServerResponse<Page<User>> getAllUser(HttpSession httpSession, Pageable pageable){
+    public ServerResponse<Page<User>> getAllUser(HttpSession httpSession, @ParameterObject Pageable pageable){
         EmployeeUser user=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
         if(user==null){
             return ServerResponse.createByErrorMessage("未登录！");
@@ -83,7 +85,7 @@ public class AdminUserController {
      * @return {@link ServerResponse}<{@link User}>
      */
     @RequestMapping(value = "/getUserById",method = RequestMethod.POST)
-    public ServerResponse<User> getUserById(HttpSession httpSession,Integer userId){
+    public ServerResponse<User> getUserById(HttpSession httpSession,@Parameter Integer userId){
         EmployeeUser employeeUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
         if(employeeUser==null){
             return ServerResponse.createByErrorMessage("未登录！");
@@ -99,7 +101,7 @@ public class AdminUserController {
      * @return {@link ServerResponse}<{@link User}>
      */
     @RequestMapping(value = "/updateUserInfo",method = RequestMethod.POST)
-    public ServerResponse<User> updateUserInfo(HttpSession httpSession,Integer userId){
+    public ServerResponse<User> updateUserInfo(HttpSession httpSession,@Parameter Integer userId){
         EmployeeUser employeeUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
         if(employeeUser==null){
             return ServerResponse.createByErrorMessage("未登录！");
@@ -115,7 +117,7 @@ public class AdminUserController {
      * @return {@link ServerResponse}<{@link String}>
      */
     @RequestMapping(value = "/deleteUser",method = RequestMethod.POST)
-    public ServerResponse<String> deleteUser(HttpSession httpSession,Integer userId){
+    public ServerResponse<String> deleteUser(HttpSession httpSession,@Parameter Integer userId){
         EmployeeUser employeeUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
         if(employeeUser==null){
             return ServerResponse.createByErrorMessage("未登录！");
@@ -133,7 +135,7 @@ public class AdminUserController {
      * @return {@link ServerResponse}<{@link Page}<{@link EmployeeUser}>>
      */
     @RequestMapping(value = "/getEmployeeUserListPageable",method = RequestMethod.POST)
-    public ServerResponse<Page<EmployeeUser>> getEmployeeUserListPageable(HttpSession httpSession,Pageable pageable){
+    public ServerResponse<Page<EmployeeUser>> getEmployeeUserListPageable(HttpSession httpSession,@ParameterObject Pageable pageable){
         EmployeeUser employeeUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
         if(employeeUser==null){
             return ServerResponse.createByErrorMessage("未登录！");

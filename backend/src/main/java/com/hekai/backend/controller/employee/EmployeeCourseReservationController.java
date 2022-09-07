@@ -5,6 +5,8 @@ import com.hekai.backend.dto.CourseReservationDto;
 import com.hekai.backend.entity.EmployeeUser;
 import com.hekai.backend.service.CourseReservationService;
 import com.hekai.backend.utils.ConstUtil;
+import io.swagger.v3.oas.annotations.Parameter;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,7 +36,7 @@ public class EmployeeCourseReservationController {
      * @return {@link ServerResponse}<{@link Page}<{@link CourseReservationDto}>>
      */
     @RequestMapping(value = "/getCourseReservationListPageable",method = RequestMethod.POST)
-    public ServerResponse<Page<CourseReservationDto>> getCourseReservationListPageable(HttpSession httpSession, Pageable pageable){
+    public ServerResponse<Page<CourseReservationDto>> getCourseReservationListPageable(HttpSession httpSession, @ParameterObject Pageable pageable){
         EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.EMPLOYEE_USER);
         if(curUser==null){
             return ServerResponse.createByErrorMessage("未登录！");
@@ -50,7 +52,7 @@ public class EmployeeCourseReservationController {
      * @return {@link ServerResponse}<{@link String}>
      */
     @RequestMapping(value = "/deleteReservation",method = RequestMethod.POST)
-    public ServerResponse<String> deleteReservation(HttpSession httpSession,Integer reservationId){
+    public ServerResponse<String> deleteReservation(HttpSession httpSession,@Parameter Integer reservationId){
         EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.EMPLOYEE_USER);
         if(curUser==null){
             return ServerResponse.createByErrorMessage("未登录！");

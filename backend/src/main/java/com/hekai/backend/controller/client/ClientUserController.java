@@ -4,7 +4,7 @@ import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.entity.User;
 import com.hekai.backend.service.UserService;
 import com.hekai.backend.utils.ConstUtil;
-import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +37,7 @@ public class ClientUserController {
      * @return {@link ServerResponse}<{@link User}>
      */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public ServerResponse<User> login(HttpSession httpSession,String account,String password){
+    public ServerResponse<User> login(HttpSession httpSession,@Parameter String account,@Parameter String password){
         System.out.println(account+" "+password);
         ServerResponse<User> response=userService.login(account,password);
         if(response.isSuccess()){
@@ -76,9 +76,8 @@ public class ClientUserController {
      * @param info 信息
      * @return {@link ServerResponse}<{@link String}>
      */
-    @Operation(summary = "该接口中的info可以传递手机号或者电子邮箱帐号")
     @RequestMapping(value = "/checkRegisterInfo",method = RequestMethod.POST)
-    ServerResponse<String> checkRegisterInfo(String info){
+    ServerResponse<String> checkRegisterInfo(@Parameter(description ="info可以传递手机号或者电子邮箱帐号") String info){
         return userService.checkRegisterInfo(info);
     }
 
@@ -119,5 +118,10 @@ public class ClientUserController {
             httpSession.setAttribute(ConstUtil.NORMAL_USER,response.getData());
         }
         return response;
+    }
+
+    @RequestMapping(value = "/forgetPassword",method = RequestMethod.POST)
+    public ServerResponse<String> forgetPassword(@Parameter String account,@Parameter String oldPassword,@Parameter String newPassword){
+        return userService.forgetPassword(account,oldPassword,newPassword);
     }
 }

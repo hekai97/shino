@@ -2,14 +2,8 @@ package com.hekai.backend.service.imp;
 
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.CourseReservationDto;
-import com.hekai.backend.entity.Course;
-import com.hekai.backend.entity.CourseReservation;
-import com.hekai.backend.entity.EmployeeUser;
-import com.hekai.backend.entity.Store;
-import com.hekai.backend.repository.CourseRepository;
-import com.hekai.backend.repository.CourseReservationRepository;
-import com.hekai.backend.repository.EmployeeUserRepository;
-import com.hekai.backend.repository.StoreRepository;
+import com.hekai.backend.entity.*;
+import com.hekai.backend.repository.*;
 import com.hekai.backend.service.CourseReservationService;
 import com.hekai.backend.utils.DateFormatUtil;
 import org.modelmapper.ModelMapper;
@@ -19,7 +13,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -32,6 +28,8 @@ public class CourseReservationServiceImp implements CourseReservationService {
     private CourseRepository courseRepository;
     @Autowired
     private StoreRepository storeRepository;
+    @Autowired
+    private OrderItemRepository orderItemRepository;
     @Autowired
     private ModelMapper modelMapper;
     @Override
@@ -55,6 +53,48 @@ public class CourseReservationServiceImp implements CourseReservationService {
         }
         courseReservationRepository.delete(courseReservation);
         return ServerResponse.createRespBySuccess("删除成功！");
+    }
+
+    @Override
+    public ServerResponse<List<CourseReservationDto>> getReservations(Integer userId) {
+        List<OrderItem> userOrderItems=orderItemRepository.findOrderItemsByUserId(userId);
+        List<CourseReservationDto> result=new ArrayList<>();
+        for(OrderItem orderItem:userOrderItems){
+            CourseReservation courseReservation=courseReservationRepository.findCourseReservationById(orderItem.getId());
+            if(courseReservation!=null){
+                result.add(modelMapper.map(courseReservation,CourseReservationDto.class));
+            }
+        }
+        return ServerResponse.createRespBySuccess(result);
+    }
+
+    @Override
+    public ServerResponse<CourseReservationDto> createReservation(User user, CourseReservation courseReservation) {
+        Course course=courseRepository.findCourseById(courseReservation.getCourseId());
+        if(course==null){
+            return ServerResponse.createByErrorMessage("该课程不存在！");
+        }
+        Store store=storeRepository.findStoreById(courseReservation.getStoreId());
+        if(store==null){
+            return ServerResponse.createByErrorMessage("该商店不存在！");
+        }
+        OrderItem orderItem=orderItemRepository.findOrderItemById(courseReservation.getOrderId());
+        if(orderItem==null){
+            return ServerResponse.createByErrorMessage("该订单不存在！");
+        }
+        courseReservation.setOperateTime(new Timestamp(new Date().getTime()));
+        CourseReservation result=courseReservationRepository.save(courseReservation);
+        return ServerResponse.createRespBySuccess(courseReservationToCourseReservationDto(result));
+    }
+
+    @Override
+    public ServerResponse<String> cancelReservation(Integer courseReservationId) {
+        CourseReservation courseReservation=courseReservationRepository.findCourseReservationById(courseReservationId);
+        if(courseReservation==null){
+            return ServerResponse.createByErrorMessage("该课程安排不存在！");
+        }
+        courseReservationRepository.delete(courseReservation);
+        return ServerResponse.createRespBySuccess("取消成功！");
     }
 
     private CourseReservationDto courseReservationToCourseReservationDto(CourseReservation courseReservation){

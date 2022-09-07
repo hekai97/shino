@@ -14,7 +14,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -61,6 +63,33 @@ public class CourseTableServiceImp implements CourseTableService {
         }
         CourseTableDto courseTableDto=courseTableToCourseTableDto(courseTable);
         return ServerResponse.createRespBySuccess(courseTableDto);
+    }
+
+    @Override
+    public ServerResponse<CourseTableDto> createScheduling(CourseTable courseTable) {
+        courseTable.setCreateTime(new Timestamp(new Date().getTime()));
+        CourseTable courseTable1=courseTableRepository.save(courseTable);
+        return ServerResponse.createRespBySuccess(courseTableToCourseTableDto(courseTable1));
+    }
+
+    @Override
+    public ServerResponse<String> deleteCourseTableById(Integer courseTableId) {
+        CourseTable courseTable=courseTableRepository.findCourseTableById(courseTableId);
+        if(courseTable==null){
+            return ServerResponse.createByErrorMessage("该课程安排不存在！");
+        }
+        courseTableRepository.delete(courseTable);
+        return ServerResponse.createRespBySuccess("删除成功！");
+    }
+
+    @Override
+    public ServerResponse<CourseTableDto> updateCourseTable(CourseTable courseTable) {
+        CourseTable courseTable1=courseTableRepository.findCourseTableById(courseTable.getId());
+        if(courseTable1==null){
+            return ServerResponse.createByErrorMessage("该课程安排不存在！");
+        }
+        courseTableRepository.save(courseTable);
+        return ServerResponse.createRespBySuccess(courseTableToCourseTableDto(courseTable));
     }
 
     private CourseTableDto courseTableToCourseTableDto(CourseTable courseTable) {
