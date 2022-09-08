@@ -1,4 +1,4 @@
-package com.hekai.backend.filter;
+package com.hekai.backend.configuration;
 
 import org.springframework.stereotype.Component;
 

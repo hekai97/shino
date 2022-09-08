@@ -5,6 +5,7 @@ import com.hekai.backend.dto.TeacherDto;
 import com.hekai.backend.entity.EmployeeUser;
 import com.hekai.backend.entity.Teacher;
 import com.hekai.backend.service.TeacherService;
+import com.hekai.backend.utils.CommonFunction;
 import com.hekai.backend.utils.ConstUtil;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springdoc.api.annotations.ParameterObject;
@@ -15,8 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.util.Objects;
 
 /**
  * 管理老师控制器
@@ -110,5 +115,8 @@ public class AdminTeacherController {
         }
         return teacherService.updateTeacher(teacher);
     }
-
+    @RequestMapping(value = "/uploadTeacherImage",method = RequestMethod.POST)
+    public ServerResponse<String> uploadTeacherImage(@RequestBody MultipartFile image){
+        return CommonFunction.uploadImage(image,ConstUtil.TEACHER_IMAGE_PATH);
+    }
 }

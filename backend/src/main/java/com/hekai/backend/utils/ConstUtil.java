@@ -9,6 +9,12 @@ public class ConstUtil {
     public static final Integer ADMIN_ROLE=1;
     public static final Integer EMPLOYEE_ROLE=2;
 
+    public static final String IMAGE_ROOT_PATH="/home/hekai/images/";
+    public static final String TEACHER_IMAGE_PATH=IMAGE_ROOT_PATH+"teachers/";
+    public static final String COURSE_IMAGE_PATH=IMAGE_ROOT_PATH+"courses/";
+    public static final String STORE_IMAGE_PATH=IMAGE_ROOT_PATH+"stores/";
+
+
     public static class OrderStatus{
 
         public static final int UNPAID =1;		//未付款
@@ -19,23 +25,13 @@ public class ConstUtil {
         public static String getStatusDesc(int code) {
             String desc="未知状态";
             switch (code) {
-                case UNPAID:
-                    desc="未付款";
-                    break;
-                case PAID:
-                    desc="已经付款";
-                    break;
-                case AFTER_SALE:
-                    desc="售后中";
-                    break;
-                case REFUNDED:
-                    desc="已退款";
-                    break;
-                case CLOSED:
-                    desc="交易关闭";
-                    break;
-                default:
-                    break;
+                case UNPAID -> desc = "未付款";
+                case PAID -> desc = "已经付款";
+                case AFTER_SALE -> desc = "售后中";
+                case REFUNDED -> desc = "已退款";
+                case CLOSED -> desc = "交易关闭";
+                default -> {
+                }
             }
             return desc;
         }

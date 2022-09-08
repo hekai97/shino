@@ -5,6 +5,7 @@ import com.hekai.backend.dto.CourseDto;
 import com.hekai.backend.entity.Course;
 import com.hekai.backend.entity.EmployeeUser;
 import com.hekai.backend.service.CourseService;
+import com.hekai.backend.utils.CommonFunction;
 import com.hekai.backend.utils.ConstUtil;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springdoc.api.annotations.ParameterObject;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -125,6 +127,15 @@ public class AdminCourseController {
             return ServerResponse.createByErrorMessage("未登录！");
         }
         return courseService.deleteCourseByNumber(curUser,courseNumber);
+    }
+
+    @RequestMapping(value = "/uploadCourseImage",method = RequestMethod.POST)
+    public ServerResponse<String> uploadCourseImage(@RequestBody MultipartFile image){
+        return CommonFunction.uploadImage(image,ConstUtil.COURSE_IMAGE_PATH);
+    }
+    @RequestMapping(value = "/uploadStoreImage",method = RequestMethod.POST)
+    public ServerResponse<String> uploadStoreImage(@RequestBody MultipartFile image){
+        return CommonFunction.uploadImage(image,ConstUtil.STORE_IMAGE_PATH);
     }
 
 
