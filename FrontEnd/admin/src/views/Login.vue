@@ -3,11 +3,11 @@
     <p class="head">臻焙课工坊管理系统</p>
     <div class="log">
       <el-form class="logmain" ref="form" :model="form" :rules="rules">
-          <el-form-item prop="inputuser">
-                <el-input class="user" v-model="form.inputuser" placeholder="请输入用户名"  prefix-icon="iconfont el-icon-user"/>
+          <el-form-item prop="account">
+                <el-input class="user" v-model="form.account" placeholder="请输入用户名"  prefix-icon="iconfont el-icon-user"/>
           </el-form-item>
-          <el-form-item prop="inputpwd">
-                <el-input class="pwd" show-password type="password" v-model="form.inputpwd" placeholder="请输入密码" prefix-icon="iconfont el-icon-lock"/>
+          <el-form-item prop="password">
+                <el-input class="pwd" show-password type="password" v-model="form.password" placeholder="请输入密码" prefix-icon="iconfont el-icon-lock"/>
           </el-form-item>
           <el-form-item prop="inputyzm">
                 <el-input class="yzm" v-model="form.inputyzm" placeholder="验证码" prefix-icon="iconfont el-icon-edit"/>
@@ -21,21 +21,22 @@
 
 <script>
 import { ElLoading } from 'element-plus'
-import API from "@/plugins/axiosInstance";
+// import API from "@/plugins/axiosInstance";
+import axios from 'axios'
 export default {
   name: "ALogin",
   data(){
     return{
         form:{
-          inputuser:'',
-          inputpwd:'',
+         account:'',
+          password:'',
           // inputyzm:'',
       },
       rules:{
-          inputuser: [
+          account: [
             {required:true,message:'用户名不能为空',trigger:'blur'}
           ],
-          inputpwd: [
+          password: [
             {required:true,message:'密码不能为空',trigger:'blur'}
           ],
           // inputyzm:[
@@ -48,18 +49,23 @@ export default {
     OnSubmit(form){
       this.$refs[form].validate((valid) => {
         if(valid){
-          //alert("111")
-          API({
-            url:'/admin/user/login',
-            methods: 'post',
-            data:form
-          }).then(ref=>{
-            if(ref.result){
-                alert("success");
-            }
-            else{
-              alert("fall");
-            }
+          // alert("111")
+          console.log(this.form);
+          // axios({
+          //   method: 'post',
+          //   url: 'http://43.143.167.8:8080/student/login',
+          //   params:{
+          //     account:this.form.account,
+          //     password:this.form.password
+          //   }
+          // }).then(function(){
+          //     alert("success");
+          // });
+          const self=this;
+          const userdata=JSON.parse(JSON.stringify(self.form));
+          console.log(userdata);
+          axios.post('http://43.143.167.8:8080/student/login',this.form).then(function (response) {
+            console.log(response);
           })
           const loading = ElLoading.service({
             lock: true,
@@ -70,8 +76,8 @@ export default {
             loading.close()
           }, 2000)
 
-        }else {
-          alert("失败")
+        } else {
+          console.log('error submit!!');
           return false;
         }
       });

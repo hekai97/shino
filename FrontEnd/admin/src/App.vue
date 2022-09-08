@@ -19,18 +19,20 @@
 <!--      <router-view/>-->
   <myHome/>
 <!--  <ALogin/>-->
+<!--  <PieChart/>-->
 
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
-// import Navigaation from "@/views/Navigaation";
 import myHome from "@/views/Home"
 // import ALogin from "@/views/Login";
+// import PieChart from "@/views/chsrts"
 export default {
   name: 'app',
   components: {
-    myHome
+    myHome,
+    // ALogin
+    // PieChart
   }
 }
 </script>
