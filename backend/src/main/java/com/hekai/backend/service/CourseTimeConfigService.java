@@ -1,9 +1,19 @@
 package com.hekai.backend.service;
+
+import com.hekai.backend.common.ServerResponse;
+import com.hekai.backend.entity.CourseTimeConfig;
+
 /**
- * 上课时间配置(CourseTimeConfig)表服务接口
+ * 课程时间配置服务
  *
- * @author hekai
- * @since 2022-09-02 11:13:20
+ * @author 17316
+ * @date 2022/09/06
  */
 public interface CourseTimeConfigService {
+    /**
+     * 得到课程时间配置
+     *
+     * @return {@link ServerResponse}<{@link CourseTimeConfig}>
+     */
+    ServerResponse<CourseTimeConfig> getCourseTimeConfig();
 }

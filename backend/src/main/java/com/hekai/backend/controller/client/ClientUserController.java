@@ -2,6 +2,11 @@ package com.hekai.backend.controller.client;
 
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.entity.User;
+import com.hekai.backend.service.UserService;
+import com.hekai.backend.utils.ConstUtil;
+import io.swagger.v3.oas.annotations.Parameter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,8 +24,8 @@ import javax.servlet.http.HttpSession;
 @RequestMapping(value = "/student")
 public class ClientUserController {
 
-    // @Autowired
-    // private UserService UserService;
+     @Autowired
+     private UserService userService;
 
 
     /**
@@ -32,69 +37,91 @@ public class ClientUserController {
      * @return {@link ServerResponse}<{@link User}>
      */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public ServerResponse<User> login(HttpSession httpSession,String account,String password){
-        return null;
+    public ServerResponse<User> login(HttpSession httpSession,@Parameter String account,@Parameter String password){
+        System.out.println(account+" "+password);
+        ServerResponse<User> response=userService.login(account,password);
+        if(response.isSuccess()){
+            httpSession.setAttribute(ConstUtil.NORMAL_USER,response.getData());
+            httpSession.setMaxInactiveInterval(30*60);
+        }
+        return response;
     }
 
+    /**
+     * 注销
+     *
+     * @param httpSession http会话
+     * @return {@link ServerResponse}<{@link String}>
+     */
     @RequestMapping(value = "/logout",method = RequestMethod.POST)
     public ServerResponse<String> logout(HttpSession httpSession){
-        return null;
+        httpSession.removeAttribute(ConstUtil.NORMAL_USER);
+        return ServerResponse.createRespBySuccess();
     }
 
     /**
      * 注册
      *
-     * @param User 用户
+     * @param user 用户
      * @return {@link ServerResponse}<{@link User}>
      */
     @RequestMapping(value = "/register",method = RequestMethod.POST)
-    public ServerResponse<User> register(User User){
-        return null;
+    public ServerResponse<User> register(@RequestBody User user){
+        return userService.save(user);
     }
 
     /**
      * 检查注册信息
      *
      * @param info 信息
-     * @param type 类型
      * @return {@link ServerResponse}<{@link String}>
      */
     @RequestMapping(value = "/checkRegisterInfo",method = RequestMethod.POST)
-    ServerResponse<String> checkRegisterInfo(String info,String type){
-        return null;
-    }
-
-    /**
-     * 获取登录信息
-     *
-     * @param httpSession http会话
-     * @return {@link ServerResponse}<{@link User}>
-     */
-    @RequestMapping(value = "/getLoginInfo",method = RequestMethod.GET)
-    public ServerResponse<User> getLoginInfo(HttpSession httpSession){
-        return null;
+    ServerResponse<String> checkRegisterInfo(@Parameter(description ="info可以传递手机号或者电子邮箱帐号") String info){
+        return userService.checkRegisterInfo(info);
     }
 
     /**
      * 获取用户信息
+     * 获取用户信息,在修改用户个人信息时候用以及每次跳转页面时候判断用户登录情况
      *
      * @param httpSession http会话
      * @return {@link ServerResponse}<{@link User}>
      */
     @RequestMapping(value = "/getUserInfo",method = RequestMethod.POST)
     public ServerResponse<User> getUserInfo(HttpSession httpSession){
-        return null;
+        User user=(User) httpSession.getAttribute(ConstUtil.NORMAL_USER);
+        if(user==null){
+            return ServerResponse.createByErrorMessage("用户未登录！");
+        }
+        ServerResponse<User> response=userService.findUserById(user.getId());
+        response.getData().hidePassword();
+        return response;
     }
 
     /**
      * 更新用户信息
      *
      * @param httpSession http会话
-     * @param User        用户
+     * @param user        用户
      * @return {@link ServerResponse}<{@link User}>
      */
     @RequestMapping(value = "updateUserInfo",method = RequestMethod.POST)
-    public ServerResponse<User> updateUserInfo(HttpSession httpSession, User User){
-        return null;
+    public ServerResponse<User> updateUserInfo(HttpSession httpSession, @RequestBody User user){
+        User currentUser=(User) httpSession.getAttribute(ConstUtil.NORMAL_USER);
+        if(user==null){
+            return ServerResponse.createByErrorMessage("用户未登录！");
+        }
+        user.setId(currentUser.getId());
+        ServerResponse<User> response=userService.updateUserInfo(user);
+        if(response.isSuccess()){
+            httpSession.setAttribute(ConstUtil.NORMAL_USER,response.getData());
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/forgetPassword",method = RequestMethod.POST)
+    public ServerResponse<String> forgetPassword(@Parameter String account,@Parameter String oldPassword,@Parameter String newPassword){
+        return userService.forgetPassword(account,oldPassword,newPassword);
     }
 }

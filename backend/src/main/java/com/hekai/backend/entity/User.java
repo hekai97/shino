@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
+@Table(name = "user",schema = "my_shinho")
 public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -185,5 +186,9 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(id, username, password, nickName, name, phoneNumber, address, sex, birthday, email, pictureUrl, registerTime, registerWay, status, lastLoginTime);
+    }
+
+    public void hidePassword() {
+        this.password=null;
     }
 }

@@ -153,4 +153,8 @@ public class EmployeeUser {
     public int hashCode() {
         return Objects.hash(id, number, name, roleId, password, lastLoginTime, enabled, creator, createdTime, updater, updatedTime, storeId);
     }
+
+    public void hidePassword() {
+        this.password=null;
+    }
 }

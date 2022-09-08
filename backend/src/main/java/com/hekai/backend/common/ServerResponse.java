@@ -1,13 +1,15 @@
 package com.hekai.backend.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.io.Serial;
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 //字段为空的话，不序列化进json数据，即不向前台返回空的值。
 @JsonSerialize
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class ServerResponse<T> implements Serializable {
 
 	@Serial

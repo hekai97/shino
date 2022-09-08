@@ -1,10 +1,22 @@
 package com.hekai.backend.controller.backstage;
 
 import com.hekai.backend.common.ServerResponse;
+import com.hekai.backend.dto.CourseDto;
 import com.hekai.backend.entity.Course;
+import com.hekai.backend.entity.EmployeeUser;
+import com.hekai.backend.service.CourseService;
+import com.hekai.backend.utils.CommonFunction;
+import com.hekai.backend.utils.ConstUtil;
+import io.swagger.v3.oas.annotations.Parameter;
+import org.springdoc.api.annotations.ParameterObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -18,17 +30,55 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/admin/course")
 public class AdminCourseController {
+    @Autowired
+    private CourseService courseService;
+
     /**
-     * 通过分页查询所有课程页面
+     * 把所有课程可分页
      *
      * @param httpSession http会话
-     * @param pageSize    页面大小
-     * @param pageNumber  页码
-     * @return {@link ServerResponse}<{@link List}<{@link Course}>>
+     * @param pageable    可分页
+     * @return {@link ServerResponse}<{@link Page}<{@link CourseDto}>>
      */
-    @RequestMapping(value = "/getAllCourseByPage",method = RequestMethod.GET)
-    public ServerResponse<List<Course>> getAllCourseByPage(HttpSession httpSession, int pageSize, int pageNumber){
-        return null;
+    @RequestMapping(value = "/getAllCoursePageable",method = RequestMethod.GET)
+    public ServerResponse<Page<CourseDto>> getAllCoursePageable(HttpSession httpSession, @ParameterObject Pageable pageable){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return courseService.getAllCoursePageable(pageable);
+    }
+
+    /**
+     * 课程可分页按类别id
+     *
+     * @param httpSession http会话
+     * @param pageable    可分页
+     * @param categoryId  类别id
+     * @return {@link ServerResponse}<{@link Page}<{@link CourseDto}>>
+     */
+    @RequestMapping(value = "/getCoursesPageableByCategoryId",method = RequestMethod.GET)
+    public ServerResponse<Page<CourseDto>> getCoursesPageableByCategoryId(HttpSession httpSession,@ParameterObject Pageable pageable,@Parameter Integer categoryId){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return courseService.getCoursesPageableByCategoryId(pageable,categoryId);
+    }
+
+    /**
+     * 获得课程列表
+     *
+     * @param httpSession http会话
+     * @return {@link ServerResponse}<{@link List}<{@link CourseDto}>>
+     */
+    @RequestMapping(value = "/getCourseList",method = RequestMethod.GET)
+    public ServerResponse<List<CourseDto>> getCourseList(HttpSession httpSession){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return courseService.getCourseList();
     }
 
     /**
@@ -36,21 +86,56 @@ public class AdminCourseController {
      *
      * @param httpSession http会话
      * @param course      课程
-     * @return {@link ServerResponse}<{@link String}>
+     * @return {@link ServerResponse}<{@link Course}>
      */
     @RequestMapping(value = "/createCourse",method = RequestMethod.POST)
-    public ServerResponse<String> createCourse(HttpSession httpSession,Course course){
-        return null;
+    public ServerResponse<Course> createCourse(HttpSession httpSession,@RequestBody Course course){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return courseService.createCourse(curUser,course);
     }
 
+    /**
+     * 更新课程信息
+     *
+     * @param httpSession http会话
+     * @param course      课程
+     * @return {@link ServerResponse}<{@link Course}>
+     */
     @RequestMapping(value = "/updateCourseInfo",method = RequestMethod.POST)
-    public ServerResponse<Course> updateCourseInfo(HttpSession httpSession,Course course){
-        return null;
+    public ServerResponse<Course> updateCourseInfo(HttpSession httpSession,@RequestBody Course course){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return courseService.updateCourseInfo(curUser,course);
     }
 
-    @RequestMapping(value = "/deleteCourse",method = RequestMethod.POST)
-    public ServerResponse<Course> deleteCourse(HttpSession httpSession,Integer id){
-        return null;
+    /**
+     * 删除课程数量
+     *
+     * @param httpSession  http会话
+     * @param courseNumber 课程数量
+     * @return {@link ServerResponse}<{@link String}>
+     */
+    @RequestMapping(value = "/deleteCourseByNumber",method = RequestMethod.POST)
+    public ServerResponse<String> deleteCourseByNumber(HttpSession httpSession,@Parameter String courseNumber){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return courseService.deleteCourseByNumber(curUser,courseNumber);
+    }
+
+    @RequestMapping(value = "/uploadCourseImage",method = RequestMethod.POST)
+    public ServerResponse<String> uploadCourseImage(@RequestBody MultipartFile image){
+        return CommonFunction.uploadImage(image,ConstUtil.COURSE_IMAGE_PATH);
+    }
+    @RequestMapping(value = "/uploadStoreImage",method = RequestMethod.POST)
+    public ServerResponse<String> uploadStoreImage(@RequestBody MultipartFile image){
+        return CommonFunction.uploadImage(image,ConstUtil.STORE_IMAGE_PATH);
     }
 
 
