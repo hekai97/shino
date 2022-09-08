@@ -2,6 +2,12 @@
   <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
+    <h1>2222222</h1>
+    <h1>2222222</h1>
+    <h1>2222222</h1>
+    <h1>2222222</h1>
+    <h1>2222222</h1>
+    <h1>2222222</h1>
   </nav>
   <router-view/>
 </template>
