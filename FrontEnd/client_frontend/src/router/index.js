@@ -16,7 +16,24 @@ export default new Router({
       name:'index',
       component:function (){
         return import('../components/index.vue')
-      }
-    }
+      },
+      redirect: '/front',//页面默认加载的路由
+      children:[
+        {
+          path:'/front',
+          name:'front',
+          component:function (){
+            return import('../components/front.vue')
+          }
+        },
+        {
+          path:'/course',
+          name:'/course',
+          component:function (){
+            return import('../components/course.vue')
+          }
+        }
+      ]
+    },
   ]
 })
