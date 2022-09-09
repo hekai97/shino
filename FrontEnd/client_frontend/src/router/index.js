@@ -12,6 +12,13 @@ export default new Router({
       component: HelloWorld
     },
     {
+      path:'/ActivityWindow',
+      name:'ActivityWindow',
+      component:function (){
+        return import('../components/ActivityWindow.vue')
+      }
+    },
+    {
       path:'/index',
       name:'index',
       component:function (){
