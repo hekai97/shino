@@ -1,15 +1,10 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-    <h1>2222222</h1>
-    <h1>2222222</h1>
-    <h1>2222222</h1>
-    <h1>2222222</h1>
-    <h1>2222222</h1>
-    <h1>2222222</h1>
-  </nav>
-  <router-view/>
+<!--  <nav>-->
+<!--    <router-link to="/">Home</router-link> |-->
+<!--    <router-link to="/about">About</router-link>-->
+<!--  </nav>-->
+<!--  <router-view/>-->
+  <myHome/>
 </template>
 
 <style>
@@ -34,3 +29,11 @@ nav a.router-link-exact-active {
   color: #42b983;
 }
 </style>
+<script>
+import myHome from "@/views/home";
+export default {
+  components: {
+    myHome
+  }
+}
+</script>
