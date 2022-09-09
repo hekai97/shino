@@ -106,4 +106,10 @@ public interface CourseService {
      * @return {@link ServerResponse}<{@link Store}>
      */
     ServerResponse<Store> getStoreByStoreNumber(String storeNumber);
+
+    ServerResponse<Store> createStore(Store store);
+
+    ServerResponse<Store> updateStoreInfo(Store store);
+
+    ServerResponse<String> deleteStore(Integer storeId);
 }
