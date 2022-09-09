@@ -65,4 +65,6 @@ public interface OrderService {
      * @return {@link ServerResponse}<{@link OrderItemDto}>
      */
     ServerResponse<OrderItemDto> cancelOrder(int userId, String orderNo);
+
+    void updateOrderStatus(String orderNumber, int status);
 }

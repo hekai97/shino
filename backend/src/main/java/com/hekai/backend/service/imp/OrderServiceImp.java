@@ -125,6 +125,13 @@ public class OrderServiceImp implements OrderService {
         orderItemRepository.save(orderItem);
         return ServerResponse.createRespBySuccessMessage("成功取消订单！");
     }
+
+    @Override
+    public void updateOrderStatus(String orderNumber, int status) {
+        OrderItem orderItem=orderItemRepository.findOrderItemByOrderNumber(orderNumber);
+        orderItem.setStatus(status);
+        orderItemRepository.save(orderItem);
+    }
     ////////////////////////////////////////////////////////////////////////////////////////////////
     private OrderItemDto orderItmToOrderItemDto(OrderItem orderItem){
         OrderItemDto orderItemDto=modelMapper.map(orderItem,OrderItemDto.class);
@@ -154,4 +161,5 @@ public class OrderServiceImp implements OrderService {
         }
         return orderDetailDtoList;
     }
+
 }

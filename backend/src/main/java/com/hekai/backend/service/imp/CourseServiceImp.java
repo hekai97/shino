@@ -121,6 +121,33 @@ public class CourseServiceImp implements CourseService {
         return ServerResponse.createRespBySuccess(storeRepository.findStoreByStoreNumber(storeNumber));
     }
 
+    @Override
+    public ServerResponse<Store> createStore(Store store) {
+        if(store.getStoreNumber()==null){
+            return ServerResponse.createByErrorMessage("请输入门店编号！");
+        }
+        if(store.getStoreName()==null){
+            return ServerResponse.createByErrorMessage("请输入门店名字！");
+        }
+        Store isExistStore=storeRepository.findStoreByStoreNumber(store.getStoreNumber());
+        if(isExistStore!=null){
+            return ServerResponse.createByErrorMessage("该门店已存在，请修改门店号！");
+        }
+        return ServerResponse.createRespBySuccess(storeRepository.save(store));
+    }
+
+    @Override
+    public ServerResponse<Store> updateStoreInfo(Store store) {
+        return ServerResponse.createRespBySuccess(storeRepository.save(store));
+    }
+
+    @Override
+    public ServerResponse<String> deleteStore(Integer storeId) {
+        Store store=storeRepository.findStoreById(storeId);
+        storeRepository.delete(store);
+        return ServerResponse.createRespBySuccessMessage("删除门店成功！");
+    }
+
 
     private List<CourseDto> courseListToCourseDtoList(List<Course> courses){
         List<CourseDto> courseDtos=new ArrayList<>();
