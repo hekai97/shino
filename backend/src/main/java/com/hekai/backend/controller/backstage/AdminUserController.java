@@ -5,17 +5,20 @@ import com.hekai.backend.entity.EmployeeUser;
 import com.hekai.backend.entity.User;
 import com.hekai.backend.service.UserService;
 import com.hekai.backend.utils.ConstUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 /**
  * 管理用户控制器
@@ -190,5 +193,17 @@ public class AdminUserController {
             return ServerResponse.createByErrorMessage("未登录！");
         }
         return userService.updateEmployeeAccount(curUser,employeeUser);
+    }
+    @Operation(summary = "获取过去几天注册的人数")
+    @RequestMapping(value = "/getRegisterUserByDate",method = RequestMethod.GET)
+    public ServerResponse<Map<String,Integer>> getRegisterUserByDate(HttpSession httpSession, @Parameter(description = "这里传入过去几天，默认为7") @Nullable Integer days){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        if(days==null){
+            days=7;
+        }
+        return userService.getRegisterUserByDate(days);
     }
 }

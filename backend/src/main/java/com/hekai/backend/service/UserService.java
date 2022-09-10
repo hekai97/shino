@@ -6,6 +6,8 @@ import com.hekai.backend.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Map;
+
 /**
  * 用户服务
  *
@@ -132,4 +134,6 @@ public interface UserService {
     ServerResponse<EmployeeUser> employeeLogin(String account, String password);
 
     ServerResponse<String> forgetPassword(String account, String oldPassword, String newPassword);
+
+    ServerResponse<Map<String, Integer>> getRegisterUserByDate(Integer days);
 }

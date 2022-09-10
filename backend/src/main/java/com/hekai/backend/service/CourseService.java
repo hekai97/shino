@@ -5,7 +5,6 @@ import com.hekai.backend.dto.CourseDto;
 import com.hekai.backend.entity.Course;
 import com.hekai.backend.entity.CourseCategory;
 import com.hekai.backend.entity.EmployeeUser;
-import com.hekai.backend.entity.Store;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -92,24 +91,4 @@ public interface CourseService {
      */
     ServerResponse<List<CourseCategory>> getAllCourseCategory();
 
-    /**
-     * 获取存储列表
-     *
-     * @return {@link ServerResponse}<{@link List}<{@link Store}>>
-     */
-    ServerResponse<List<Store>> getStoreList();
-
-    /**
-     * 得到存储,存储数字
-     *
-     * @param storeNumber 商店数量
-     * @return {@link ServerResponse}<{@link Store}>
-     */
-    ServerResponse<Store> getStoreByStoreNumber(String storeNumber);
-
-    ServerResponse<Store> createStore(Store store);
-
-    ServerResponse<Store> updateStoreInfo(Store store);
-
-    ServerResponse<String> deleteStore(Integer storeId);
 }

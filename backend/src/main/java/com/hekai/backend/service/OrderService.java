@@ -6,7 +6,9 @@ import com.hekai.backend.dto.OrderItemDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 订单服务
@@ -67,4 +69,12 @@ public interface OrderService {
     ServerResponse<OrderItemDto> cancelOrder(int userId, String orderNo);
 
     void updateOrderStatus(String orderNumber, int status);
+
+    ServerResponse<Page<OrderItemDto>> getOrderItemsByStoreId(Pageable pageable, Integer storeId);
+
+    ServerResponse<BigDecimal> getBenefitByStoreId(Integer storeId);
+
+    ServerResponse<Integer> getAllPaidUserNumber();
+
+    ServerResponse<Map<String, Integer>> getOrderItemsByDate(int day);
 }

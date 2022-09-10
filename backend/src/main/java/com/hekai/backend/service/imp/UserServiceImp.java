@@ -7,14 +7,19 @@ import com.hekai.backend.repository.EmployeeUserRepository;
 import com.hekai.backend.repository.UserRepository;
 import com.hekai.backend.service.UserService;
 import com.hekai.backend.utils.ConstUtil;
+import com.hekai.backend.utils.DateFormatUtil;
 import com.hekai.backend.utils.RegexUtil;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -204,5 +209,20 @@ public class UserServiceImp implements UserService {
         user.setPassword(newPassword);
         userRepository.save(user);
         return ServerResponse.createRespBySuccessMessage("修改成功！");
+    }
+
+    @Override
+    public ServerResponse<Map<String, Integer>> getRegisterUserByDate(Integer days) {
+        Map<String,Integer> map=new HashMap<>();
+        Date now=new Date();
+        for(int i=0;i<days;++i){
+            Date date= DateUtils.addDays(now,-i);
+            Date start=DateUtils.truncate(date, Calendar.DATE);
+            Date end=DateUtils.addMilliseconds(DateUtils.ceiling(date,Calendar.DATE),-1);
+
+            int count=userRepository.countByRegisterTimeBetween(start,end);
+            map.put(DateFormatUtil.formatDate(date),count);
+        }
+        return ServerResponse.createRespBySuccess(map);
     }
 }

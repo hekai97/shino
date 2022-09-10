@@ -3,10 +3,12 @@ package com.hekai.backend.controller.client;
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.CourseDto;
 import com.hekai.backend.dto.CourseReservationDto;
+import com.hekai.backend.dto.StoreDto;
 import com.hekai.backend.dto.TeacherDto;
 import com.hekai.backend.entity.*;
 import com.hekai.backend.service.CourseReservationService;
 import com.hekai.backend.service.CourseService;
+import com.hekai.backend.service.StoreService;
 import com.hekai.backend.service.TeacherService;
 
 import com.hekai.backend.utils.ConstUtil;
@@ -36,6 +38,8 @@ public class ClientCourseController {
     private CourseService courseService;
     @Autowired
     private TeacherService teacherService;
+    @Autowired
+    private StoreService storeService;
     @Autowired
     private CourseReservationService courseReservationService;
 
@@ -96,8 +100,8 @@ public class ClientCourseController {
      * @return {@link ServerResponse}<{@link List}<{@link Store}>>
      */
     @RequestMapping(value = "/getStoreList",method = RequestMethod.GET)
-    public ServerResponse<List<Store>> getStoreList(){
-        return courseService.getStoreList();
+    public ServerResponse<List<StoreDto>> getStoreList(){
+        return storeService.getStoreList();
     }
 
     /**
@@ -107,8 +111,8 @@ public class ClientCourseController {
      * @return {@link ServerResponse}<{@link Store}>
      */
     @RequestMapping(value = "/getStoreByStoreNumber",method = RequestMethod.GET)
-    public ServerResponse<Store> getStoreByStoreNumber(@Parameter String storeNumber){
-        return courseService.getStoreByStoreNumber(storeNumber);
+    public ServerResponse<StoreDto> getStoreByStoreNumber(@Parameter String storeNumber){
+        return storeService.getStoreByStoreNumber(storeNumber);
     }
 
     /**

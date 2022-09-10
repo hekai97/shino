@@ -2,11 +2,14 @@ package com.hekai.backend.controller.backstage;
 
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.CourseDto;
+import com.hekai.backend.dto.CourseRankingDto;
 import com.hekai.backend.entity.Course;
 import com.hekai.backend.entity.EmployeeUser;
+import com.hekai.backend.service.CourseReservationService;
 import com.hekai.backend.service.CourseService;
 import com.hekai.backend.utils.CommonFunction;
 import com.hekai.backend.utils.ConstUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -32,7 +36,8 @@ import java.util.List;
 public class AdminCourseController {
     @Autowired
     private CourseService courseService;
-
+    @Autowired
+    private CourseReservationService courseReservationService;
     /**
      * 把所有课程可分页
      *
@@ -138,5 +143,22 @@ public class AdminCourseController {
         return CommonFunction.uploadImage(image,ConstUtil.STORE_IMAGE_PATH);
     }
 
-
+    @Operation(summary = "后端要求的接口，该接口可以获取开课的排名，按照开课的次数")
+    @RequestMapping(value = "/getCourseRanking",method = RequestMethod.GET)
+    public ServerResponse<List<CourseRankingDto>> getCourseRanking(HttpSession httpSession){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return courseReservationService.getCourseRanking();
+    }
+    @Operation(summary = "管理端要的接口，该接口能根据课程分类的Id获取其分类下的收益额")
+    @RequestMapping(value = "/getCourseCategoryIncomeByCategoryId",method = RequestMethod.POST)
+    public ServerResponse<BigDecimal> getCourseCategoryIncomeByCategoryId(HttpSession httpSession,@Parameter Integer categoryId){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return courseReservationService.getCourseCategoryIncomeByCategoryId(categoryId);
+    }
 }
