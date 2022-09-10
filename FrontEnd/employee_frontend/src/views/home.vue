@@ -264,7 +264,6 @@ import {
   Bell,
   PriceTag
 } from '@element-plus/icons'
-import echarts from 'echarts'
 export default {
   name: 'myHome',
   components: {
@@ -285,11 +284,11 @@ export default {
     Bell,
     PriceTag
   },
-  data() {
+  data () {
     return {
-      isCollapse: true,
+      isCollapse: true
     }
-    }
+  }
 }
 </script>
 
@@ -310,6 +309,5 @@ export default {
   margin: 0 auto;
   margin-top: 5%;
 }
-
 
 </style>

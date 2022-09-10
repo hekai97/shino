@@ -94,12 +94,12 @@ import {
   Tools,
   DArrowLeft,
   DArrowRight,
-  InfoFilled,
+  InfoFilled
 } from '@element-plus/icons'
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'mybook',
-  components:{
+  components: {
     // eslint-disable-next-line vue/no-unused-components
     IconMenu,
     IceCream,
@@ -110,11 +110,11 @@ export default {
     Tools,
     DArrowLeft,
     DArrowRight,
-    InfoFilled,
+    InfoFilled
   },
-  data(){
-    return{
-      isCollapse:true
+  data () {
+    return {
+      isCollapse: true
     }
   }
 }

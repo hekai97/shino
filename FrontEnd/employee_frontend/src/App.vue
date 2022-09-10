@@ -30,7 +30,7 @@ nav a.router-link-exact-active {
 }
 </style>
 <script>
-import myHome from "@/views/home";
+import myHome from '@/views/home'
 export default {
   components: {
     myHome

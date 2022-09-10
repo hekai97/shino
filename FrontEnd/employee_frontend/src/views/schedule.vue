@@ -90,7 +90,7 @@ import {
   DArrowRight,
   DArrowLeft,
   InfoFilled,
-    Fold,
+  Fold,
   Search,
   RefreshRight,
   Bell,
@@ -99,8 +99,8 @@ import {
 } from '@element-plus/icons'
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "myschedule",
-  components:{
+  name: 'myschedule',
+  components: {
     // eslint-disable-next-line vue/no-unused-components
     IconMenu,
     IceCream,
@@ -119,9 +119,9 @@ export default {
     Bell,
     PriceTag
   },
-  data(){
-    return{
-      isCollapse:true
+  data () {
+    return {
+      isCollapse: true
     }
   }
 }

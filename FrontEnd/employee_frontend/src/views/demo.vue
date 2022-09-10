@@ -46,50 +46,49 @@ import {
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Mydemo',
-  components:{
+  components: {
     User,
     Lock,
     CircleCheck
   },
-  data(){
-    return{
-      form:{
-        inputuser:'',
-        inputpwd:'',
+  data () {
+    return {
+      form: {
+        inputuser: '',
+        inputpwd: ''
         // inputyzm:'',
       },
-      rules:{
+      rules: {
         inputuser: [
-          {required:true,message:'用户名不能为空',trigger:'blur'}
+          { required: true, message: '用户名不能为空', trigger: 'blur' }
         ],
         inputpwd: [
-          {required:true,message:'密码不能为空',trigger:'blur'}
-        ],
+          { required: true, message: '密码不能为空', trigger: 'blur' }
+        ]
         // inputyzm:[
         //   {required:true,message:'验证码不能为空',trigger:'blur'}
         // ]
       }
     }
   },
-  methods:{
-    OnSubmit(form){
+  methods: {
+    OnSubmit (form) {
       this.$refs[form].validate((valid) => {
-        if(valid){
-          //alert("111")
+        if (valid) {
+          // alert("111")
           const loading = ElLoading.service({
             lock: true,
             text: 'Loading',
-            background: 'rgba(0, 0, 0, 0.7)',
+            background: 'rgba(0, 0, 0, 0.7)'
           })
           setTimeout(() => {
             loading.close()
           }, 2000)
-
-        }else {
-          alert("失败")
-          return false;
+        } else {
+          alert('失败')
+          return false
         }
-      });
+      })
     }
   }
 }
