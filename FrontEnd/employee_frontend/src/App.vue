@@ -4,7 +4,7 @@
 <!--    <router-link to="/about">About</router-link>-->
 <!--  </nav>-->
 <!--  <router-view/>-->
-  <myHome/>
+  <myHome/><mybook/><mydemo/>
 </template>
 
 <style>
@@ -30,10 +30,14 @@ nav a.router-link-exact-active {
 }
 </style>
 <script>
-import myHome from '@/views/home'
+//import myHome from '@/views/home'
+import Mybook from "@/views/book";
+//import Mydemo from "@/views/demo";
 export default {
   components: {
-    myHome
+    //Mydemo,
+    Mybook,
+    //myHome
   }
 }
 </script>

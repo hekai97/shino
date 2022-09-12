@@ -262,7 +262,9 @@ import {
   Help,
   RefreshRight,
   Bell,
-  PriceTag
+  PriceTag,
+  Discount,
+  Sort
 } from '@element-plus/icons'
 export default {
   name: 'myHome',
@@ -282,7 +284,9 @@ export default {
     Help,
     RefreshRight,
     Bell,
-    PriceTag
+    PriceTag,
+    Discount,
+    Sort
   },
   data () {
     return {
