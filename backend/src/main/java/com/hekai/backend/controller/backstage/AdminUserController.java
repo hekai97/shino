@@ -194,6 +194,14 @@ public class AdminUserController {
         }
         return userService.updateEmployeeAccount(curUser,employeeUser);
     }
+
+    /**
+     * 让注册用户按日期
+     *
+     * @param httpSession http会话
+     * @param days        天
+     * @return {@link ServerResponse}<{@link Map}<{@link String},{@link Integer}>>
+     */
     @Operation(summary = "获取过去几天注册的人数")
     @RequestMapping(value = "/getRegisterUserByDate",method = RequestMethod.GET)
     public ServerResponse<Map<String,Integer>> getRegisterUserByDate(HttpSession httpSession, @Parameter(description = "这里传入过去几天，默认为7") @Nullable Integer days){

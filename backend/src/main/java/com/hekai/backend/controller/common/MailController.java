@@ -11,14 +11,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.Random;
 
 /**
+ * 邮件控制器
+ *
+ * @author 17316
  * @author: hekai
  * @Date: 2022/6/11
+ * @date 2022/09/12
  */
 @Controller
 @RequestMapping(value = "/mail")
 public class MailController {
     @Autowired
     private SendMail emailUtil;
+
+    /**
+     * 邮件
+     *
+     * @param email 电子邮件
+     * @return {@link ServerResponse}<{@link String}>
+     */
     @RequestMapping(value = "/getCode",method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> mail(String email) {

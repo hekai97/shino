@@ -2,14 +2,11 @@ package com.hekai.backend.service.imp;
 
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.CourseDto;
-import com.hekai.backend.dto.CourseRankingDto;
 import com.hekai.backend.entity.Course;
 import com.hekai.backend.entity.CourseCategory;
 import com.hekai.backend.entity.EmployeeUser;
-import com.hekai.backend.entity.Store;
 import com.hekai.backend.repository.CourseCategoryRepository;
 import com.hekai.backend.repository.CourseRepository;
-import com.hekai.backend.repository.StoreRepository;
 import com.hekai.backend.service.CourseService;
 import com.hekai.backend.utils.ConstUtil;
 import com.hekai.backend.utils.DateFormatUtil;

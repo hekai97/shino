@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
- * 当然餐桌服务
+ * 课程表服务
  *
  * @author 17316
  * @date 2022/09/06
@@ -26,15 +26,33 @@ public interface CourseTableService {
     /**
      * 通过id获取调度细节
      *
-     * @param curUser 坏蛋用户
+     * @param curUser 当前用户
      * @param id      id
      * @return {@link ServerResponse}<{@link CourseTableDto}>
      */
     ServerResponse<CourseTableDto> getSchedulingDetailById(EmployeeUser curUser, Integer id);
 
+    /**
+     * 创建调度
+     *
+     * @param courseTable 当然表
+     * @return {@link ServerResponse}<{@link CourseTableDto}>
+     */
     ServerResponse<CourseTableDto> createScheduling(CourseTable courseTable);
 
+    /**
+     * 删除表id
+     *
+     * @param courseTableId 当然表id
+     * @return {@link ServerResponse}<{@link String}>
+     */
     ServerResponse<String> deleteCourseTableById(Integer courseTableId);
 
+    /**
+     * 更新过程表
+     *
+     * @param courseTable 当然表
+     * @return {@link ServerResponse}<{@link CourseTableDto}>
+     */
     ServerResponse<CourseTableDto> updateCourseTable(CourseTable courseTable);
 }
