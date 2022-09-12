@@ -36,13 +36,43 @@ public interface CourseReservationService {
      */
     ServerResponse<String> deleteReservation(Integer reservationId);
 
+    /**
+     * 得到保留
+     *
+     * @param userId 用户id
+     * @return {@link ServerResponse}<{@link List}<{@link CourseReservationDto}>>
+     */
     ServerResponse<List<CourseReservationDto>> getReservations(Integer userId);
 
+    /**
+     * 创建预订
+     *
+     * @param user              用户
+     * @param courseReservation 课程预订
+     * @return {@link ServerResponse}<{@link CourseReservationDto}>
+     */
     ServerResponse<CourseReservationDto> createReservation(User user, CourseReservation courseReservation);
 
+    /**
+     * 取消预订
+     *
+     * @param courseReservationId 课程预订id
+     * @return {@link ServerResponse}<{@link String}>
+     */
     ServerResponse<String> cancelReservation(Integer courseReservationId);
 
+    /**
+     * 得到课程排名
+     *
+     * @return {@link ServerResponse}<{@link List}<{@link CourseRankingDto}>>
+     */
     ServerResponse<List<CourseRankingDto>> getCourseRanking();
 
+    /**
+     * 课程类别收入类别id
+     *
+     * @param categoryId 类别id
+     * @return {@link ServerResponse}<{@link BigDecimal}>
+     */
     ServerResponse<BigDecimal> getCourseCategoryIncomeByCategoryId(Integer categoryId);
 }

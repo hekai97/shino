@@ -26,6 +26,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
+ * 客户当然控制器
  * 客户端课程控制器
  *
  * @author 17316
@@ -97,7 +98,7 @@ public class ClientCourseController {
     /**
      * 获取存储列表
      *
-     * @return {@link ServerResponse}<{@link List}<{@link Store}>>
+     * @return {@link ServerResponse}<{@link List}<{@link StoreDto}>>
      */
     @RequestMapping(value = "/getStoreList",method = RequestMethod.GET)
     public ServerResponse<List<StoreDto>> getStoreList(){
@@ -108,7 +109,7 @@ public class ClientCourseController {
      * 得到存储,存储数字
      *
      * @param storeNumber 商店数量
-     * @return {@link ServerResponse}<{@link Store}>
+     * @return {@link ServerResponse}<{@link StoreDto}>
      */
     @RequestMapping(value = "/getStoreByStoreNumber",method = RequestMethod.GET)
     public ServerResponse<StoreDto> getStoreByStoreNumber(@Parameter String storeNumber){
@@ -138,6 +139,7 @@ public class ClientCourseController {
     }
 
     /**
+     * 得到老师数量
      * 通过教师编号获取教师详情
      *
      * @param number 数量
@@ -148,6 +150,12 @@ public class ClientCourseController {
         return teacherService.getTeacherByNumber(number);
     }
 
+    /**
+     * 得到保留
+     *
+     * @param httpSession http会话
+     * @return {@link ServerResponse}<{@link List}<{@link CourseReservationDto}>>
+     */
     @RequestMapping(value="/getReservations",method = RequestMethod.GET)
     public ServerResponse<List<CourseReservationDto>> getReservations(HttpSession httpSession){
         User user = (User) httpSession.getAttribute(ConstUtil.NORMAL_USER);
@@ -161,7 +169,8 @@ public class ClientCourseController {
      * 创建预订
      *
      * @param courseReservation 课程预订
-     * @return {@link ServerResponse}<{@link CourseReservation}>
+     * @param httpSession       http会话
+     * @return {@link ServerResponse}<{@link CourseReservationDto}>
      */
     @RequestMapping(value = "/createReservation",method = RequestMethod.POST)
     public ServerResponse<CourseReservationDto> createReservation(HttpSession httpSession,@RequestBody CourseReservation courseReservation){
@@ -176,6 +185,7 @@ public class ClientCourseController {
      * 取消预订
      *
      * @param courseReservationId 课程预订Id
+     * @param httpSession         http会话
      * @return {@link ServerResponse}<{@link String}>
      */
     @RequestMapping(value = "/cancelReservation",method = RequestMethod.POST)

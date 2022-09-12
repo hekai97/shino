@@ -133,7 +133,21 @@ public interface UserService {
      */
     ServerResponse<EmployeeUser> employeeLogin(String account, String password);
 
+    /**
+     * 忘记密码
+     *
+     * @param account     账户
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
+     * @return {@link ServerResponse}<{@link String}>
+     */
     ServerResponse<String> forgetPassword(String account, String oldPassword, String newPassword);
 
+    /**
+     * 让注册用户按日期
+     *
+     * @param days 天
+     * @return {@link ServerResponse}<{@link Map}<{@link String}, {@link Integer}>>
+     */
     ServerResponse<Map<String, Integer>> getRegisterUserByDate(Integer days);
 }

@@ -6,7 +6,6 @@ import com.hekai.backend.dto.OrderItemDto;
 import com.hekai.backend.entity.EmployeeUser;
 import com.hekai.backend.service.OrderService;
 import com.hekai.backend.utils.ConstUtil;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springdoc.api.annotations.ParameterObject;
@@ -67,6 +66,15 @@ public class AdminOrderController {
         }
         return orderService.getOrderDetailByOrderNumber(orderNumber);
     }
+
+    /**
+     * 被存储订单项id
+     *
+     * @param httpSession http会话
+     * @param pageable    可分页
+     * @param storeId     存储id
+     * @return {@link ServerResponse}<{@link Page}<{@link OrderItemDto}>>
+     */
     @Operation(summary = "根据商店Id获取每个商店的所有订单")
     @RequestMapping(value = "/getOrderItemsByStoreIdPageable",method = RequestMethod.POST)
     public ServerResponse<Page<OrderItemDto>> getOrderItemsByStoreId(HttpSession httpSession,@ParameterObject Pageable pageable, @Parameter Integer storeId){
@@ -77,6 +85,13 @@ public class AdminOrderController {
         return orderService.getOrderItemsByStoreId(pageable,storeId);
     }
 
+    /**
+     * 被存储id受益
+     *
+     * @param httpSession http会话
+     * @param storeId     存储id
+     * @return {@link ServerResponse}<{@link BigDecimal}>
+     */
     @Operation(summary = "根据storeId获取每个店铺的收益")
     @RequestMapping(value = "/getBenefitByStoreId",method = RequestMethod.POST)
     public ServerResponse<BigDecimal> getBenefitByStoreId(HttpSession httpSession, @Parameter Integer storeId){
@@ -86,6 +101,13 @@ public class AdminOrderController {
         }
         return orderService.getBenefitByStoreId(storeId);
     }
+
+    /**
+     * 得到所有付费用户数量
+     *
+     * @param httpSession http会话
+     * @return {@link ServerResponse}<{@link Integer}>
+     */
     @Operation(summary = "获取所有付款的用户数量，已去重")
     @RequestMapping(value = "/getAllPaidUserNumber",method = RequestMethod.GET)
     public ServerResponse<Integer> getAllPaidUserNumber(HttpSession httpSession){
@@ -95,6 +117,14 @@ public class AdminOrderController {
         }
         return orderService.getAllPaidUserNumber();
     }
+
+    /**
+     * 得到订单项日期
+     *
+     * @param httpSession http会话
+     * @param day         一天
+     * @return {@link ServerResponse}<{@link Map}<{@link String},{@link Integer}>>
+     */
     @Operation(summary = "按照时间获取过去七天每天的订单数量")
     @RequestMapping(value = "/getOrderItemsByDate",method = RequestMethod.GET)
     public ServerResponse<Map<String,Integer>> getOrderItemsByDate(HttpSession httpSession,@Parameter(description = "可为空，默认为7") @Nullable Integer day){
