@@ -159,9 +159,13 @@
                 <el-button style="position: absolute;left: 675px;top: 160px;">
                   <el-icon><Reading /></el-icon>
                 </el-button>
+                <el-popconfirm title="是否要删除?">
+                  <template #reference>
                 <el-button style="position: absolute;left: 710px;top: 160px;">
                   <el-icon><DeleteFilled /></el-icon>
                 </el-button>
+                  </template>
+                </el-popconfirm>
               </el-card>
             </el-timeline-item>
             <el-timeline-item timestamp="2018/4/3" placement="top">
@@ -177,9 +181,13 @@
                 <el-button style="position: absolute;left: 675px;top: 160px;">
                   <el-icon><Reading /></el-icon>
                 </el-button>
+                <el-popconfirm title="是否要删除?">
+                  <template #reference>
                 <el-button style="position: absolute;left: 710px;top: 160px;">
                   <el-icon><DeleteFilled /></el-icon>
                 </el-button>
+                  </template>
+                </el-popconfirm>
               </el-card>
             </el-timeline-item>
             <el-timeline-item timestamp="2018/4/2" placement="top">
@@ -195,9 +203,13 @@
                 <el-button style="position: absolute;left: 675px;top: 160px;">
                   <el-icon><Reading /></el-icon>
                 </el-button>
+                <el-popconfirm title="是否要删除?">
+                  <template #reference>
                 <el-button style="position: absolute;left: 710px;top: 160px;">
                   <el-icon><DeleteFilled /></el-icon>
                 </el-button>
+                  </template>
+                </el-popconfirm>
               </el-card>
             </el-timeline-item>
           </el-timeline>
@@ -230,6 +242,8 @@ import {
   DeleteFilled,
   Reading
 } from '@element-plus/icons'
+
+const {ref} = require("vue");
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'mybook',
@@ -262,6 +276,7 @@ export default {
     }
   }
 }
+let centerDialogVisible = ref(false)
 </script>
 
 <style scoped>
@@ -275,5 +290,7 @@ export default {
   width: 0;
   height: 0;
 }
-
+.dialog-footer button:first-child {
+  margin-right: 10px;
+}
 </style>
