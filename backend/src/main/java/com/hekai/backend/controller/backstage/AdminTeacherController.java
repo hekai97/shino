@@ -112,6 +112,13 @@ public class AdminTeacherController {
         }
         return teacherService.updateTeacher(teacher);
     }
+
+    /**
+     * 上传老师图片
+     *
+     * @param image 图像
+     * @return {@link ServerResponse}<{@link String}>
+     */
     @RequestMapping(value = "/uploadTeacherImage",method = RequestMethod.POST)
     public ServerResponse<String> uploadTeacherImage(@RequestBody MultipartFile image){
         return CommonFunction.uploadImage(image,ConstUtil.TEACHER_IMAGE_PATH);

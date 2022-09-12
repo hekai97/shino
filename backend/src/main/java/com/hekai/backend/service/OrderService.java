@@ -68,13 +68,43 @@ public interface OrderService {
      */
     ServerResponse<OrderItemDto> cancelOrder(int userId, String orderNo);
 
+    /**
+     * 更新订单状态
+     *
+     * @param orderNumber 订单号
+     * @param status      状态
+     */
     void updateOrderStatus(String orderNumber, int status);
 
+    /**
+     * 被存储订单项id
+     *
+     * @param pageable 可分页
+     * @param storeId  存储id
+     * @return {@link ServerResponse}<{@link Page}<{@link OrderItemDto}>>
+     */
     ServerResponse<Page<OrderItemDto>> getOrderItemsByStoreId(Pageable pageable, Integer storeId);
 
+    /**
+     * 被存储id受益
+     *
+     * @param storeId 存储id
+     * @return {@link ServerResponse}<{@link BigDecimal}>
+     */
     ServerResponse<BigDecimal> getBenefitByStoreId(Integer storeId);
 
+    /**
+     * 得到所有付费用户数量
+     *
+     * @return {@link ServerResponse}<{@link Integer}>
+     */
     ServerResponse<Integer> getAllPaidUserNumber();
 
+    /**
+     * 得到订单项日期
+     *
+     * @param day 一天
+     * @return {@link ServerResponse}<{@link Map}<{@link String}, {@link Integer}>>
+     */
     ServerResponse<Map<String, Integer>> getOrderItemsByDate(int day);
 }

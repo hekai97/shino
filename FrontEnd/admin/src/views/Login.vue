@@ -4,13 +4,13 @@
     <div class="log">
       <el-form class="logmain" ref="form" :model="form" :rules="rules">
           <el-form-item prop="account">
-                <el-input class="user" v-model="form.account" placeholder="请输入用户名"  prefix-icon="iconfont el-icon-user"/>
+            <el-input class="user" v-model="form.account" placeholder="请输入用户名"  :prefix-icon="User"></el-input>
           </el-form-item>
           <el-form-item prop="password">
-                <el-input class="pwd" show-password type="password" v-model="form.password" placeholder="请输入密码" prefix-icon="iconfont el-icon-lock"/>
+                <el-input class="pwd" show-password type="password" v-model="form.password" placeholder="请输入密码" :prefix-icon="Lock"/>
           </el-form-item>
           <el-form-item prop="inputyzm">
-                <el-input class="yzm" v-model="form.inputyzm" placeholder="验证码" prefix-icon="iconfont el-icon-edit"/>
+                <el-input class="yzm" v-model="form.inputyzm" placeholder="验证码" :prefix-icon="Edit"/>
           </el-form-item>
           <el-button class="btn" type="primary" @click="OnSubmit('form')" round>登录</el-button>
       </el-form>
@@ -21,10 +21,19 @@
 
 <script>
 import { ElLoading } from 'element-plus'
-// import API from "@/plugins/axiosInstance";
+// import  {useRouter} from "vue-router";
+// import router from '@/router/index.js'
+import { ElMessage } from 'element-plus'
+import { User ,Lock,Edit} from '@element-plus/icons-vue'
 import axios from 'axios'
+import router from "@/router";
 export default {
   name: "ALogin",
+  setup(){
+    return {
+      User,Lock,Edit
+    }
+  },
   data(){
     return{
         form:{
@@ -49,32 +58,39 @@ export default {
     OnSubmit(form){
       this.$refs[form].validate((valid) => {
         if(valid){
-          // alert("111")
           console.log(this.form);
-          // axios({
-          //   method: 'post',
-          //   url: 'http://43.143.167.8:8080/student/login',
-          //   params:{
-          //     account:this.form.account,
-          //     password:this.form.password
-          //   }
-          // }).then(function(){
-          //     alert("success");
-          // });
-          const self=this;
-          const userdata=JSON.parse(JSON.stringify(self.form));
-          console.log(userdata);
-          axios.post('http://43.143.167.8:8080/student/login',this.form).then(function (response) {
-            console.log(response);
+          axios({
+            method: 'post',
+            url: '/admin/user/login',
+            params:{
+              account:this.form.account,
+              password:this.form.password
+            }
+          }).then(response=>{
+             // alert(response.data.message)
+            console.log(response)
+            if(response.data.status===1){
+              ElMessage(response.data.message)
+            }else{
+              // alert(response.data.data.name);
+              const loading = ElLoading.service({
+                lock: true,
+                text: 'Loading',
+                background: 'rgba(0, 0, 0, 0.7)',
+              })
+              setTimeout(() => {
+                loading.close()
+                ElMessage('登录成功')
+                router.push({
+                  name:'firsthome',
+                  query:{
+                    adminname:response.data.data.name,
+                  }
+                })
+              }, 2000)
+            }
           })
-          const loading = ElLoading.service({
-            lock: true,
-            text: 'Loading',
-            background: 'rgba(0, 0, 0, 0.7)',
-          })
-          setTimeout(() => {
-            loading.close()
-          }, 2000)
+
 
         } else {
           console.log('error submit!!');

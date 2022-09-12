@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class SuggestServiceImp implements SuggestService {
@@ -29,5 +30,11 @@ public class SuggestServiceImp implements SuggestService {
         suggestion.setDescription(description);
         suggestionRepository.save(suggestion);
         return ServerResponse.createRespBySuccess("提交成功！");
+    }
+
+    @Override
+    public ServerResponse<List<Suggestion>> getAllSuggest() {
+        List<Suggestion> suggestionList=suggestionRepository.findAll();
+        return ServerResponse.createRespBySuccess(suggestionList);
     }
 }
