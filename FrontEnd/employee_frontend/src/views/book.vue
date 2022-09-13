@@ -146,7 +146,7 @@
         </el-header>
         <el-main style="border: 1px solid black" class="main">
           <el-timeline>
-            <el-timeline-item timestamp="2018/4/12" placement="top">
+            <el-timeline-item timestamp="2022/9/13" placement="top">
               <el-card style="height: 200px">
                 <h4 style="position: absolute;left: 50px;top: 20px">订单号：</h4>
                 <el-divider />
@@ -156,53 +156,17 @@
                 <el-divider style="top: 60px"/>
                 <p style="position: absolute;top: 160px;left: 50px">联系人：</p>
                 <p style="position: absolute;left: 400px;top: 160px">手机号：</p>
+                <el-popover
+                  placement="top-start"
+                  :width="20"
+                  trigger="hover"
+                  content="排课">
+                  <template #reference>
                 <el-button style="position: absolute;left: 675px;top: 160px;">
                   <el-icon><Reading /></el-icon>
-                </el-button>
-                <el-popconfirm title="是否要删除?">
-                  <template #reference>
-                <el-button style="position: absolute;left: 710px;top: 160px;">
-                  <el-icon><DeleteFilled /></el-icon>
                 </el-button>
                   </template>
-                </el-popconfirm>
-              </el-card>
-            </el-timeline-item>
-            <el-timeline-item timestamp="2018/4/3" placement="top">
-              <el-card style="height: 200px">
-                <h4 style="position: absolute;left: 50px;top: 20px">订单号：</h4>
-                <el-divider />
-                <p style="position: absolute;left: 50px;top: 60px">课程名称</p>
-                <p style="position: absolute;left: 400px;top: 60px">预约时间</p>
-                <p style="position: absolute;left: 700px;top: 60px;">预约地点</p>
-                <el-divider style="top: 60px"/>
-                <p style="position: absolute;top: 160px;left: 50px">联系人：</p>
-                <p style="position: absolute;left: 400px;top: 160px">手机号：</p>
-                <el-button style="position: absolute;left: 675px;top: 160px;">
-                  <el-icon><Reading /></el-icon>
-                </el-button>
-                <el-popconfirm title="是否要删除?">
-                  <template #reference>
-                <el-button style="position: absolute;left: 710px;top: 160px;">
-                  <el-icon><DeleteFilled /></el-icon>
-                </el-button>
-                  </template>
-                </el-popconfirm>
-              </el-card>
-            </el-timeline-item>
-            <el-timeline-item timestamp="2018/4/2" placement="top">
-              <el-card style="height: 200px">
-                <h4 style="position: absolute;left: 50px;top: 20px">订单号：</h4>
-                <el-divider />
-                <p style="position: absolute;left: 50px;top: 60px">课程名称</p>
-                <p style="position: absolute;left: 400px;top: 60px">预约时间</p>
-                <p style="position: absolute;left: 700px;top: 60px;">预约地点</p>
-                <el-divider style="top: 60px"/>
-                <p style="position: absolute;top: 160px;left: 50px">联系人：</p>
-                <p style="position: absolute;left: 400px;top: 160px">手机号：</p>
-                <el-button style="position: absolute;left: 675px;top: 160px;">
-                  <el-icon><Reading /></el-icon>
-                </el-button>
+                </el-popover>
                 <el-popconfirm title="是否要删除?">
                   <template #reference>
                 <el-button style="position: absolute;left: 710px;top: 160px;">

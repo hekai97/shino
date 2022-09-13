@@ -307,11 +307,5 @@ export default {
   width: 0;
   height: 0;
 }
-#myChart{
-  width: 100%;
-  height: 500px;
-  margin: 0 auto;
-  margin-top: 5%;
-}
 
 </style>
