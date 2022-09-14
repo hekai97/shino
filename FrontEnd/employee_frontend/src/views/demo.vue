@@ -106,7 +106,6 @@ export default {
           })
 
         } else {
-          alert('失败')
           return false
         }
       })
