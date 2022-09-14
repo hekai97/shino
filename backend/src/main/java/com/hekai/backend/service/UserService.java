@@ -97,7 +97,7 @@ public interface UserService {
      * @param pageable 可分页
      * @return {@link ServerResponse}<{@link Page}<{@link EmployeeUser}>>
      */
-    ServerResponse<Page<EmployeeUser>> findEmployeeUserListPageable(Pageable pageable);
+    ServerResponse<Page<EmployeeUser>> findEmployeeUserListPageable(Pageable pageable,Integer storeId);
 
     /**
      * 创建员工用户

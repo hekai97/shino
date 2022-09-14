@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class ImagePathConfiguration implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/images/course/**").addResourceLocations("file:"+ ConstUtil.COURSE_IMAGE_PATH);
+        registry.addResourceHandler("/images/courses/**").addResourceLocations("file:"+ ConstUtil.COURSE_IMAGE_PATH);
         registry.addResourceHandler("/images/teachers/**").addResourceLocations("file:"+ ConstUtil.TEACHER_IMAGE_PATH);
         registry.addResourceHandler("/images/stores/**").addResourceLocations("file:"+ ConstUtil.STORE_IMAGE_PATH);
     }

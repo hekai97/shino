@@ -92,4 +92,6 @@ public interface CourseService {
     ServerResponse<List<CourseCategory>> getAllCourseCategory();
 
     ServerResponse<List<CourseDto>> getRandomCourse(int number);
+
+    ServerResponse<Page<CourseDto>> getCoursesPageableByStoreId(Pageable pageable, Integer storeId);
 }
