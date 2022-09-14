@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import firsthome from '../views/Home.vue'
 import Login from '../views/Login'
 import Deep from '../views/Deepanalysis'
+import Store from '../views/Store'
 const routes = [
   {
     path: '/',
@@ -28,6 +29,11 @@ const routes = [
     path:'/Deep',
     name:'Deep',
     component: Deep
+  },
+  {
+    path:'/Store',
+    name: 'Store',
+    component: Store
   }
 ]
 

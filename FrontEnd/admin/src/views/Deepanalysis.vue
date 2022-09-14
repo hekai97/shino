@@ -21,7 +21,7 @@
           <el-icon><Coin /></el-icon>
           <span style="margin-left: 3px">深度分析</span>
         </el-menu-item>
-        <el-menu-item index="1-1" v-if="pList.get(106)===true">
+        <el-menu-item index="1-1" v-if="pList.get(106)===true" @click="store">
           <el-icon><House /></el-icon>
           <span style="margin-left: 3px">门店管理</span>
         </el-menu-item>
@@ -202,32 +202,32 @@
             </div>
           </div>
           <div style="margin-top: 20px;height:80px;">
-            <div style="width: 190px;background-color: white;border-radius: 5px;height: 80px;display: inline-block;float: left;">
+            <div style="width: 15%;background-color: white;border-radius: 5px;height: 80px;display: inline-block;float: left;">
                 <div style="width:90px;line-height: 30px;font-size: 13px;height: 30px">注册用户</div>
                 <div style="width: 90px;font-size: 25px;margin-top: 5px">{{ResgistTotal}}人</div>
             </div>
 
-            <div style="width: 190px;background-color: white;border-radius: 5px;height: 80px;display: inline-block;float: left;margin-left: 22.5px">
+            <div style="width: 15%;background-color: white;border-radius: 5px;height: 80px;display: inline-block;float: left;margin-left: 2%">
               <div style="width:90px;line-height: 30px;font-size: 13px;height: 30px">下单用户</div>
               <div style="width: 90px;font-size: 25px;margin-top: 5px">{{BuyuserTotal}}人</div>
             </div>
 
-            <div style="width: 190px;background-color: white;border-radius: 5px;height: 80px;display: inline-block;float: left;margin-left: 22.5px">
+            <div style="width: 15%;background-color: white;border-radius: 5px;height: 80px;display: inline-block;float: left;margin-left: 2%">
               <div style="width:120px;line-height: 30px;font-size: 13px;height: 30px">用户下单转化率</div>
               <div style="width: 110px;font-size: 25px;margin-top: 5px;">{{((BuyuserTotal/ResgistTotal)*100).toFixed(2)}}%</div>
             </div>
 
-            <div style="width: 190px;background-color: white;border-radius: 5px;height: 80px;display: inline-block;float: left;margin-left: 22.5px">
+            <div style="width: 15%;background-color: white;border-radius: 5px;height: 80px;display: inline-block;float: left;margin-left: 2%">
               <div style="width:90px;line-height: 30px;font-size: 13px;height: 30px">购买用户数</div>
               <div style="width: 90px;font-size: 25px;margin-top: 5px">{{BuyuserTotal}}人</div>
             </div>
 
-            <div style="width: 190px;background-color: white;border-radius: 5px;height: 80px;display: inline-block;float: left;margin-left: 22.5px">
+            <div style="width: 15%;background-color: white;border-radius: 5px;height: 80px;display: inline-block;float: left;margin-left: 2%">
               <div style="width:90px;line-height: 30px;font-size: 13px;height: 30px">APPU值</div>
               <div style="width: 110px;font-size: 25px;margin-top: 5px">376.63</div>
             </div>
 
-            <div style="width: 190px;background-color: white;border-radius: 5px;height: 80px;display: inline-block;float: left;margin-left: 22.5px">
+            <div style="width: 15%;background-color: white;border-radius: 5px;height: 80px;display: inline-block;float: right;">
               <div style="width:90px;line-height: 30px;font-size: 13px;height: 30px">男女比例</div>
               <div style="width: 90px;font-size: 25px;margin-top: 5px">1:6</div>
             </div>
@@ -277,54 +277,15 @@ export default {
       dpList:[],
       ResgistTotal:'',
       BuyuserTotal:'',
+      LineChart:'',
       pList:new Map(),
-      LinechartsOption: {	// echarts选项，所有绘图数据和样式都在这里设置
-        legend: {	//图表上方的图例
-          data: ['腾讯', '阿里巴巴', '华为']
-        },
-        xAxis: {
-          type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],   // x轴数据
-          name: '日期',   // x轴名称
-          nameTextStyle: {	// x轴名称样式
-            fontWeight: 600,
-            fontSize: 18
-          }
-        },
-        yAxis: {
-          type: 'value',
-          name: '时间序列图',   // y轴名称
-          nameTextStyle: {	// y轴名称样式
-            fontWeight: 600,
-            fontSize: 18
-          }
-        },
-        tooltip: {   //鼠标放到图上的数据展示样式
-          trigger: 'axis'
-        },
-        series: [	//每条折线的数据系列
-          {
-            name: '腾讯',
-            data: [820, 932, 901, 934, 1290, 1330, 1320],
-            type: 'line'
-          },
-          {
-            name: '阿里巴巴',
-            data: [620, 711, 823, 934, 1445, 1456, 1178],
-            type: 'line'
-          },
-          {
-            name: '华为',
-            data: [612, 920, 1140, 1160, 1190, 1234, 1321],
-            type: 'line'
-          },
-        ],
-      }
     }
   },
   mounted () {
-    let LineChart = echarts.init(document.getElementById('LineChart'), 'light')	// 初始化echarts, theme为light
-    LineChart.setOption(this.LinechartsOption)	// echarts设置选项
+    this.LineChartsinitData();
+    this.drawLineCharts();
+    // let LineChart = echarts.init(document.getElementById('LineChart'), 'light')	// 初始化echarts, theme为light
+    // LineChart.setOption(this.LinechartsOption)	// echarts设置选项
     this.getAllresgitSum();
     this.getAllorderSum();
     axios({
@@ -386,6 +347,14 @@ export default {
         }, 500)
 
     },
+    store(){
+      router.push({
+        name:'Store',
+        query:{
+          adminname:aname,
+        }
+      })
+    },
     getAllresgitSum(){
       axios({
         method:'post',
@@ -406,8 +375,104 @@ export default {
         this.BuyuserTotal=res.data.data
       })
     },
-    drawLineCharts(){
+    async drawLineCharts(){
+      this.LineChart=echarts.init(document.getElementById("LineChart"))
+      this.LineChart.setOption({
+        legend: {	//图表上方的图例
+              data: ['下单用户', '注册用户', '购买用户']
+            },
+            xAxis: {
+              type: 'category',
+              data: [],   // x轴数据
+              name: '日期',   // x轴名称
+              nameTextStyle: {	// x轴名称样式
+                fontWeight: 600,
+                fontSize: 18
+              }
+            },
+            yAxis: {
+              type: 'value',
+              name: '时间序列图',   // y轴名称
+              nameTextStyle: {	// y轴名称样式
+                fontWeight: 600,
+                fontSize: 18
+              }
+            },
+            tooltip: {   //鼠标放到图上的数据展示样式
+              trigger: 'axis'
+            },
+            series: [	//每条折线的数据系列
+              {
+                name: '下单用户',
+                data: [],
+                type: 'line'
+              },
+              {
+                name: '注册用户',
+                data: [],
+                type: 'line'
+              },
+              {
+                name: '购买用户',
+                data: [],
+                type: 'line'
+              },
+            ],
+      })
+    },
+    async LineChartsinitData(){
+      const getTimedata=[];
+      const getorderCountdata=[];
+      const getregistCountdata=[];
+      await axios({
+        method:'get',
+        url:'/admin/user/getRegisterUserByDate',
+        params:{
+          days:7
+        }
+      }).then(res=>{
+        console.log(res.data.data);
+        for(let i=0;i<res.data.data.length;i++)
+        {
+          getTimedata[i]=res.data.data[res.data.data.length-1-i].time
+          getregistCountdata[i]=res.data.data[res.data.data.length-1-i].count
+        }
+      })
 
+      await axios({
+        method:'get',
+        url:'/admin/order/getOrderItemsByDate',
+        params:{
+          days:7
+        }
+      }).then(respone=>{
+        for(let i=0;i<respone.data.data.length;i++) {
+          getorderCountdata[i] = respone.data.data[respone.data.data.length-1-i].count
+        }
+      })
+      console.log(getregistCountdata);
+      this.LineChart.setOption({
+        xAxis: {
+          data:getTimedata
+        },
+        series: [	//每条折线的数据系列
+          {
+            name: '下单用户',
+            data: getorderCountdata,
+            type: 'line'
+          },
+          {
+            name: '注册用户',
+            data: getregistCountdata,
+            type: 'line'
+          },
+          {
+            name: '购买用户',
+            data: getorderCountdata,
+            type: 'line'
+          },
+        ]
+      })
     }
   }
 }
