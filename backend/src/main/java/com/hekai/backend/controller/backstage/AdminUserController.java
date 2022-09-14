@@ -133,19 +133,19 @@ public class AdminUserController {
     //////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * 得到员工用户列表可分页
+     * 分页得到员工用户列表
      *
      * @param httpSession http会话
      * @param pageable    可分页
      * @return {@link ServerResponse}<{@link Page}<{@link EmployeeUser}>>
      */
-    @RequestMapping(value = "/getEmployeeUserListPageable",method = RequestMethod.POST)
-    public ServerResponse<Page<EmployeeUser>> getEmployeeUserListPageable(HttpSession httpSession,@ParameterObject Pageable pageable){
+    @RequestMapping(value = "/getEmployeeUserPageableByStoreId",method = RequestMethod.POST)
+    public ServerResponse<Page<EmployeeUser>> getEmployeeUserListPageable(HttpSession httpSession,@ParameterObject Pageable pageable,@Parameter Integer storeId){
         EmployeeUser employeeUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
         if(employeeUser==null){
             return ServerResponse.createByErrorMessage("未登录！");
         }
-        return userService.findEmployeeUserListPageable(pageable);
+        return userService.findEmployeeUserListPageable(pageable,storeId);
     }
 
     /**
