@@ -107,6 +107,19 @@ public class CourseServiceImp implements CourseService {
         return ServerResponse.createRespBySuccess(courseCategoryRepository.findAll());
     }
 
+    @Override
+    public ServerResponse<List<CourseDto>> getRandomCourse(int number) {
+        List<Course> courseList=courseRepository.findAll();
+        List<CourseDto> res=new ArrayList<>();
+        for(int i=0;i<number;i++){
+            int index=(int)(Math.random()*courseList.size());
+            Course course=courseList.get(index);
+            CourseDto courseDto=courseToCourseDto(course);
+            res.add(courseDto);
+        }
+        return ServerResponse.createRespBySuccess(res);
+    }
+
 
     private List<CourseDto> courseListToCourseDtoList(List<Course> courses){
         List<CourseDto> courseDtos=new ArrayList<>();

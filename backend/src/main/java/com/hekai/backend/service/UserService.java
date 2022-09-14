@@ -1,11 +1,13 @@
 package com.hekai.backend.service;
 
 import com.hekai.backend.common.ServerResponse;
+import com.hekai.backend.dto.TimeAndCountDto;
 import com.hekai.backend.entity.EmployeeUser;
 import com.hekai.backend.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -149,5 +151,5 @@ public interface UserService {
      * @param days 天
      * @return {@link ServerResponse}<{@link Map}<{@link String}, {@link Integer}>>
      */
-    ServerResponse<Map<String, Integer>> getRegisterUserByDate(Integer days);
+    ServerResponse<List<TimeAndCountDto>> getRegisterUserByDate(Integer days);
 }

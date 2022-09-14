@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class AliPayConfig {
 
     // 应用ID,APPID,开发时是沙箱提供的APPID
-    private static final String baseUrl="http://localhost:8080/";
+    private static final String baseUrl="http://124.221.159.221:8080/";
     public static String APP_ID = "2021000120614325";
 
     // 商户私钥，之前所生成的密钥中的私钥

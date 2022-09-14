@@ -3,6 +3,7 @@ package com.hekai.backend.service;
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.OrderDetailDto;
 import com.hekai.backend.dto.OrderItemDto;
+import com.hekai.backend.dto.TimeAndCountDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -106,5 +107,5 @@ public interface OrderService {
      * @param day 一天
      * @return {@link ServerResponse}<{@link Map}<{@link String}, {@link Integer}>>
      */
-    ServerResponse<Map<String, Integer>> getOrderItemsByDate(int day);
+    ServerResponse<List<TimeAndCountDto>> getOrderItemsByDate(int day);
 }

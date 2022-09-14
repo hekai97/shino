@@ -37,7 +37,7 @@ public class ClientUserController {
      * @return {@link ServerResponse}<{@link User}>
      */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public ServerResponse<User> login(HttpSession httpSession,@Parameter String account,@Parameter String password){
+    public ServerResponse<User> login(HttpSession httpSession,@Parameter(description = "单个参数") String account,@Parameter(description = "单个参数") String password){
         System.out.println(account+" "+password);
         ServerResponse<User> response=userService.login(account,password);
         if(response.isSuccess()){
