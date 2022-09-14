@@ -1,6 +1,7 @@
 package com.hekai.backend.controller.backstage;
 
 import com.hekai.backend.common.ServerResponse;
+import com.hekai.backend.dto.TimeAndCountDto;
 import com.hekai.backend.entity.EmployeeUser;
 import com.hekai.backend.entity.User;
 import com.hekai.backend.service.UserService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -204,7 +206,7 @@ public class AdminUserController {
      */
     @Operation(summary = "获取过去几天注册的人数")
     @RequestMapping(value = "/getRegisterUserByDate",method = RequestMethod.GET)
-    public ServerResponse<Map<String,Integer>> getRegisterUserByDate(HttpSession httpSession, @Parameter(description = "这里传入过去几天，默认为7") @Nullable Integer days){
+    public ServerResponse<List<TimeAndCountDto>> getRegisterUserByDate(HttpSession httpSession, @Parameter(description = "这里传入过去几天，默认为7") @Nullable Integer days){
         EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
         if(curUser==null){
             return ServerResponse.createByErrorMessage("未登录！");

@@ -17,6 +17,7 @@ import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -195,5 +196,13 @@ public class ClientCourseController {
             return ServerResponse.createByErrorMessage("用户未登录");
         }
         return courseReservationService.cancelReservation(courseReservationId);
+    }
+
+    @RequestMapping(value = "/getRandomCourse",method = RequestMethod.GET)
+    public ServerResponse<List<CourseDto>> getRandomCourse(@Parameter(description = "默认为4") @Nullable Integer number){
+        if(number==null){
+            number=4;
+        }
+        return courseService.getRandomCourse(number);
     }
 }

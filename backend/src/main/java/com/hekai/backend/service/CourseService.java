@@ -91,4 +91,5 @@ public interface CourseService {
      */
     ServerResponse<List<CourseCategory>> getAllCourseCategory();
 
+    ServerResponse<List<CourseDto>> getRandomCourse(int number);
 }

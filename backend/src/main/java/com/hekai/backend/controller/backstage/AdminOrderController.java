@@ -3,6 +3,7 @@ package com.hekai.backend.controller.backstage;
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.OrderDetailDto;
 import com.hekai.backend.dto.OrderItemDto;
+import com.hekai.backend.dto.TimeAndCountDto;
 import com.hekai.backend.entity.EmployeeUser;
 import com.hekai.backend.service.OrderService;
 import com.hekai.backend.utils.ConstUtil;
@@ -127,7 +128,7 @@ public class AdminOrderController {
      */
     @Operation(summary = "按照时间获取过去七天每天的订单数量")
     @RequestMapping(value = "/getOrderItemsByDate",method = RequestMethod.GET)
-    public ServerResponse<Map<String,Integer>> getOrderItemsByDate(HttpSession httpSession,@Parameter(description = "可为空，默认为7") @Nullable Integer day){
+    public ServerResponse<List<TimeAndCountDto>> getOrderItemsByDate(HttpSession httpSession, @Parameter(description = "可为空，默认为7") @Nullable Integer day){
         EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
         if(curUser==null){
             return ServerResponse.createByErrorMessage("未登录！");
