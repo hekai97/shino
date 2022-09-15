@@ -57,7 +57,7 @@
           </el-icon>
           <span style="margin-left: 3px">学员管理</span>
         </el-menu-item>
-        <el-menu-item index="1-5" style="border-bottom: 1px solid white" v-if="pList.get(107)===true">
+        <el-menu-item index="1-5" style="border-bottom: 1px solid white" v-if="pList.get(107)===true" @click="OrMange">
           <el-icon>
             <Files/>
           </el-icon>
@@ -89,9 +89,9 @@
         </el-menu-item>
       </el-menu>
       <el-container>
-        <el-header class="head">
-          <div style="display: table-cell;">
-            <div style="display: inline-block;float: left;vertical-align: middle;margin-top: 10px">
+        <el-header class="head" style="border: 1px solid blue">
+          <div style="display: table-cell;border: 1px solid red;width: 100%">
+            <div style="border:1px solid black;vertical-align: middle;margin-top: 10px;width: 100%">
               <el-popover
                   placement="bottom-start"
                   trigger="hover"
@@ -128,7 +128,7 @@
               <el-input
                   v-model="inputSearch"
                   placeholder="Search Something"
-                  style="width: 350px;margin-left: 20px;"
+                  style="width: 15%;margin-left: 20px;"
                   size="small"
               />
               <el-popover
@@ -481,7 +481,7 @@ export default {
     loginout() {
       axios({
         method: 'post',
-        url: 'http://10.20.44.236/admin/user/logout',
+        url: '/admin/user/logout',
       }).then(response => {
         // alert(response.data.message)
         if (response.data.status === 0) {
@@ -511,6 +511,14 @@ export default {
     store(){
       router.push({
         name: 'Store',
+        query: {
+          adminname: aname,
+        }
+      })
+    },
+    OrMange(){
+      router.push({
+        name:'OrMange',
         query: {
           adminname: aname,
         }

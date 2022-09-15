@@ -4,15 +4,15 @@
     <div class="log">
       <el-form class="logmain" ref="form" :model="form" :rules="rules">
         <p class="login" >登录</p>
-        <el-form-item prop="inputuser">
-          <el-input v-model="form.inputuser" class="user" placeholder="请输入用户名">
+        <el-form-item prop="account">
+          <el-input v-model="form.account" class="user" placeholder="请输入用户名">
             <template #prefix>
               <el-icon class="el-input__icon"><User /></el-icon>
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item prop="inputpwd">
-          <el-input class="pwd" show-password type="password" v-model="form.inputpwd" placeholder="请输入密码">
+        <el-form-item prop="password">
+          <el-input class="pwd" show-password type="password" v-model="form.password" placeholder="请输入密码">
           <template #prefix>
             <el-icon class="el-input__icon"><Lock /></el-icon>
           </template>
@@ -38,11 +38,15 @@
 <script>
 import { ElLoading } from 'element-plus'
 // import API from "@/plugins/axiosInstance";
+import axios from 'axios'
 import {
   User,
   Lock,
   CircleCheck
 } from '@element-plus/icons-vue'
+import router from "@/router";
+
+const {ElMessage} = require("element-plus");
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Mydemo',
@@ -54,15 +58,15 @@ export default {
   data () {
     return {
       form: {
-        inputuser: '',
-        inputpwd: ''
+        account: '',
+        password: ''
         // inputyzm:'',
       },
       rules: {
-        inputuser: [
+        account: [
           { required: true, message: '用户名不能为空', trigger: 'blur' }
         ],
-        inputpwd: [
+        password: [
           { required: true, message: '密码不能为空', trigger: 'blur' }
         ]
         // inputyzm:[
@@ -75,15 +79,32 @@ export default {
     OnSubmit (form) {
       this.$refs[form].validate((valid) => {
         if (valid) {
-          // alert("111")
-          const loading = ElLoading.service({
-            lock: true,
-            text: 'Loading',
-            background: 'rgba(0, 0, 0, 0.7)'
+          axios({
+            method:'post',
+            url:'/employee/user/login',
+            params:{
+              account:this.form.account,
+              password:this.form.password
+            }
+          }).then(res=>{
+            if(res.data.status===0){
+              const loading = ElLoading.service({
+                  lock: true,
+                  text: 'Loading',
+                  background: 'rgba(0, 0, 0, 0.7)'
+                })
+                setTimeout(() => {
+                  loading.close()
+                  ElMessage("登录成功")
+                  router.push({
+                    name:"home"
+                  })
+                }, 2000)
+            }else {
+              ElMessage(res.data.message)
+            }
           })
-          setTimeout(() => {
-            loading.close()
-          }, 2000)
+
         } else {
           alert('失败')
           return false

@@ -4,7 +4,8 @@
 <!--    <router-link to="/about">About</router-link>-->
 <!--  </nav>-->
 <!--  <router-view/>-->
-  <myHome/><mybook/><mydemo/>
+<!--  <myHome/><mybook/><mydemo/>-->
+  <router-view/>
 </template>
 
 <style>

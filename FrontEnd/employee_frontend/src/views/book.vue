@@ -7,14 +7,14 @@
             active-color="#ffd04b"
             background-color="#7ab8cc"
             class="el-menu-vertical"
-            default-active="2"
+            default-active="0-2-1"
             text-color="#fff"
             :collapse="isCollapse"
         >
           <el-menu-item index="0-0" disabled>
             <span style="color: white;font-size: 17px"><h3>员工操作平台</h3></span>
           </el-menu-item>
-          <el-menu-item index="0-1">
+          <el-menu-item index="0-1" @click="home">
             <el-icon><IceCream /></el-icon>
             <span style="margin-left: 3px">店铺经营状况</span>
           </el-menu-item>
@@ -25,7 +25,7 @@
               <span style="margin-left: 3px">排课</span>
             </template>
             <el-menu-item index="0-2-1" style="margin-left: 30px">预约</el-menu-item>
-            <el-menu-item index="0-2-2" style="margin-left: 30px">排课</el-menu-item>
+            <el-menu-item index="0-2-2" style="margin-left: 30px" @click="schedule">排课</el-menu-item>
           </el-sub-menu>
 
           <el-menu-item index="1-1">
@@ -162,9 +162,10 @@
                   trigger="hover"
                   content="排课">
                   <template #reference>
-                <el-button style="position: absolute;left: 675px;top: 160px;">
+                <el-button @click="handleClick" style="position: absolute;left: 675px;top: 160px;">
                   <el-icon><Reading /></el-icon>
                 </el-button>
+                    <dialog-component v-if="Visiable" ref="dialog"></dialog-component>
                   </template>
                 </el-popover>
                 <el-popconfirm title="是否要删除?">
@@ -196,7 +197,6 @@ import {
   DArrowRight,
   InfoFilled,
   Fold,
-  ChromeFilled,
   Refresh,
   Bell,
   Help,
@@ -206,8 +206,8 @@ import {
   DeleteFilled,
   Reading
 } from '@element-plus/icons'
-
-const {ref} = require("vue");
+import router from "@/router";
+import dialogComponent from "./dialogComponent.vue";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'mybook',
@@ -224,7 +224,6 @@ export default {
     DArrowRight,
     InfoFilled,
     Fold,
-    ChromeFilled,
     Refresh,
     Bell,
     Help,
@@ -232,15 +231,37 @@ export default {
     Sort,
     Delete,
     DeleteFilled,
-    Reading
+    Reading,
+    dialogComponent
   },
   data () {
     return {
-      isCollapse: true
+      isCollapse: false,
+      Visiable:false
     }
+  },
+  methods:{
+    home(){
+      router.push({
+        name:"home"
+      })
+    },
+    schedule(){
+      router.push({
+        name:"schedule"
+      })
+    },
+    handleClick(data){
+      this.Visiable=true;
+      this.$nextTick(()=>{
+        //这里的dialog与上面dialog-component组件里面的ref属性值是一致的
+        //init调用的是dialog-component组件里面的init方法
+        //data是传递给弹窗页面的值
+        this.$refs.dialog.init(data);
+      })
+    },
   }
 }
-let centerDialogVisible = ref(false)
 </script>
 
 <style scoped>
