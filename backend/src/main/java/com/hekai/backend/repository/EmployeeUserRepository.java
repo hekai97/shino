@@ -12,4 +12,5 @@ public interface EmployeeUserRepository extends JpaRepository<EmployeeUser, Inte
     EmployeeUser findEmployeeUserByNumber(String number);
 
     Page<EmployeeUser> findEmployeeUsersByRoleIdNot(Pageable pageable, Integer roleId);
+    Page<EmployeeUser> findEmployeeUsersByStoreIdAndRoleIdNot(Pageable pageable, Integer storeId, Integer roleId);
 }

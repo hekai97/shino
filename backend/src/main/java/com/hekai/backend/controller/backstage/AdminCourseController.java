@@ -73,6 +73,14 @@ public class AdminCourseController {
         return courseService.getCoursesPageableByCategoryId(pageable,categoryId);
     }
 
+    @RequestMapping(value = "/getCoursesPageableByStoreId",method = RequestMethod.GET)
+public ServerResponse<Page<CourseDto>> getCoursesPageableByStoreId(HttpSession httpSession,@ParameterObject Pageable pageable,@Parameter Integer storeId){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return courseService.getCoursesPageableByStoreId(pageable,storeId);
+    }
     /**
      * 获得课程列表
      *
@@ -145,17 +153,6 @@ public class AdminCourseController {
     @RequestMapping(value = "/uploadCourseImage",method = RequestMethod.POST)
     public ServerResponse<String> uploadCourseImage(@RequestBody MultipartFile image){
         return CommonFunction.uploadImage(image,ConstUtil.COURSE_IMAGE_PATH);
-    }
-
-    /**
-     * 上传存储图像
-     *
-     * @param image 图像
-     * @return {@link ServerResponse}<{@link String}>
-     */
-    @RequestMapping(value = "/uploadStoreImage",method = RequestMethod.POST)
-    public ServerResponse<String> uploadStoreImage(@RequestBody MultipartFile image){
-        return CommonFunction.uploadImage(image,ConstUtil.STORE_IMAGE_PATH);
     }
 
     /**

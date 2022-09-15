@@ -25,7 +25,7 @@
           </el-icon>
           <span style="margin-left: 3px">深度分析</span>
         </el-menu-item>
-        <el-menu-item index="1-1" v-if="pList.get(106)===true">
+        <el-menu-item index="1-1" v-if="pList.get(106)===true" @click="store">
           <el-icon>
             <House/>
           </el-icon>
@@ -243,9 +243,8 @@
               </el-button>
             </div>
           </div>
-          <div style="margin-top: 20px;">
-            <div
-                style="width: 300px;background-color: white;border-radius: 5px;height: 120px;display: inline-block;float: left;">
+          <div style="margin-top: 20px;height:120px">
+            <div style="width: 24%;background-color: white;border-radius: 5px;height: 120px;display: inline-block;float: left;">
               <div style="width: 100px;font-size: 13px;height: 30px;line-height: 30px">销售金额</div>
               <div style="font-size: 30px;width: 130px;font-weight:bold;margin-top: 15px">{{this.tbedfit}}</div>
               <div style="margin-top: 15px">
@@ -258,8 +257,7 @@
               </div>
             </div>
 
-            <div
-                style="width: 300px;background-color: white;border-radius: 5px;height: 120px;display: inline-block;margin-left: 15px">
+            <div style="width: 24%;background-color: white;border-radius: 5px;height: 120px;display: inline-block;float: left;margin-left: 1.3%">
               <div style="width: 100px;font-size: 13px;height: 30px;line-height: 30px">实际订单量</div>
               <div style="font-size: 30px;width:130px;font-weight:bold;margin-top: 15px;text-align: left;margin-left: 17px">
                 {{this.torder}}
@@ -275,7 +273,7 @@
             </div>
 
             <div
-                style="width: 300px;background-color: white;border-radius: 5px;height: 120px;display: inline-block;margin-left: 17px">
+                style="width: 24%;background-color: white;border-radius: 5px;height: 120px;display: inline-block;float: left;margin-left: 1.3%">
               <div style="width: 100px;font-size: 13px;height: 30px;line-height: 30px">次均消费</div>
               <div style="font-size: 30px;width: 150px;font-weight:bold;margin-top: 15px">{{(tbedfit/torderuser).toFixed(2)}}</div>
               <div style="margin-top: 15px">
@@ -289,7 +287,7 @@
             </div>
 
             <div
-                style="width: 300px;background-color: white;border-radius: 5px;height: 120px;display: inline-block;margin-left: 17px">
+                style="width: 24%;background-color: white;border-radius: 5px;height: 120px;display: inline-block;float: right">
               <div style="width: 100px;font-size: 13px;height: 30px;line-height: 30px">平均销售额</div>
               <div style="font-size: 30px;width: 150px;font-weight:bold;margin-top: 15px">{{(tbedfit/tstoresum).toFixed(2)}}</div>
               <div style="margin-top: 15px">
@@ -509,6 +507,14 @@ export default {
           }
         })
       }, 500)
+    },
+    store(){
+      router.push({
+        name: 'Store',
+        query: {
+          adminname: aname,
+        }
+      })
     },
     drawBarChart(){          //获取课程分类下的课程数--柱形图
       this.BarChart=echarts.init(document.getElementById("BarChart"))

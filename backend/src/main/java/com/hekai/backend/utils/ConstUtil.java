@@ -9,7 +9,7 @@ public class ConstUtil {
     public static final Integer ADMIN_ROLE=1;
     public static final Integer EMPLOYEE_ROLE=2;
 
-    public static final String IMAGE_ROOT_PATH="/home/hekai/images/";
+    public static final String IMAGE_ROOT_PATH="/home/ubuntu/images/";
     public static final String TEACHER_IMAGE_PATH=IMAGE_ROOT_PATH+"teachers/";
     public static final String COURSE_IMAGE_PATH=IMAGE_ROOT_PATH+"courses/";
     public static final String STORE_IMAGE_PATH=IMAGE_ROOT_PATH+"stores/";

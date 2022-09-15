@@ -3,6 +3,7 @@ package com.hekai.backend.service.imp;
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.OrderDetailDto;
 import com.hekai.backend.dto.OrderItemDto;
+import com.hekai.backend.dto.TimeAndCountDto;
 import com.hekai.backend.entity.*;
 import com.hekai.backend.repository.*;
 import com.hekai.backend.service.OrderService;
@@ -179,18 +180,20 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public ServerResponse<Map<String, Integer>> getOrderItemsByDate(int day) {
-        Map<String,Integer> map=new HashMap<>();
+    public ServerResponse<List<TimeAndCountDto>> getOrderItemsByDate(int day) {
         Date now=new Date();
+        List<TimeAndCountDto> timeAndCountDtoList=new ArrayList<>();
         for(int i=0;i<day;++i){
             Date date=DateUtils.addDays(now,-i);
             Date start=DateUtils.truncate(date,Calendar.DATE);
             Date end=DateUtils.addMilliseconds(DateUtils.ceiling(date,Calendar.DATE),-1);
-
             int count=orderItemRepository.findPaidOrderByStatusIsNotAndPayTimeBetween(ConstUtil.OrderStatus.UNPAID, DateFormatUtil.formatDate(start),DateFormatUtil.formatDate(end));
-            map.put(DateFormatUtil.formatDate(date),count);
+            TimeAndCountDto timeAndCountDto=new TimeAndCountDto();
+            timeAndCountDto.setTime(DateFormatUtil.formatDate(date));
+            timeAndCountDto.setCount(count);
+            timeAndCountDtoList.add(timeAndCountDto);
         }
-        return ServerResponse.createRespBySuccess(map);
+        return ServerResponse.createRespBySuccess(timeAndCountDtoList);
     }
 
 

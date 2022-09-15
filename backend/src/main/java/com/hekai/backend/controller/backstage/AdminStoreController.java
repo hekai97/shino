@@ -5,9 +5,11 @@ import com.hekai.backend.dto.StoreDto;
 import com.hekai.backend.entity.EmployeeUser;
 import com.hekai.backend.entity.Store;
 import com.hekai.backend.service.StoreService;
+import com.hekai.backend.utils.CommonFunction;
 import com.hekai.backend.utils.ConstUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -80,6 +82,11 @@ public class AdminStoreController {
             return ServerResponse.createByErrorMessage("未登录！");
         }
         return storeService.deleteStore(storeId);
+    }
+
+    @RequestMapping(value = "/uploadStoreImage",method = RequestMethod.POST)
+    public ServerResponse<String> uploadTeacherImage(@RequestBody MultipartFile image){
+        return CommonFunction.uploadImage(image,ConstUtil.STORE_IMAGE_PATH);
     }
 
 }
