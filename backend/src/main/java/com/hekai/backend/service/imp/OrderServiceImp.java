@@ -59,8 +59,8 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public ServerResponse<List<OrderItemDto>> getUserOrderList(Integer id) {
-        List<OrderItem> orderItemList=orderItemRepository.findOrderItemsByUserId(id);
+    public ServerResponse<List<OrderItemDto>> getUserUnPaidOrderList(Integer id) {
+        List<OrderItem> orderItemList=orderItemRepository.findOrderItemsByUserIdAndAndStatusIsNot(id,ConstUtil.OrderStatus.UNPAID);
         List<OrderItemDto> orderItemDtoList=orderItemListToOrderItemDtoList(orderItemList);
         return ServerResponse.createRespBySuccess(orderItemDtoList);
     }
@@ -194,6 +194,23 @@ public class OrderServiceImp implements OrderService {
             timeAndCountDtoList.add(timeAndCountDto);
         }
         return ServerResponse.createRespBySuccess(timeAndCountDtoList);
+    }
+
+    @Override
+    public ServerResponse<List<OrderItemDto>> getUserPaidOrderList(int id) {
+        List<Integer> orderStatus=new ArrayList<>();
+        orderStatus.add(ConstUtil.OrderStatus.PAID);
+        orderStatus.add(ConstUtil.OrderStatus.CLOSED);
+        List<OrderItem> orderItemList=orderItemRepository.findOrderItemsByUserIdAndStatusIn(id,orderStatus);
+        List<OrderItemDto> orderItemDtoList=orderItemListToOrderItemDtoList(orderItemList);
+        return ServerResponse.createRespBySuccess(orderItemDtoList);
+    }
+
+    @Override
+    public ServerResponse<List<OrderItemDto>> getAfterSaleOrderList(int id) {
+        List<OrderItem> orderItemList=orderItemRepository.findOrderItemsByUserIdAndStatus(id,ConstUtil.OrderStatus.AFTER_SALE);
+        List<OrderItemDto> orderItemDtoList=orderItemListToOrderItemDtoList(orderItemList);
+        return ServerResponse.createRespBySuccess(orderItemDtoList);
     }
 
 

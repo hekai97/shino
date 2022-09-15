@@ -40,7 +40,7 @@ public interface OrderService {
      * @param id id
      * @return {@link ServerResponse}<{@link List}<{@link OrderItemDto}>>
      */
-    ServerResponse<List<OrderItemDto>> getUserOrderList(Integer id);
+    ServerResponse<List<OrderItemDto>> getUserUnPaidOrderList(Integer id);
 
     /**
      * 让用户通过订单号订单详细信息
@@ -108,4 +108,8 @@ public interface OrderService {
      * @return {@link ServerResponse}<{@link Map}<{@link String}, {@link Integer}>>
      */
     ServerResponse<List<TimeAndCountDto>> getOrderItemsByDate(int day);
+
+    ServerResponse<List<OrderItemDto>> getUserPaidOrderList(int id);
+
+    ServerResponse<List<OrderItemDto>> getAfterSaleOrderList(int id);
 }

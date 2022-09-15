@@ -94,7 +94,7 @@ public class AdminTeacherController {
         if (employeeUser == null) {
             return ServerResponse.createByErrorMessage("未登录！");
         }
-        return teacherService.save(teacher);
+        return teacherService.save(employeeUser,teacher);
     }
 
     /**

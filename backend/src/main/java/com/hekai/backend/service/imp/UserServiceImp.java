@@ -153,7 +153,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public ServerResponse<Page<EmployeeUser>> findEmployeeUserListPageable(Pageable pageable,Integer storeId) {
-        Page<EmployeeUser> employeeUsers=employeeUserRepository.findEmployeeUsersByStoreIdAndRoleIdNot(pageable,storeId, ConstUtil.ADMIN_ROLE);
+        Page<EmployeeUser> employeeUsers=employeeUserRepository.findEmployeeUsersByStoreIdAndRoleIdNot(pageable,storeId, ConstUtil.SUPER_ADMIN_ROLE);
         return ServerResponse.createRespBySuccess(employeeUsers);
     }
 
@@ -238,5 +238,14 @@ public class UserServiceImp implements UserService {
             list.add(timeAndCountDto);
         }
         return ServerResponse.createRespBySuccess(list);
+    }
+
+    @Override
+    public ServerResponse<Page<EmployeeUser>> findOnlyEmployeeUserPageableByStoreId(Pageable pageable, Integer storeId) {
+        List<Integer> roleList=new ArrayList<>();
+        roleList.add(ConstUtil.EMPLOYEE_ROLE);
+        roleList.add(ConstUtil.FINANCIAL_DIRECTOR);
+        Page<EmployeeUser> employeeUsers=employeeUserRepository.findEmployeeUsersByStoreIdAndRoleIdIn(pageable,storeId,roleList);
+        return ServerResponse.createRespBySuccess(employeeUsers);
     }
 }

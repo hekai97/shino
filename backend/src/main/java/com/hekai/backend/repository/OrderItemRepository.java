@@ -14,6 +14,7 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Integer> {
     OrderItem findOrderItemByOrderNumber(String orderNumber);
 
     List<OrderItem> findOrderItemsByUserId(Integer id);
+    List<OrderItem> findOrderItemsByUserIdAndAndStatusIsNot(Integer id, Integer status);
 
     OrderItem findOrderItemById(Integer id);
 
@@ -26,4 +27,8 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Integer> {
     Integer findAllPaidUserByStatusIsNot(Integer status);
     @Query(value = "select count(*) from order_item where status=?1 and pay_time between ?2 and ?3", nativeQuery = true)
     Integer findPaidOrderByStatusIsNotAndPayTimeBetween(Integer unpaid, String start, String end);
+
+    List<OrderItem> findOrderItemsByUserIdAndStatusIn(Integer id, List<Integer> orderStatus);
+
+    List<OrderItem> findOrderItemsByUserIdAndStatus(Integer id, Integer afterSale);
 }
