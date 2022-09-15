@@ -45,7 +45,7 @@
           <el-menu-item index="1-2-5" style="margin-left: 15px">配置课程</el-menu-item>
           <el-menu-item index="1-2-6" style="margin-left: 15px">课程追踪</el-menu-item>
         </el-sub-menu>
-        <el-menu-item index="1-3" v-if="pList.get(104)===true">
+        <el-menu-item index="1-3" v-if="pList.get(104)===true" @click="teacher">
           <el-icon>
             <User/>
           </el-icon>
@@ -514,6 +514,11 @@ export default {
         query: {
           adminname: aname,
         }
+      })
+    },
+    teacher(){
+      router.push({
+        name:'teacher'
       })
     },
     drawBarChart(){          //获取课程分类下的课程数--柱形图

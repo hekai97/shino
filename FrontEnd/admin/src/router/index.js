@@ -4,6 +4,7 @@ import firsthome from '../views/Home.vue'
 import Login from '../views/Login'
 import Deep from '../views/Deepanalysis'
 import Store from '../views/Store'
+import teacher from "@/views/teacher";
 const routes = [
   {
     path: '/',
@@ -34,6 +35,11 @@ const routes = [
     path:'/Store',
     name: 'Store',
     component: Store
+  },
+  {
+    path: '/teacher',
+    name: 'teacher',
+    component: teacher
   }
 ]
 
