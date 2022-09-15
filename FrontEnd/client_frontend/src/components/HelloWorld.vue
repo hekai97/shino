@@ -71,6 +71,7 @@
 </template>
 <script>
 import "../styles/index.css"
+import sha from "js-sha3"
 export default {
   data() {
     var check = (rule, value, callback) => {
