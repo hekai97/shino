@@ -73,7 +73,31 @@
 import "../styles/index.css"
 export default {
   data() {
-    return {
+    var check = (rule, value, callback) => {
+      if(value !== this.reform.password){
+        callback(new Error('两次输入密码不一致!'));
+      }
+      else {
+        callback();
+      }
+    }
+    const checkPhone = (rule, value, callback) => {
+      const reg = /^1(3|4|5|6|7|8|9)\d{9}$/
+      if (reg.test(value)) {
+        callback()
+      } else {
+        callback(new Error('手机号码格式有误'))
+      }
+    }
+    const checkEmail = (rule, value, callback) => {
+      const reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/
+      if (reg.test(value)) {
+        callback()
+      } else {
+        callback(new Error('邮箱格式错误'))
+      }
+    }
+    return{
       agree:false,
       form:{
         account:'',
@@ -101,10 +125,12 @@ export default {
           {required:true,message:'用户名不能为空，请输入用户名！',trigger:'blur'}
         ],
         email:[
-          {required:true,message:'邮箱不能为空，请输入邮箱！',trigger:'blur'}
+          {required:true,message:'邮箱不能为空，请输入邮箱！',trigger:'blur'},
+          {validator:checkEmail,trigger:'blur' }
         ],
         phoneNumber:[
-          {required:true,message:'手机号码不能为空，请输入手机号码！',trigger:'blur'}
+          {required:true,message:'手机号码不能为空，请输入手机号码！',trigger:'blur'},
+          {validator:checkPhone,trigger: 'blur'}
         ],
         sex:[
           {required:true,message:'性别不能为空，请选择性别！',trigger:['blur','change']}
@@ -113,13 +139,13 @@ export default {
           {required:true,message:'密码不能为空，请输入密码！',trigger:'blur'}
         ],
         repassword:[
-          {required:true,message:'请输入密码！',trigger:'blur'}
+          {required:true,message:'请输入密码！',trigger:'blur'},
+          {validator: check, trigger: 'blur'}
         ]
       }
     }
   },
   methods:{
-
     login(){
       this.$refs.form.validate((valid) => {
         if(valid){
@@ -130,13 +156,17 @@ export default {
               type: 'warning'
             }).then(()=>{
               this.agree = true
+              const my_params=new FormData();
+              my_params.set("account",this.form.account)
+              my_params.set("password",sha(this.form.password))
+              console.log(this.form.account)
+              console.log(my_params)
               this.$axios({
                 method : "post",
-                data : this.form,
-                url:'http://43.143.167.8:8080'+'/student/login'
+                data : my_params,
+                url:'/student/login'
               }).then((res)=>{
-                console.log(res.data)
-                if(data){
+                if(res.data.status == 0){
                   alert("登录成功！")
                   this.$router.push("/index")
                 }
@@ -144,13 +174,16 @@ export default {
             })
           }
           else {
+            const my_params=new FormData();
+            my_params.set("account",this.form.account)
+            my_params.set("password",sha(this.form.password))
             this.$axios({
               method : "post",
-              data : this.form,
-              url:'http://43.143.167.8:8080'+'/student/login'
+              data :my_params,
+              url:'/student/login'
             }).then((res)=>{
-              console.log(res.data)
-              if(data){
+              if(res.data.status == 0){
+                console.log(res.data.status)
                 alert('登录成功！')
                 this.$router.push("/index")
               }
@@ -162,6 +195,9 @@ export default {
     },
     register(){
       this.$refs.reform.validate((valid) => {
+        //加密
+        this.reform.password=sha(this.reform.password)
+        console.log(this.reform.password)
         if(valid){
           if(this.reagree == false){
             this.$confirm('您是否已仔细阅读并同意用户条款及协议？','提示',{
@@ -173,10 +209,10 @@ export default {
               this.$axios({
                 method : "post",
                 data : this.reform,
-                url:'http://43.143.167.8:8080'+'/student/register'
+                url:'/student/register'
               }).then((res)=>{
-                console.log(res.data)
-                if(data)
+                console.log(res.data.message)
+                if(res.data.status == 0)
                 {
                   alert('注册成功！')
                   this.$router.push("/index")
@@ -188,10 +224,10 @@ export default {
             this.$axios({
               method : "post",
               data : this.reform,
-              url:'http://43.143.167.8:8080'+'/student/register'
+              url:'/student/register'
             }).then((res)=>{
-              console.log(res.data)
-              if(data){
+              console.log(res.data.message)
+              if(res.data.status == 0){
                 alert('注册成功！')
                 this.$router.push("/index")
               }

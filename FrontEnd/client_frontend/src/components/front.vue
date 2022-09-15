@@ -7,35 +7,39 @@
         </el-carousel-item>
       </el-carousel>
     </div>
+    <h1>优惠活动</h1>
     <div class="mid">
-      <h1>优惠活动</h1>
-      <div class="img0"></div>
-      <div class="img1"></div>
-      <div class="img2"></div>
-      <div class="img3"></div>
+      <div class="activity">
+        <div class="img0" v-for="(item,index) in activityList" :key="index">
+          <img :src="baseUrl + item.pictureUrl" width="200px" height="200px">
+        </div>
+      </div>
     </div>
+    <h1>课程展示</h1>
     <div class="bottom">
-      <h1>课程展示</h1>
-      <div class="img4"></div>
-      <div class="img5"></div>
-      <div class="img6"></div>
-      <div class="img7"></div>
+      <div class="course">
+        <div class="img4" v-for="(item,index) in courseList" :key="index" @click="goCourse">
+          <img v-bind:src="baseUrl+item.pictureUrl" width="200px" height="200px">
+        </div>
+      </div>
     </div>
     <div class="end">
       <h1>店铺展示</h1>
-      <div class="out">
-        <div class="son"></div>
-        <div class="son"></div>
-        <div class="son"></div>
-        <div class="son"></div>
+      <div class="out" v-for="(item,index) in storeList" :key="index">
+        <div class="son">
+          <img v-bind:src="baseUrl+item.pictureUrl" width="250px" height="200px">
+        </div>
       </div>
     </div>
     <div class="footer">
       <h1 class="title">五百多家连锁店遍布全国，快来联系我们学习吧！</h1>
+      <el-button>了解更多-></el-button>
     </div>
   </div>
 </template>
 <script>
+  import axios from "axios";
+
   export default {
     data(){
       return{
@@ -43,6 +47,75 @@
           {id:0,url:require('../assets/6ad79cc7fea95496c878c6ab112e6ea7.jpeg')},
           {id:1,url:require('../assets/491c2f52033045633864a5ec2c1eba9b.jpeg' )}
         ],
+        storeList:[],
+        CategoryList:[],
+        courseList:[],
+        activityList:[],
+        baseUrl:axios.defaults.baseURL,
+      }
+    },
+    mounted() {
+      this.getStore()
+      this.getCategory()
+      this.getCourse()
+      this.getActivity()
+    },
+    methods:{
+      goCourse(){
+        this.$router.push({
+          path:'/course',
+        })
+      },
+      godetail(item){
+        this.$router.push({
+          path:'',
+          query: {
+
+          }
+        })
+        console.log(item.id)
+      },
+      getStore(){
+        this.$axios({
+          method:'get',
+          url:'/course/getStoreList'
+        }).then((res)=>{
+          this.storeList = res.data.data.slice(0,4)
+          console.log(this.storeList)
+        })
+      },
+      getCategory(){
+        this.$axios({
+          method:'get',
+          url:'/course/getAllCourseCategory'
+        }).then((res)=>{
+          this.CategoryList = res.data.data
+          console.log(this.CategoryList)
+        })
+      },
+      getCourse(){
+        this.$axios({
+          method:'get',
+          url:'/course/getRandomCourse',
+          params:{
+            number:6
+          }
+        }).then((res)=>{
+          this.courseList = res.data.data
+          console.log(this.courseList)
+        })
+      },
+      getActivity(){
+        this.$axios({
+          method:'get',
+          url:'/course/getRandomCourse',
+          params:{
+            number:4
+          }
+        }).then((res)=>{
+          this.activityList = res.data.data
+          console.log(this.activityList)
+        })
       }
     }
   }
@@ -53,79 +126,51 @@
     padding-top: 50px;
     color: white;
   }
+  .activity{
+    width: 80%;
+    margin: auto;
+  }
   .mid{
     width: 100%;
+    display: flex;
   }
   .end{
     width: 100%;
     color: white;
-    padding-top: 150px;
-    background-color: rgba(0,0,0,0.8);
-    height: 400px;
+    padding-top: 10px;
+    background-color: rgba(0,0,0,0.9);
+    height: 350px;
   }
   .img0{
     width: 25%;
-    background-color: red;
     float: left;
-    height: 150px;
-  }
-  .img1{
-    width: 25%;
-    background-color: orangered;
-    float: left;
-    height: 150px;
-  }
-  .img2{
-    width: 25%;
-    background-color: yellow;
-    float: left;
-    height: 150px;
-  }
-  .img3{
-    width: 25%;
-    background-color: green;
-    float: left;
-    height: 150px;
+    height: 200px;
   }
   .img4{
-    width: 25%;
-    background-color: cornflowerblue;
+    width: 200px;
     float: left;
-    height: 150px;
-  }
-  .img5{
-    width: 25%;
-    background-color: palevioletred;
-    float: left;
-    height: 150px;
-  }
-  .img6{
-    width: 25%;
-    background-color: lightseagreen;
-    float: left;
-    height: 150px;
-  }
-  .img7{
-    width: 25%;
-    background-color: rosybrown;
-    float: left;
-    height: 150px;
+    height: 200px;
+    margin: auto;
   }
   .out{
     margin-left: 10%;
   }
   .son{
-    border: solid white 1px;
     width: 20%;
     height: 200px;
     float: left;
   }
   .bottom{
-    margin-top: 200px;
+    display: flex;
+    margin-bottom: 20px;
+  }
+  .course{
+    width: 100%;
+    margin: auto;
   }
   .footer{
     width: 100%;
     height: 150px;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0,0,0,0.75);
   }
 </style>

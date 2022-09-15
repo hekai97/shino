@@ -10,10 +10,9 @@
           @select="handleSelect">
           <el-menu-item index="/front">网站首页</el-menu-item>
           <el-menu-item index="/course">课程展示</el-menu-item>
-          <el-menu-item index="3">店铺展示</el-menu-item>
-          <el-menu-item index="5"><a href="https://www.ele.me" target="_blank">新闻资讯</a></el-menu-item>
-          <el-menu-item index="6">关于我们</el-menu-item>
-          <el-menu-item index="7">个人中心</el-menu-item>
+          <el-menu-item index="/store">店铺展示</el-menu-item>
+          <el-menu-item index="/news">新闻资讯</el-menu-item>
+          <el-menu-item index="/person">个人中心</el-menu-item>
         </el-menu>
       </div>
     </el-header>
