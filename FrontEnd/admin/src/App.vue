@@ -17,7 +17,7 @@
 <!--    <router-link to="/about">About</router-link>-->
 <!--  </nav>-->
 <!--      <router-view/>-->
-<!--  <myHome/>-->
+<!--<myHome/>-->
 <!--  <ALogin/>-->
   <router-view/>
 <!--  <LineChart/>-->
@@ -25,13 +25,13 @@
 </template>
 
 <script>
-// import myHome from "@/views/Home"
+//import myHome from "@/views/Home"
 // import ALogin from "@/views/Login";
 // import LineChart from "@/views/chsrts"
 export default {
   name: 'app',
   components: {
-    // myHome,
+     //myHome,
     // ALogin
     // LineChart
   }

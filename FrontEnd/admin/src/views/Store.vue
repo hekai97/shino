@@ -57,7 +57,7 @@
           </el-icon>
           <span style="margin-left: 3px">学员管理</span>
         </el-menu-item>
-        <el-menu-item index="1-5" style="border-bottom: 1px solid white" v-if="pList.get(107)===true">
+        <el-menu-item index="1-5" style="border-bottom: 1px solid white" v-if="pList.get(107)===true" @click="OrMange">
           <el-icon>
             <Files/>
           </el-icon>
@@ -361,6 +361,14 @@ export default {
         })
       }, 500)
     },
+    OrMange(){
+      router.push({
+        name:'OrMange',
+        query: {
+          adminname: aname,
+        }
+      })
+    },
     async getAllPermission(){
       await axios({
         methods: 'get',
@@ -389,7 +397,6 @@ export default {
           obj.pictureUrl=res.data.data[i].pictureUrl
           this.tableData[i]=obj;
         }
-        console.log(this.tableData)
       })
     },
     LookPic(){

@@ -45,7 +45,7 @@
           <el-icon><Edit /></el-icon>
           <span style="margin-left: 3px">学员管理</span>
         </el-menu-item>
-        <el-menu-item index="1-5" style="border-bottom: 1px solid white" v-if="pList.get(107)===true">
+        <el-menu-item index="1-5" style="border-bottom: 1px solid white" v-if="pList.get(107)===true" @click="OrMange">
           <el-icon><Files /></el-icon>
           <span style="margin-left: 3px">订单管理</span>
         </el-menu-item>
@@ -355,6 +355,14 @@ export default {
         }
       })
     },
+    OrMange(){
+      router.push({
+        name:'OrMange',
+        query: {
+          adminname: aname,
+        }
+      })
+    },
     getAllresgitSum(){
       axios({
         method:'post',
@@ -431,7 +439,6 @@ export default {
           days:7
         }
       }).then(res=>{
-        console.log(res.data.data);
         for(let i=0;i<res.data.data.length;i++)
         {
           getTimedata[i]=res.data.data[res.data.data.length-1-i].time
@@ -450,7 +457,6 @@ export default {
           getorderCountdata[i] = respone.data.data[respone.data.data.length-1-i].count
         }
       })
-      console.log(getregistCountdata);
       this.LineChart.setOption({
         xAxis: {
           data:getTimedata

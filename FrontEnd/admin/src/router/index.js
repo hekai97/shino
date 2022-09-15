@@ -34,6 +34,11 @@ const routes = [
     path:'/Store',
     name: 'Store',
     component: Store
+  },
+  {
+    path:'/OrMange',
+    name: 'OrMange',
+    component: () => import('../views/OrderMange')
   }
 ]
 
