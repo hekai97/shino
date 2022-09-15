@@ -3,10 +3,12 @@ package com.hekai.backend.controller.client;
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.CourseDto;
 import com.hekai.backend.dto.CourseReservationDto;
+import com.hekai.backend.dto.StoreDto;
 import com.hekai.backend.dto.TeacherDto;
 import com.hekai.backend.entity.*;
 import com.hekai.backend.service.CourseReservationService;
 import com.hekai.backend.service.CourseService;
+import com.hekai.backend.service.StoreService;
 import com.hekai.backend.service.TeacherService;
 
 import com.hekai.backend.utils.ConstUtil;
@@ -15,6 +17,7 @@ import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +27,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
+ * 客户当然控制器
  * 客户端课程控制器
  *
  * @author 17316
@@ -36,6 +40,8 @@ public class ClientCourseController {
     private CourseService courseService;
     @Autowired
     private TeacherService teacherService;
+    @Autowired
+    private StoreService storeService;
     @Autowired
     private CourseReservationService courseReservationService;
 
@@ -93,22 +99,22 @@ public class ClientCourseController {
     /**
      * 获取存储列表
      *
-     * @return {@link ServerResponse}<{@link List}<{@link Store}>>
+     * @return {@link ServerResponse}<{@link List}<{@link StoreDto}>>
      */
     @RequestMapping(value = "/getStoreList",method = RequestMethod.GET)
-    public ServerResponse<List<Store>> getStoreList(){
-        return courseService.getStoreList();
+    public ServerResponse<List<StoreDto>> getStoreList(){
+        return storeService.getStoreList();
     }
 
     /**
      * 得到存储,存储数字
      *
      * @param storeNumber 商店数量
-     * @return {@link ServerResponse}<{@link Store}>
+     * @return {@link ServerResponse}<{@link StoreDto}>
      */
     @RequestMapping(value = "/getStoreByStoreNumber",method = RequestMethod.GET)
-    public ServerResponse<Store> getStoreByStoreNumber(@Parameter String storeNumber){
-        return courseService.getStoreByStoreNumber(storeNumber);
+    public ServerResponse<StoreDto> getStoreByStoreNumber(@Parameter String storeNumber){
+        return storeService.getStoreByStoreNumber(storeNumber);
     }
 
     /**
@@ -134,6 +140,7 @@ public class ClientCourseController {
     }
 
     /**
+     * 得到老师数量
      * 通过教师编号获取教师详情
      *
      * @param number 数量
@@ -144,6 +151,12 @@ public class ClientCourseController {
         return teacherService.getTeacherByNumber(number);
     }
 
+    /**
+     * 得到保留
+     *
+     * @param httpSession http会话
+     * @return {@link ServerResponse}<{@link List}<{@link CourseReservationDto}>>
+     */
     @RequestMapping(value="/getReservations",method = RequestMethod.GET)
     public ServerResponse<List<CourseReservationDto>> getReservations(HttpSession httpSession){
         User user = (User) httpSession.getAttribute(ConstUtil.NORMAL_USER);
@@ -157,7 +170,8 @@ public class ClientCourseController {
      * 创建预订
      *
      * @param courseReservation 课程预订
-     * @return {@link ServerResponse}<{@link CourseReservation}>
+     * @param httpSession       http会话
+     * @return {@link ServerResponse}<{@link CourseReservationDto}>
      */
     @RequestMapping(value = "/createReservation",method = RequestMethod.POST)
     public ServerResponse<CourseReservationDto> createReservation(HttpSession httpSession,@RequestBody CourseReservation courseReservation){
@@ -172,6 +186,7 @@ public class ClientCourseController {
      * 取消预订
      *
      * @param courseReservationId 课程预订Id
+     * @param httpSession         http会话
      * @return {@link ServerResponse}<{@link String}>
      */
     @RequestMapping(value = "/cancelReservation",method = RequestMethod.POST)
@@ -181,5 +196,13 @@ public class ClientCourseController {
             return ServerResponse.createByErrorMessage("用户未登录");
         }
         return courseReservationService.cancelReservation(courseReservationId);
+    }
+
+    @RequestMapping(value = "/getRandomCourse",method = RequestMethod.GET)
+    public ServerResponse<List<CourseDto>> getRandomCourse(@Parameter(description = "默认为4") @Nullable Integer number){
+        if(number==null){
+            number=4;
+        }
+        return courseService.getRandomCourse(number);
     }
 }

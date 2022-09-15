@@ -3,28 +3,37 @@
 </template>
 
 <script>
-import * as echarts from 'echarts'	// 引入echarts
+import *as echarts from 'echarts'	// 引入echarts
 export default {
-  name: 'PieChart',
+  name: 'LineChart',
   data () {
     return {
       echartsOption: {	// echarts选项，所有绘图数据和样式都在这里设置
-        legend: {	//图表上方的图例
-          data: ['腾讯', '阿里巴巴', '华为', '字节跳动']
+        xAxis: {
+          type: 'value',
+          data: ['腾讯', '阿里巴巴', '华为', '字节跳动'],   // x轴数据
+          name: '日期',   // x轴名称
+          nameTextStyle: {	// x轴名称样式
+            fontWeight: 600,
+            fontSize: 18
+          }
+        },
+        yAxis: {
+          type: 'category',
+          name: '公司盈利率',   // y轴名称
+          nameTextStyle: {	// y轴名称样式
+            fontWeight: 600,
+            fontSize: 18
+          }
         },
         tooltip: {   //鼠标放到图上的数据展示样式
           trigger: 'axis'
         },
-        series: [{
-          name: '公司市值占比',
-          type: 'pie',
+        series: [{  //series中加入每个bar的数据
+          name: '公司盈利率',
+          type: 'bar',
           barWidth: '60%',
-          data: [	// 扇形图数据格式： {value, name}
-            {value: 0.35, name: '腾讯'},		// value不一定是比例，echarts会自动转换
-            {value: 0.2, name: '阿里巴巴'},
-            {value: 0.25, name: '华为'},
-            {value: 0.2, name: '字节跳动'},
-          ],
+          data: [0.35, 0.2, 0.25, 0.15],
         }],
       }
     }
@@ -38,10 +47,7 @@ export default {
 
 <style>
 #myChart{
-  width: 50%;
-  height: 100px;
-  margin: 0 auto;
-  margin-top: 5%;
+  width: 100%;
+  height: 500px;
 }
 </style>
-

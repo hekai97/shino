@@ -3,14 +3,14 @@ package com.hekai.backend.service.imp;
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.OrderDetailDto;
 import com.hekai.backend.dto.OrderItemDto;
-import com.hekai.backend.entity.Course;
-import com.hekai.backend.entity.CoursePackage;
-import com.hekai.backend.entity.OrderDetail;
-import com.hekai.backend.entity.OrderItem;
+import com.hekai.backend.dto.TimeAndCountDto;
+import com.hekai.backend.entity.*;
 import com.hekai.backend.repository.*;
 import com.hekai.backend.service.OrderService;
 import com.hekai.backend.utils.ConstUtil;
+import com.hekai.backend.utils.DateFormatUtil;
 import com.hekai.backend.utils.UUIDUtil;
+import org.apache.commons.lang3.time.DateUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,9 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class OrderServiceImp implements OrderService {
@@ -41,6 +39,8 @@ public class OrderServiceImp implements OrderService {
     private CourseCategoryRepository courseCategoryRepository;
     @Autowired
     private CoursePackageRepository coursePackageRepository;
+    @Autowired
+    private RelationStoreCourseRepository relationStoreCourseRepository;
     @Override
     public ServerResponse<Page<OrderItemDto>> getOrderListPageable(Pageable pageable) {
         Page<OrderItem> orderItemPage=orderItemRepository.findAll(pageable);
@@ -59,8 +59,8 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public ServerResponse<List<OrderItemDto>> getUserOrderList(Integer id) {
-        List<OrderItem> orderItemList=orderItemRepository.findOrderItemsByUserId(id);
+    public ServerResponse<List<OrderItemDto>> getUserUnPaidOrderList(Integer id) {
+        List<OrderItem> orderItemList=orderItemRepository.findOrderItemsByUserIdAndAndStatusIsNot(id,ConstUtil.OrderStatus.UNPAID);
         List<OrderItemDto> orderItemDtoList=orderItemListToOrderItemDtoList(orderItemList);
         return ServerResponse.createRespBySuccess(orderItemDtoList);
     }
@@ -125,6 +125,95 @@ public class OrderServiceImp implements OrderService {
         orderItemRepository.save(orderItem);
         return ServerResponse.createRespBySuccessMessage("成功取消订单！");
     }
+
+    @Override
+    public void updateOrderStatus(String orderNumber, int status) {
+        OrderItem orderItem=orderItemRepository.findOrderItemByOrderNumber(orderNumber);
+        orderItem.setStatus(status);
+        orderItemRepository.save(orderItem);
+    }
+
+    @Override
+    public ServerResponse<Page<OrderItemDto>> getOrderItemsByStoreId(Pageable pageable, Integer storeId) {
+        List<RelationStoreCourse> relationStoreCourseList=relationStoreCourseRepository.findRelationStoreCoursesByStoreId(storeId);
+        List<Integer> courseIdList=new ArrayList<>();
+        for(RelationStoreCourse rsc:relationStoreCourseList){
+            courseIdList.add(rsc.getCourseId());
+        }
+
+        List<OrderDetail> orderDetailList=orderDetailRepository.findOrderDetailsByCourseIdIn(courseIdList);
+        List<Integer> orderIdList=new ArrayList<>();
+        for(OrderDetail orderDetail:orderDetailList){
+            orderIdList.add(orderDetail.getOrderId());
+        }
+        Page<OrderItem> orderItemPage=orderItemRepository.findOrderItemsByIdInAndStatusIsNot(orderIdList,ConstUtil.OrderStatus.UNPAID,pageable);
+        List<OrderItem> orderItemList=orderItemPage.getContent();
+        List<OrderItemDto> orderItemDtoList=orderItemListToOrderItemDtoList(orderItemList);
+        Page<OrderItemDto> result=new PageImpl<>(orderItemDtoList,orderItemPage.getPageable(),orderItemPage.getTotalElements());
+        return ServerResponse.createRespBySuccess(result);
+    }
+
+    @Override
+    public ServerResponse<BigDecimal> getBenefitByStoreId(Integer storeId) {
+        List<RelationStoreCourse> relationStoreCourseList=relationStoreCourseRepository.findRelationStoreCoursesByStoreId(storeId);
+        List<Integer> courseIdList=new ArrayList<>();
+        for(RelationStoreCourse rsc:relationStoreCourseList){
+            courseIdList.add(rsc.getCourseId());
+        }
+
+        List<OrderDetail> orderDetailList=orderDetailRepository.findOrderDetailsByCourseIdIn(courseIdList);
+        List<Integer> orderIdList=new ArrayList<>();
+        for(OrderDetail orderDetail:orderDetailList){
+            orderIdList.add(orderDetail.getOrderId());
+        }
+        List<OrderItem> orderItemList=orderItemRepository.findAllByIdInAndStatusIsNot(orderIdList,ConstUtil.OrderStatus.UNPAID);
+        BigDecimal benefit=BigDecimal.ZERO;
+        for(OrderItem orderItem:orderItemList){
+            benefit=benefit.add(orderItem.getTotalAmount());
+        }
+        return ServerResponse.createRespBySuccess(benefit);
+    }
+
+    @Override
+    public ServerResponse<Integer> getAllPaidUserNumber() {
+        return ServerResponse.createRespBySuccess(orderItemRepository.findAllPaidUserByStatusIsNot(ConstUtil.OrderStatus.UNPAID));
+    }
+
+    @Override
+    public ServerResponse<List<TimeAndCountDto>> getOrderItemsByDate(int day) {
+        Date now=new Date();
+        List<TimeAndCountDto> timeAndCountDtoList=new ArrayList<>();
+        for(int i=0;i<day;++i){
+            Date date=DateUtils.addDays(now,-i);
+            Date start=DateUtils.truncate(date,Calendar.DATE);
+            Date end=DateUtils.addMilliseconds(DateUtils.ceiling(date,Calendar.DATE),-1);
+            int count=orderItemRepository.findPaidOrderByStatusIsNotAndPayTimeBetween(ConstUtil.OrderStatus.UNPAID, DateFormatUtil.formatDate(start),DateFormatUtil.formatDate(end));
+            TimeAndCountDto timeAndCountDto=new TimeAndCountDto();
+            timeAndCountDto.setTime(DateFormatUtil.formatDate(date));
+            timeAndCountDto.setCount(count);
+            timeAndCountDtoList.add(timeAndCountDto);
+        }
+        return ServerResponse.createRespBySuccess(timeAndCountDtoList);
+    }
+
+    @Override
+    public ServerResponse<List<OrderItemDto>> getUserPaidOrderList(int id) {
+        List<Integer> orderStatus=new ArrayList<>();
+        orderStatus.add(ConstUtil.OrderStatus.PAID);
+        orderStatus.add(ConstUtil.OrderStatus.CLOSED);
+        List<OrderItem> orderItemList=orderItemRepository.findOrderItemsByUserIdAndStatusIn(id,orderStatus);
+        List<OrderItemDto> orderItemDtoList=orderItemListToOrderItemDtoList(orderItemList);
+        return ServerResponse.createRespBySuccess(orderItemDtoList);
+    }
+
+    @Override
+    public ServerResponse<List<OrderItemDto>> getAfterSaleOrderList(int id) {
+        List<OrderItem> orderItemList=orderItemRepository.findOrderItemsByUserIdAndStatus(id,ConstUtil.OrderStatus.AFTER_SALE);
+        List<OrderItemDto> orderItemDtoList=orderItemListToOrderItemDtoList(orderItemList);
+        return ServerResponse.createRespBySuccess(orderItemDtoList);
+    }
+
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     private OrderItemDto orderItmToOrderItemDto(OrderItem orderItem){
         OrderItemDto orderItemDto=modelMapper.map(orderItem,OrderItemDto.class);

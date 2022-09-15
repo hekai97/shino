@@ -2,6 +2,7 @@ package com.hekai.backend.service;
 
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.TeacherDto;
+import com.hekai.backend.entity.EmployeeUser;
 import com.hekai.backend.entity.Teacher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -45,7 +46,7 @@ public interface TeacherService {
      * @param teacher 老师
      * @return {@link ServerResponse}<{@link Teacher}>
      */
-    ServerResponse<Teacher> save(Teacher teacher);
+    ServerResponse<Teacher> save(EmployeeUser operator, Teacher teacher);
 
     /**
      * 更新教师

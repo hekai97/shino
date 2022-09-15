@@ -1,10 +1,12 @@
 package com.hekai.backend.service.imp;
 
 import com.hekai.backend.common.ServerResponse;
+import com.hekai.backend.dto.CourseRankingDto;
 import com.hekai.backend.dto.CourseReservationDto;
 import com.hekai.backend.entity.*;
 import com.hekai.backend.repository.*;
 import com.hekai.backend.service.CourseReservationService;
+import com.hekai.backend.utils.ConstUtil;
 import com.hekai.backend.utils.DateFormatUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +33,8 @@ public class CourseReservationServiceImp implements CourseReservationService {
     private StoreRepository storeRepository;
     @Autowired
     private OrderItemRepository orderItemRepository;
+    @Autowired
+    private OrderDetailRepository detailRepository;
     @Autowired
     private ModelMapper modelMapper;
     @Override
@@ -95,6 +100,38 @@ public class CourseReservationServiceImp implements CourseReservationService {
         }
         courseReservationRepository.delete(courseReservation);
         return ServerResponse.createRespBySuccess("取消成功！");
+    }
+
+    @Override
+    public ServerResponse<List<CourseRankingDto>> getCourseRanking() {
+        List<Object[]> courseRankingList=courseReservationRepository.findCourseRankingCount();
+        List<CourseRankingDto> result=new ArrayList<>();
+        for(Object[] courseRanking:courseRankingList){
+            CourseRankingDto courseRankingDto=new CourseRankingDto();
+            courseRankingDto.setCourseId(Integer.valueOf(courseRanking[0].toString()));
+            courseRankingDto.setCourseName(courseRepository.findCourseById(courseRankingDto.getCourseId()).getCourseName());
+            courseRankingDto.setCount(Integer.valueOf(courseRanking[1].toString()));
+            result.add(courseRankingDto);
+        }
+
+        return ServerResponse.createRespBySuccess(result);
+    }
+
+    @Override
+    public ServerResponse<BigDecimal> getCourseCategoryIncomeByCategoryId(Integer categoryId) {
+        List<Course> courseList=courseRepository.findAllByCourseCategoryId(categoryId);
+        BigDecimal result=new BigDecimal(0);
+        List<Integer> courseIdList=new ArrayList<>();
+        for(Course course:courseList){
+            courseIdList.add(course.getId());
+        }
+        List<OrderDetail> orderDetailList=detailRepository.findAllByCourseIdIn(courseIdList);
+        for(OrderDetail orderDetail:orderDetailList){
+            if(orderItemRepository.findOrderItemById(orderDetail.getOrderId()).getStatus() != ConstUtil.OrderStatus.UNPAID){
+                result=result.add(orderDetail.getPrice());
+            }
+        }
+        return ServerResponse.createRespBySuccess(result);
     }
 
     private CourseReservationDto courseReservationToCourseReservationDto(CourseReservation courseReservation){

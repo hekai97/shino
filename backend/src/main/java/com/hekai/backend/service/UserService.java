@@ -1,10 +1,14 @@
 package com.hekai.backend.service;
 
 import com.hekai.backend.common.ServerResponse;
+import com.hekai.backend.dto.TimeAndCountDto;
 import com.hekai.backend.entity.EmployeeUser;
 import com.hekai.backend.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 用户服务
@@ -93,7 +97,7 @@ public interface UserService {
      * @param pageable 可分页
      * @return {@link ServerResponse}<{@link Page}<{@link EmployeeUser}>>
      */
-    ServerResponse<Page<EmployeeUser>> findEmployeeUserListPageable(Pageable pageable);
+    ServerResponse<Page<EmployeeUser>> findEmployeeUserListPageable(Pageable pageable,Integer storeId);
 
     /**
      * 创建员工用户
@@ -131,5 +135,23 @@ public interface UserService {
      */
     ServerResponse<EmployeeUser> employeeLogin(String account, String password);
 
+    /**
+     * 忘记密码
+     *
+     * @param account     账户
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
+     * @return {@link ServerResponse}<{@link String}>
+     */
     ServerResponse<String> forgetPassword(String account, String oldPassword, String newPassword);
+
+    /**
+     * 让注册用户按日期
+     *
+     * @param days 天
+     * @return {@link ServerResponse}<{@link Map}<{@link String}, {@link Integer}>>
+     */
+    ServerResponse<List<TimeAndCountDto>> getRegisterUserByDate(Integer days);
+
+    ServerResponse<Page<EmployeeUser>> findOnlyEmployeeUserPageableByStoreId(Pageable pageable, Integer storeId);
 }

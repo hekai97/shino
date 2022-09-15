@@ -1,21 +1,26 @@
 package com.hekai.backend.controller.backstage;
 
 import com.hekai.backend.common.ServerResponse;
+import com.hekai.backend.dto.TimeAndCountDto;
 import com.hekai.backend.entity.EmployeeUser;
 import com.hekai.backend.entity.User;
 import com.hekai.backend.service.UserService;
 import com.hekai.backend.utils.ConstUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 管理用户控制器
@@ -128,23 +133,32 @@ public class AdminUserController {
     //////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * 得到员工用户列表可分页
+     * 分页得到员工用户列表
      *
      * @param httpSession http会话
      * @param pageable    可分页
      * @return {@link ServerResponse}<{@link Page}<{@link EmployeeUser}>>
      */
-    @RequestMapping(value = "/getEmployeeUserListPageable",method = RequestMethod.POST)
-    public ServerResponse<Page<EmployeeUser>> getEmployeeUserListPageable(HttpSession httpSession,@ParameterObject Pageable pageable){
+    @RequestMapping(value = "/getEmployeeUserPageableByStoreId",method = RequestMethod.POST)
+    public ServerResponse<Page<EmployeeUser>> getEmployeeUserListPageable(HttpSession httpSession,@ParameterObject Pageable pageable,@Parameter Integer storeId){
         EmployeeUser employeeUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
         if(employeeUser==null){
             return ServerResponse.createByErrorMessage("未登录！");
         }
-        return userService.findEmployeeUserListPageable(pageable);
+        return userService.findEmployeeUserListPageable(pageable,storeId);
+    }
+
+    @RequestMapping(value = "/getOnlyEmployeeUserPageableByStoreId",method = RequestMethod.POST)
+    public ServerResponse<Page<EmployeeUser>> getOnlyEmployeeUserPageableByStoreId(HttpSession httpSession,@ParameterObject Pageable pageable,@Parameter Integer storeId){
+        EmployeeUser employeeUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(employeeUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return userService.findOnlyEmployeeUserPageableByStoreId(pageable,storeId);
     }
 
     /**
-     * 创建员工帐户
+     * 创建员工账户
      *
      * @param httpSession  http会话
      * @param employeeUser 员工用户
@@ -190,5 +204,25 @@ public class AdminUserController {
             return ServerResponse.createByErrorMessage("未登录！");
         }
         return userService.updateEmployeeAccount(curUser,employeeUser);
+    }
+
+    /**
+     * 让注册用户按日期
+     *
+     * @param httpSession http会话
+     * @param days        天
+     * @return {@link ServerResponse}<{@link Map}<{@link String},{@link Integer}>>
+     */
+    @Operation(summary = "获取过去几天注册的人数")
+    @RequestMapping(value = "/getRegisterUserByDate",method = RequestMethod.GET)
+    public ServerResponse<List<TimeAndCountDto>> getRegisterUserByDate(HttpSession httpSession, @Parameter(description = "这里传入过去几天，默认为7") @Nullable Integer days){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        if(days==null){
+            days=7;
+        }
+        return userService.getRegisterUserByDate(days);
     }
 }

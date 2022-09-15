@@ -37,7 +37,7 @@ public class ClientUserController {
      * @return {@link ServerResponse}<{@link User}>
      */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public ServerResponse<User> login(HttpSession httpSession,@Parameter String account,@Parameter String password){
+    public ServerResponse<User> login(HttpSession httpSession,@Parameter(description = "单个参数") String account,@Parameter(description = "单个参数") String password){
         System.out.println(account+" "+password);
         ServerResponse<User> response=userService.login(account,password);
         if(response.isSuccess()){
@@ -120,6 +120,14 @@ public class ClientUserController {
         return response;
     }
 
+    /**
+     * 忘记密码
+     *
+     * @param account     账户
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
+     * @return {@link ServerResponse}<{@link String}>
+     */
     @RequestMapping(value = "/forgetPassword",method = RequestMethod.POST)
     public ServerResponse<String> forgetPassword(@Parameter String account,@Parameter String oldPassword,@Parameter String newPassword){
         return userService.forgetPassword(account,oldPassword,newPassword);

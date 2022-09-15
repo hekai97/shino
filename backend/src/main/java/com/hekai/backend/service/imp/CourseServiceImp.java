@@ -2,13 +2,10 @@ package com.hekai.backend.service.imp;
 
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.CourseDto;
-import com.hekai.backend.entity.Course;
-import com.hekai.backend.entity.CourseCategory;
-import com.hekai.backend.entity.EmployeeUser;
-import com.hekai.backend.entity.Store;
+import com.hekai.backend.entity.*;
 import com.hekai.backend.repository.CourseCategoryRepository;
 import com.hekai.backend.repository.CourseRepository;
-import com.hekai.backend.repository.StoreRepository;
+import com.hekai.backend.repository.RelationStoreCourseRepository;
 import com.hekai.backend.service.CourseService;
 import com.hekai.backend.utils.ConstUtil;
 import com.hekai.backend.utils.DateFormatUtil;
@@ -20,9 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class CourseServiceImp implements CourseService {
@@ -31,9 +26,9 @@ public class CourseServiceImp implements CourseService {
     @Autowired
     private CourseCategoryRepository courseCategoryRepository;
     @Autowired
-    private ModelMapper modelMapper;
+    private RelationStoreCourseRepository relationStoreCourseRepository;
     @Autowired
-    private StoreRepository storeRepository;
+    private ModelMapper modelMapper;
     @Override
     public ServerResponse<Page<CourseDto>> getAllCoursePageable(Pageable pageable) {
         Page<Course> coursePage=courseRepository.findAll(pageable);
@@ -112,13 +107,34 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    public ServerResponse<List<Store>> getStoreList() {
-        return ServerResponse.createRespBySuccess(storeRepository.findAll());
+    public ServerResponse<List<CourseDto>> getRandomCourse(int number) {
+        List<Course> courseList=courseRepository.findAll();
+        Map<Integer,Boolean> map=new HashMap<>();
+        List<CourseDto> res=new ArrayList<>();
+        for(int i=0;i<number;i++){
+            int index=(int)(Math.random()*courseList.size());
+            while(map.get(index)!=null){
+                index=(int)(Math.random()*courseList.size());
+            }
+            map.put(index,true);
+            Course course=courseList.get(index);
+            CourseDto courseDto=courseToCourseDto(course);
+            res.add(courseDto);
+        }
+        return ServerResponse.createRespBySuccess(res);
     }
 
     @Override
-    public ServerResponse<Store> getStoreByStoreNumber(String storeNumber) {
-        return ServerResponse.createRespBySuccess(storeRepository.findStoreByStoreNumber(storeNumber));
+    public ServerResponse<Page<CourseDto>> getCoursesPageableByStoreId(Pageable pageable, Integer storeId) {
+        List<RelationStoreCourse> relationStoreCourseList=relationStoreCourseRepository.findRelationStoreCoursesByStoreId(storeId);
+        List<Integer> courseIdList=new ArrayList<>();
+        for(RelationStoreCourse relationStoreCourse:relationStoreCourseList){
+            courseIdList.add(relationStoreCourse.getCourseId());
+        }
+        Page<Course> coursePage=courseRepository.findCoursesByIdIn(pageable,courseIdList);
+        List<CourseDto> courseDtoList=courseListToCourseDtoList(coursePage.getContent());
+        Page<CourseDto> result=new PageImpl<>(courseDtoList,coursePage.getPageable(),coursePage.getTotalElements());
+        return ServerResponse.createRespBySuccess(result);
     }
 
 

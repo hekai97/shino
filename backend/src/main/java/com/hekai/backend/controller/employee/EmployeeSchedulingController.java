@@ -77,6 +77,13 @@ public class EmployeeSchedulingController {
         return courseTimeConfigService.getCourseTimeConfig();
     }
 
+    /**
+     * 创建调度
+     *
+     * @param httpSession http会话
+     * @param courseTable 当然表
+     * @return {@link ServerResponse}<{@link CourseTableDto}>
+     */
     @RequestMapping(value = "/createScheduling", method = RequestMethod.POST)
     public ServerResponse<CourseTableDto> createScheduling(HttpSession httpSession,@RequestBody CourseTable courseTable) {
         EmployeeUser curUser = (EmployeeUser) httpSession.getAttribute(ConstUtil.EMPLOYEE_USER);
@@ -86,6 +93,13 @@ public class EmployeeSchedulingController {
         return courseTableService.createScheduling(courseTable);
     }
 
+    /**
+     * 删除表id
+     *
+     * @param httpSession   http会话
+     * @param courseTableId 当然表id
+     * @return {@link ServerResponse}<{@link String}>
+     */
     @RequestMapping(value = "/deleteCourseTableById", method = RequestMethod.GET)
     public ServerResponse<String> deleteCourseTableById(HttpSession httpSession,@Parameter Integer courseTableId) {
         EmployeeUser curUser = (EmployeeUser) httpSession.getAttribute(ConstUtil.EMPLOYEE_USER);
@@ -94,6 +108,14 @@ public class EmployeeSchedulingController {
         }
         return courseTableService.deleteCourseTableById(courseTableId);
     }
+
+    /**
+     * 更新过程表
+     *
+     * @param httpSession http会话
+     * @param courseTable 当然表
+     * @return {@link ServerResponse}<{@link CourseTableDto}>
+     */
     @RequestMapping(value = "/updateCourseTable", method = RequestMethod.POST)
     public ServerResponse<CourseTableDto> updateCourseTable(HttpSession httpSession,@RequestBody CourseTable courseTable) {
         EmployeeUser curUser = (EmployeeUser) httpSession.getAttribute(ConstUtil.EMPLOYEE_USER);

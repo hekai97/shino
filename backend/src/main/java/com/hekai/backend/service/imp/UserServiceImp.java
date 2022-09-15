@@ -1,20 +1,23 @@
 package com.hekai.backend.service.imp;
 
 import com.hekai.backend.common.ServerResponse;
+import com.hekai.backend.dto.TimeAndCountDto;
 import com.hekai.backend.entity.EmployeeUser;
 import com.hekai.backend.entity.User;
 import com.hekai.backend.repository.EmployeeUserRepository;
 import com.hekai.backend.repository.UserRepository;
 import com.hekai.backend.service.UserService;
 import com.hekai.backend.utils.ConstUtil;
+import com.hekai.backend.utils.DateFormatUtil;
 import com.hekai.backend.utils.RegexUtil;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.Date;
+import java.util.*;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -74,6 +77,19 @@ public class UserServiceImp implements UserService {
 
     @Override
     public ServerResponse<User> save(User user) {
+        if(RegexUtil.getAccountType(user.getPhoneNumber())!= RegexUtil.AccountType.PHONE_NUMBER){
+            return ServerResponse.createByErrorMessage("手机号格式错误！");
+        }
+        if(userRepository.findUserByPhoneNumber(user.getPhoneNumber())!=null){
+            return ServerResponse.createByErrorMessage("手机号已被注册！");
+        }
+        if(RegexUtil.getAccountType(user.getEmail())!= RegexUtil.AccountType.EMAIL){
+            return ServerResponse.createByErrorMessage("邮箱格式错误！");
+        }
+        if(userRepository.findUserByEmail(user.getEmail())!=null){
+            return ServerResponse.createByErrorMessage("邮箱已被注册！");
+        }
+        user.setRegisterTime(new Timestamp(new Date().getTime()));
         User result=userRepository.save(user);
         return ServerResponse.createRespBySuccess(result);
     }
@@ -136,8 +152,8 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public ServerResponse<Page<EmployeeUser>> findEmployeeUserListPageable(Pageable pageable) {
-        Page<EmployeeUser> employeeUsers=employeeUserRepository.findEmployeeUsersByRoleIdNot(pageable, ConstUtil.ADMIN_ROLE);
+    public ServerResponse<Page<EmployeeUser>> findEmployeeUserListPageable(Pageable pageable,Integer storeId) {
+        Page<EmployeeUser> employeeUsers=employeeUserRepository.findEmployeeUsersByStoreIdAndRoleIdNot(pageable,storeId, ConstUtil.SUPER_ADMIN_ROLE);
         return ServerResponse.createRespBySuccess(employeeUsers);
     }
 
@@ -204,5 +220,32 @@ public class UserServiceImp implements UserService {
         user.setPassword(newPassword);
         userRepository.save(user);
         return ServerResponse.createRespBySuccessMessage("修改成功！");
+    }
+
+    @Override
+    public ServerResponse<List<TimeAndCountDto>> getRegisterUserByDate(Integer days) {
+        Date now=new Date();
+        List<TimeAndCountDto> list=new ArrayList<>();
+        for(int i=0;i<days;++i){
+            Date date= DateUtils.addDays(now,-i);
+            Date start=DateUtils.truncate(date, Calendar.DATE);
+            Date end=DateUtils.addMilliseconds(DateUtils.ceiling(date,Calendar.DATE),-1);
+
+            int count=userRepository.countByRegisterTimeBetween(start,end);
+            TimeAndCountDto timeAndCountDto=new TimeAndCountDto();
+            timeAndCountDto.setTime(DateFormatUtil.formatDate(date));
+            timeAndCountDto.setCount(count);
+            list.add(timeAndCountDto);
+        }
+        return ServerResponse.createRespBySuccess(list);
+    }
+
+    @Override
+    public ServerResponse<Page<EmployeeUser>> findOnlyEmployeeUserPageableByStoreId(Pageable pageable, Integer storeId) {
+        List<Integer> roleList=new ArrayList<>();
+        roleList.add(ConstUtil.EMPLOYEE_ROLE);
+        roleList.add(ConstUtil.FINANCIAL_DIRECTOR);
+        Page<EmployeeUser> employeeUsers=employeeUserRepository.findEmployeeUsersByStoreIdAndRoleIdIn(pageable,storeId,roleList);
+        return ServerResponse.createRespBySuccess(employeeUsers);
     }
 }

@@ -3,10 +3,13 @@ package com.hekai.backend.service;
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.OrderDetailDto;
 import com.hekai.backend.dto.OrderItemDto;
+import com.hekai.backend.dto.TimeAndCountDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 订单服务
@@ -37,7 +40,7 @@ public interface OrderService {
      * @param id id
      * @return {@link ServerResponse}<{@link List}<{@link OrderItemDto}>>
      */
-    ServerResponse<List<OrderItemDto>> getUserOrderList(Integer id);
+    ServerResponse<List<OrderItemDto>> getUserUnPaidOrderList(Integer id);
 
     /**
      * 让用户通过订单号订单详细信息
@@ -65,4 +68,48 @@ public interface OrderService {
      * @return {@link ServerResponse}<{@link OrderItemDto}>
      */
     ServerResponse<OrderItemDto> cancelOrder(int userId, String orderNo);
+
+    /**
+     * 更新订单状态
+     *
+     * @param orderNumber 订单号
+     * @param status      状态
+     */
+    void updateOrderStatus(String orderNumber, int status);
+
+    /**
+     * 被存储订单项id
+     *
+     * @param pageable 可分页
+     * @param storeId  存储id
+     * @return {@link ServerResponse}<{@link Page}<{@link OrderItemDto}>>
+     */
+    ServerResponse<Page<OrderItemDto>> getOrderItemsByStoreId(Pageable pageable, Integer storeId);
+
+    /**
+     * 被存储id受益
+     *
+     * @param storeId 存储id
+     * @return {@link ServerResponse}<{@link BigDecimal}>
+     */
+    ServerResponse<BigDecimal> getBenefitByStoreId(Integer storeId);
+
+    /**
+     * 得到所有付费用户数量
+     *
+     * @return {@link ServerResponse}<{@link Integer}>
+     */
+    ServerResponse<Integer> getAllPaidUserNumber();
+
+    /**
+     * 得到订单项日期
+     *
+     * @param day 一天
+     * @return {@link ServerResponse}<{@link Map}<{@link String}, {@link Integer}>>
+     */
+    ServerResponse<List<TimeAndCountDto>> getOrderItemsByDate(int day);
+
+    ServerResponse<List<OrderItemDto>> getUserPaidOrderList(int id);
+
+    ServerResponse<List<OrderItemDto>> getAfterSaleOrderList(int id);
 }

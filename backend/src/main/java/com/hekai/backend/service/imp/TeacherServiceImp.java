@@ -2,6 +2,7 @@ package com.hekai.backend.service.imp;
 
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.TeacherDto;
+import com.hekai.backend.entity.EmployeeUser;
 import com.hekai.backend.entity.Store;
 import com.hekai.backend.entity.Teacher;
 import com.hekai.backend.repository.StoreRepository;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,17 +72,32 @@ public class TeacherServiceImp implements TeacherService {
     }
 
     @Override
-    public ServerResponse<Teacher> save(Teacher teacher) {
+    public ServerResponse<Teacher> save(EmployeeUser operator, Teacher teacher) {
         if(teacher.getNumber()==null){
             return ServerResponse.createByErrorMessage("必须给老师设置编号！");
         }
+        if(teacherRepository.findTeacherByNumber(teacher.getNumber())!=null){
+            return ServerResponse.createByErrorMessage("该编号已经存在！");
+        }
+        if(teacher.getName()==null){
+            return ServerResponse.createByErrorMessage("必须给老师设置姓名！");
+        }
+        if(teacher.getStoreId()==null){
+            return ServerResponse.createByErrorMessage("必须给老师设置所属门店！");
+        }
+        if(storeRepository.findStoreById(teacher.getStoreId())==null){
+            return ServerResponse.createByErrorMessage("该门店不存在！");
+        }
+        teacher.setCreatedDate(new Date(System.currentTimeMillis()));
+        teacher.setCreatedUserNumber(operator.getNumber());
         Teacher result = teacherRepository.save(teacher);
         return ServerResponse.createRespBySuccess(result);
     }
 
     @Override
     public ServerResponse<Teacher> updateTeacher(Teacher teacher) {
-        return save(teacher);
+        Teacher teacher1=teacherRepository.save(teacher);
+        return ServerResponse.createRespBySuccess(teacher1);
     }
 
     @Override
