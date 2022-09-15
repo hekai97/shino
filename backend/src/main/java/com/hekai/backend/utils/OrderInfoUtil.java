@@ -174,18 +174,18 @@ public class OrderInfoUtil {
 		return "sign=" + encodedSign;
 	}
 
-	/**
-	 * 要求外部订单号必须唯一。
-	 * @return
-	 */
-	private static String getOutTradeNo() {
-		SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss", Locale.getDefault());
-		Date date = new Date();
-		String key = format.format(date);
+	// /**
+	//  * 要求外部订单号必须唯一。
+	//  * @return
+	//  */
+	// private static String getOutTradeNo() {
+	// 	SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss", Locale.getDefault());
+	// 	Date date = new Date();
+	// 	String key = format.format(date);
 
-		Random r = new Random();
-		key = key + r.nextInt();
-		key = key.substring(0, 15);
-		return key;
-	}
+	// 	Random r = new Random();
+	// 	key = key + r.nextInt();
+	// 	key = key.substring(0, 15);
+	// 	return key;
+	// }
 }

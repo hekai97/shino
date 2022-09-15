@@ -2,11 +2,10 @@ package com.hekai.backend.service.imp;
 
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.CourseDto;
-import com.hekai.backend.entity.Course;
-import com.hekai.backend.entity.CourseCategory;
-import com.hekai.backend.entity.EmployeeUser;
+import com.hekai.backend.entity.*;
 import com.hekai.backend.repository.CourseCategoryRepository;
 import com.hekai.backend.repository.CourseRepository;
+import com.hekai.backend.repository.RelationStoreCourseRepository;
 import com.hekai.backend.service.CourseService;
 import com.hekai.backend.utils.ConstUtil;
 import com.hekai.backend.utils.DateFormatUtil;
@@ -28,6 +27,8 @@ public class CourseServiceImp implements CourseService {
     private CourseRepository courseRepository;
     @Autowired
     private CourseCategoryRepository courseCategoryRepository;
+    @Autowired
+    private RelationStoreCourseRepository relationStoreCourseRepository;
     @Autowired
     private ModelMapper modelMapper;
     @Override
@@ -118,6 +119,19 @@ public class CourseServiceImp implements CourseService {
             res.add(courseDto);
         }
         return ServerResponse.createRespBySuccess(res);
+    }
+
+    @Override
+    public ServerResponse<Page<CourseDto>> getCoursesPageableByStoreId(Pageable pageable, Integer storeId) {
+        List<RelationStoreCourse> relationStoreCourseList=relationStoreCourseRepository.findRelationStoreCoursesByStoreId(storeId);
+        List<Integer> courseIdList=new ArrayList<>();
+        for(RelationStoreCourse relationStoreCourse:relationStoreCourseList){
+            courseIdList.add(relationStoreCourse.getCourseId());
+        }
+        Page<Course> coursePage=courseRepository.findCoursesByIdIn(pageable,courseIdList);
+        List<CourseDto> courseDtoList=courseListToCourseDtoList(coursePage.getContent());
+        Page<CourseDto> result=new PageImpl<>(courseDtoList,coursePage.getPageable(),coursePage.getTotalElements());
+        return ServerResponse.createRespBySuccess(result);
     }
 
 

@@ -152,8 +152,8 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public ServerResponse<Page<EmployeeUser>> findEmployeeUserListPageable(Pageable pageable) {
-        Page<EmployeeUser> employeeUsers=employeeUserRepository.findEmployeeUsersByRoleIdNot(pageable, ConstUtil.ADMIN_ROLE);
+    public ServerResponse<Page<EmployeeUser>> findEmployeeUserListPageable(Pageable pageable,Integer storeId) {
+        Page<EmployeeUser> employeeUsers=employeeUserRepository.findEmployeeUsersByStoreIdAndRoleIdNot(pageable,storeId, ConstUtil.ADMIN_ROLE);
         return ServerResponse.createRespBySuccess(employeeUsers);
     }
 

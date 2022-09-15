@@ -37,7 +37,7 @@
           <el-menu-item index="1-2-5" style="margin-left: 15px">配置课程</el-menu-item>
           <el-menu-item index="1-2-6" style="margin-left: 15px">课程追踪</el-menu-item>
         </el-sub-menu>
-        <el-menu-item index="1-3" v-if="pList.get(104)===true">
+        <el-menu-item index="1-3" v-if="pList.get(104)===true" @click="teacher">
           <el-icon><User /></el-icon>
           <span style="margin-left: 3px">讲师管理</span>
         </el-menu-item>
@@ -45,7 +45,7 @@
           <el-icon><Edit /></el-icon>
           <span style="margin-left: 3px">学员管理</span>
         </el-menu-item>
-        <el-menu-item index="1-5" style="border-bottom: 1px solid white" v-if="pList.get(107)===true" @click="OrMange">
+        <el-menu-item index="1-5" style="border-bottom: 1px solid white" v-if="pList.get(107)===true">
           <el-icon><Files /></el-icon>
           <span style="margin-left: 3px">订单管理</span>
         </el-menu-item>
@@ -355,12 +355,9 @@ export default {
         }
       })
     },
-    OrMange(){
+    teacher(){
       router.push({
-        name:'OrMange',
-        query: {
-          adminname: aname,
-        }
+        name:'teacher'
       })
     },
     getAllresgitSum(){
@@ -439,6 +436,7 @@ export default {
           days:7
         }
       }).then(res=>{
+        console.log(res.data.data);
         for(let i=0;i<res.data.data.length;i++)
         {
           getTimedata[i]=res.data.data[res.data.data.length-1-i].time
@@ -457,6 +455,7 @@ export default {
           getorderCountdata[i] = respone.data.data[respone.data.data.length-1-i].count
         }
       })
+      console.log(getregistCountdata);
       this.LineChart.setOption({
         xAxis: {
           data:getTimedata
