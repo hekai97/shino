@@ -6,6 +6,7 @@ import com.hekai.backend.dto.OrderItemDto;
 import com.hekai.backend.entity.User;
 import com.hekai.backend.service.OrderService;
 import com.hekai.backend.utils.ConstUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,13 +34,32 @@ public class ClientOrderController {
      * @param httpSession http会话
      * @return {@link ServerResponse}<{@link List}<{@link OrderItemDto}>>
      */
-    @RequestMapping(value = "/getUserOrderList",method = RequestMethod.POST)
+    @Operation(summary = "获取用户未付款的订单，相当于购物车中的订单")
+    @RequestMapping(value = "/getUserUnPaidOrderList",method = RequestMethod.POST)
     public ServerResponse<List<OrderItemDto>> getUserOrderList(HttpSession httpSession){
         User user=(User) httpSession.getAttribute(ConstUtil.NORMAL_USER);
         if(user==null){
             return ServerResponse.createByErrorMessage("用户未登录！");
         }
-        return orderService.getUserOrderList(user.getId());
+        return orderService.getUserUnPaidOrderList(user.getId());
+    }
+    @Operation(summary = "获取用户已经付款的订单，包括已经付款的订单和交易关闭（完成）的订单")
+    @RequestMapping(value = "/getUserPaidOrderList",method = RequestMethod.POST)
+    public ServerResponse<List<OrderItemDto>> getUserPaidOrderList(HttpSession httpSession){
+        User user=(User) httpSession.getAttribute(ConstUtil.NORMAL_USER);
+        if(user==null){
+            return ServerResponse.createByErrorMessage("用户未登录！");
+        }
+        return orderService.getUserPaidOrderList(user.getId());
+    }
+    @Operation(summary = "获取售后中的订单")
+    @RequestMapping(value = "/getAfterSaleOrderList",method = RequestMethod.POST)
+    public ServerResponse<List<OrderItemDto>> getAfterSaleOrderList(HttpSession httpSession){
+        User user=(User) httpSession.getAttribute(ConstUtil.NORMAL_USER);
+        if(user==null){
+            return ServerResponse.createByErrorMessage("用户未登录！");
+        }
+        return orderService.getAfterSaleOrderList(user.getId());
     }
 
     /**

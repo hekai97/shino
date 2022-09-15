@@ -1,16 +1,10 @@
 <template>
-  <el-dialog
-    :visible.sync="dialogVisible"
-    width="60%"
-    :before-close="handleClose">
     <div class="dialog">
-      <div class="left">
-
-      </div>
+      <div class="left"></div>
       <div class="right">
         <h2>金情物语</h2>
         <div class="detail">
-          <div>商品类型：</div>
+          <div>商品类型：{{this.detail.courseTypeName}}</div>
           <div>课程分类：</div>
           <div>课程原价：</div>
           <div>课程现价：</div>
@@ -28,14 +22,27 @@
         </div>
       </div>
     </div>
-  </el-dialog>
 </template>
 <script>
 export default {
+  name:'ActivityWindow',
+  props:{
+    detail:{
+      type:Object,
+      default:function() {
+        return {
+
+        }
+      }
+    }
+  },
   data(){
     return{
-      dialogVisible: true
+      dialogVisible: false,
     }
+  },
+  mounted() {
+    console.log('xxxxs',this.info)
   },
   methods:{
     handleClose(done) {

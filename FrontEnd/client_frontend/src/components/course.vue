@@ -6,28 +6,13 @@
       </el-header>
       <el-main>
         <div class="content">
-          <div class="tab">
-            <el-tabs type="border-card">
-              <el-tab-pane label="分类一">
-                <div class="rowone">
-                  <div class="colone"></div>
-                  <div class="coltwo"></div>
-                  <div class="colthree"></div>
-                </div>
-                <div class="rowtwo">
-                  <div class="colone"></div>
-                  <div class="coltwo"></div>
-                  <div class="colthree"></div>
-                </div>
-                <div class="rowthree">
-                  <div class="colone"></div>
-                  <div class="coltwo"></div>
-                  <div class="colthree"></div>
+          <div class="tab" >
+            <el-tabs  type="border-card" @tab-click="getCourse">
+              <el-tab-pane v-for="(item,index) in CategoryList" :key="index" :label="item.categoryName">
+                <div v-for="(item,index) in courseList" :key="index" class="img" @click="showDialog(item)">
+                  <img :src="baseUrl + item.pictureUrl" width="200px" height="200px">
                 </div>
               </el-tab-pane>
-              <el-tab-pane label="分类二">分类二</el-tab-pane>
-              <el-tab-pane label="分类三">分类三</el-tab-pane>
-              <el-tab-pane label="分类四">分类四</el-tab-pane>
             </el-tabs>
           </div>
           <div class="other">
@@ -50,18 +35,86 @@
         </div>
       </el-main>
     </el-container>
-    <ActivityWindow></ActivityWindow>
+    <el-dialog
+      :visible.sync="dialogVisible"
+      width="60%"
+      :before-close="handleClose"
+    >
+      <ActivityWindow :detal="detail"></ActivityWindow>
+    </el-dialog>
   </div>
 </template>
 <script>
+import ActivityWindow from "./ActivityWindow";
+import axios from "axios";
   export default {
+    components:{
+      ActivityWindow
+    },
     data(){
       return{
+        activeIndex:'/course',
+        CategoryList:[],
+        courseList:[],
         dialogVisible: false,
-        currentPage4: 4
+        baseUrl:axios.defaults.baseURL,
+        currentPage4: 4,
+        detail:{
+          courseTypeName:'',
+          courseCategoryName:'',
+          coursePrice:'',
+          courseContent:'',
+          courseLevel:'',
+          coursePoints:'',
+          createdTime:''
+        }
       }
     },
+    mounted() {
+      this.getCategory()
+      this.getCourse()
+    },
     methods:{
+      showDialog(item){
+        this.dialogVisible = true
+        this.detail.courseTypeName = item.courseTypeName
+        this.detail.courseCategoryName = item.courseCategoryName
+        this.detail.coursePrice = item.coursePrice
+        this.detail.courseContent = item.courseContent
+        this.detail.courseLevel = item.courseLevel
+        this.detail.coursePoints = item.coursePoints
+        this.detail.createdTime = item.createdTime
+        console.log('bbbb',this.detail)
+      },
+      async getCategory(){
+        this.$axios({
+          method:'get',
+          url:'/course/getAllCourseCategory'
+        }).then((res)=>{
+          this.CategoryList = res.data.data
+          console.log(this.CategoryList)
+        })
+      },
+      getCourse(item) {
+        var index = 1
+        if(item == null){
+          index = 1
+          console.log(index)
+        }else {
+          index = this.CategoryList[item.index].id
+          console.log(index)
+        }
+        this.$axios({
+          method:'get',
+          url:'/course/getCoursesPageableByCategoryId',
+          params:{
+            id: index
+          }
+        }).then((res)=>{
+          this.courseList = res.data.data.content
+          console.log('哈哈哈哈哈哈哈哈哈',this.courseList)
+        })
+      },
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
       },
@@ -75,7 +128,7 @@
           })
           .catch(_ => {});
       }
-    }
+    },
   }
 </script>
 <style scoped>
@@ -83,6 +136,10 @@
     width: 100%;
     height: 100px;
     background-color: cadetblue;
+  }
+  .img{
+    display: inline-block;
+    float: left;
   }
   .content{
     width: 100%;

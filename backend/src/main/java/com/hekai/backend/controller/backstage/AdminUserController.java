@@ -148,8 +148,17 @@ public class AdminUserController {
         return userService.findEmployeeUserListPageable(pageable,storeId);
     }
 
+    @RequestMapping(value = "/getOnlyEmployeeUserPageableByStoreId",method = RequestMethod.POST)
+    public ServerResponse<Page<EmployeeUser>> getOnlyEmployeeUserPageableByStoreId(HttpSession httpSession,@ParameterObject Pageable pageable,@Parameter Integer storeId){
+        EmployeeUser employeeUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(employeeUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return userService.findOnlyEmployeeUserPageableByStoreId(pageable,storeId);
+    }
+
     /**
-     * 创建员工帐户
+     * 创建员工账户
      *
      * @param httpSession  http会话
      * @param employeeUser 员工用户

@@ -152,4 +152,6 @@ public interface UserService {
      * @return {@link ServerResponse}<{@link Map}<{@link String}, {@link Integer}>>
      */
     ServerResponse<List<TimeAndCountDto>> getRegisterUserByDate(Integer days);
+
+    ServerResponse<Page<EmployeeUser>> findOnlyEmployeeUserPageableByStoreId(Pageable pageable, Integer storeId);
 }

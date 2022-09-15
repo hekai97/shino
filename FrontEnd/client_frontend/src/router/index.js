@@ -35,10 +35,54 @@ export default new Router({
         },
         {
           path:'/course',
-          name:'/course',
+          name:'course',
           component:function (){
             return import('../components/course.vue')
           }
+        },
+        {
+          path:'/store',
+          name:'store',
+          component:function (){
+            return import('../components/store.vue')
+          }
+        },
+        {
+          path:'/detail',
+          name:'detail',
+          component:function (){
+            return import('../components/detail.vue')
+          }
+        },
+        {
+          path:'/news',
+          name:'news',
+          component:function (){
+            return import('../components/news.vue')
+          }
+        },
+        {
+          path:'/person',
+          name:'person',
+          component:function (){
+            return import('../components/person.vue')
+          },
+          children:[
+            {
+              path:'/info',
+              name:'info',
+              component:function (){
+                return import('../components/info.vue')
+              }
+            },
+            {
+              path:'/car',
+              name:'car',
+              component:function (){
+                return import('../components/car.vue')
+              }
+            }
+          ]
         }
       ]
     },

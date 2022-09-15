@@ -17,9 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class CourseServiceImp implements CourseService {
@@ -111,9 +109,14 @@ public class CourseServiceImp implements CourseService {
     @Override
     public ServerResponse<List<CourseDto>> getRandomCourse(int number) {
         List<Course> courseList=courseRepository.findAll();
+        Map<Integer,Boolean> map=new HashMap<>();
         List<CourseDto> res=new ArrayList<>();
         for(int i=0;i<number;i++){
             int index=(int)(Math.random()*courseList.size());
+            while(map.get(index)!=null){
+                index=(int)(Math.random()*courseList.size());
+            }
+            map.put(index,true);
             Course course=courseList.get(index);
             CourseDto courseDto=courseToCourseDto(course);
             res.add(courseDto);
