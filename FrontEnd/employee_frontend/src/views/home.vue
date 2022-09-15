@@ -7,7 +7,7 @@
           active-color="#ffd04b"
           background-color="#7ab8cc"
           class="el-menu-vertical"
-          default-active="2"
+          default-active="0-1"
           text-color="#fff"
           :collapse="isCollapse"
         >
@@ -19,13 +19,13 @@
             <span style="margin-left: 3px">店铺经营状况</span>
           </el-menu-item>
 
-          <el-sub-menu index="0-2" >
+          <el-sub-menu index="0-2">
             <template #title>
               <el-icon><Notebook /></el-icon>
               <span style="margin-left: 3px">排课</span>
             </template>
-            <el-menu-item index="0-2-1" style="margin-left: 10px;width: 5px">预约</el-menu-item>
-            <el-menu-item index="0-2-2" style="margin-left: 10px;width: 5px">排课</el-menu-item>
+            <el-menu-item index="0-2-1" style="margin-left: 10px;width: 5px" @click="book">预约</el-menu-item>
+            <el-menu-item index="0-2-2" style="margin-left: 10px;width: 5px" @click="schedule">排课</el-menu-item>
           </el-sub-menu>
 
           <el-menu-item index="1-1">
@@ -58,7 +58,6 @@
 
         </el-menu>
         <el-radio-group v-model="isCollapse" style="position: absolute; left: 15px;width: 30px" size="mini" >
-
           <el-radio-button :label="true"><el-icon><DArrowLeft /></el-icon></el-radio-button>
           <el-radio-button :label="false"><el-icon><DArrowRight /></el-icon></el-radio-button>
         </el-radio-group>
@@ -152,6 +151,10 @@
                   <p style="font-size: x-small;position: absolute;left: 1px;top: 1px" >访问量</p>
                 </div>
               </template>
+              <div>
+                <span style="position: absolute;left: 2px;font-size: xx-large;top: 40px">999,999</span><br/>
+                <span style="position: absolute;font-size: xx-small">总计访问量:88万<el-icon><Flag /></el-icon></span>
+              </div>
             </el-card>
           </el-space>
           <el-space wrap>
@@ -159,9 +162,12 @@
               <template #header>
                 <div class="card-header" style="height: 1px;">
                   <p style="font-size: x-small;position: absolute;left: 1px;top: 1px" >下载</p>
-
                 </div>
               </template>
+              <div>
+                <span style="position: absolute;left: 2px;font-size: xx-large;top: 40px">33,555</span><br/>
+                <span style="position: absolute;font-size: xx-small">新下载:10%<el-icon><Avatar /></el-icon></span>
+              </div>
             </el-card>
           </el-space>
           <el-space wrap>
@@ -185,13 +191,48 @@
             </el-card>
           </el-space>
           <el-space wrap>
-            <el-card  class="box-card" style="width: 1000px;height: 300px;position: absolute;left: 240px;top: 210px ">
+            <el-card  class="box-card" style="width: 600px;height: 300px;position: absolute;left: 240px;top: 210px ">
               <template #header>
                 <div class="card-header" style="height: 1px;">
                   <p style="font-size: x-small;position: absolute;left: 1px;top: 1px" >访问量</p>
                 </div>
               </template>
               <div id="myChart"></div>
+            </el-card>
+          </el-space>
+          <el-space wrap>
+            <el-card  class="box-card" style="width: 380px;height: 300px;position: absolute;right: 20px;top: 210px ">
+              <template #header>
+                <div class="card-header" style="height: 1px;">
+                  <p style="font-size: x-small;position: absolute;left: 1px;top: 1px" >访问量</p>
+                </div>
+              </template>
+              <div class="demo-progress">
+                <p style="position: absolute;top: 30px;left: 20px">月访问数</p><br/>
+                <p style="position: absolute;left: 22px;top: 60px;font-size: xx-small">同上期增长</p>
+                <el-progress style="position: absolute;top: 90px"
+                  :text-inside="true"
+                  :stroke-width="20"
+                  :percentage="30"
+                  status="success"
+                />
+                <p style="position: absolute;top: 100px;left: 20px">月下载数</p><br/>
+                <p style="position: absolute;left: 22px;top: 130px;font-size: xx-small">同上期增长</p>
+                <el-progress style="position: absolute;top: 160px;"
+                  :text-inside="true"
+                  :stroke-width="22"
+                  :percentage="20"
+                  status="success"
+                />
+                <p style="position: absolute;top: 170px;left: 20px">月收入</p><br/>
+                <p style="position: absolute;left: 22px;top: 200px;font-size: xx-small">同上期增长</p>
+                <el-progress style="position: absolute;top: 230px"
+                  :text-inside="true"
+                  :stroke-width="20"
+                  :percentage="25"
+                  status="success"
+                />
+              </div>
             </el-card>
           </el-space>
           <el-space wrap>
@@ -210,11 +251,11 @@
                   <p style="font-size: x-small;position: absolute;left: 1px;top: 1px" >本周活跃用户列表</p>
                 </div>
               </template>
-              <el-table :data="tableData" style="width: 100%;font-size: xx-small">
+              <el-table :data="tableData" height="250" style="width: 100%;font-size: xx-small">
                 <el-table-column prop="user" label="用户名" width="80"  />
-                <el-table-column prop="latest" label="最后登录时间" width="100" />
+                <el-table-column prop="latest" label="最后登录时间" width="100" align="center"/>
                 <el-table-column prop="status" label="状态" width="50"/>
-                <el-table-column prop="zan" label="获得赞" width="60"/>
+                <el-table-column prop="zan" label="获得赞" width="60" align="center"/>
               </el-table>
             </el-card>
           </el-space>
@@ -227,8 +268,8 @@
               </template>
               <el-table
                 ref="multipleTableRef"
-                :data="tableData"
-                style="width: 100%"
+                :data="tableDatas"
+                style="width: 100%;font-size: xx-small"
                 @selection-change="handleSelectionChange"
               >
                 <el-table-column type="selection" width="30" />
@@ -264,8 +305,12 @@ import {
   Bell,
   PriceTag,
   Discount,
-  Sort
+  Sort,
+  Flag,
+  Avatar
 } from '@element-plus/icons'
+import router from "@/router";
+import *as echarts from 'echarts'	// 引入echarts
 export default {
   name: 'myHome',
   components: {
@@ -286,12 +331,123 @@ export default {
     Bell,
     PriceTag,
     Discount,
-    Sort
+    Sort,
+    Flag,
+    Avatar
   },
   data () {
     return {
-      isCollapse: true
+      isCollapse: false,
+      tableData:[
+      {
+        user:"胡歌",
+        latest:"11:20",
+        status:"在线",
+        zan:"22"
+      },
+        {
+          user:"彭于晏",
+          latest:"3:09",
+          status:"离线",
+          zan:"50"
+        },
+        {
+          user:"吴磊",
+          latest: "5:20",
+          status: "在线",
+          zan:"200"
+        },
+        {
+          user:"赵露思",
+          latest: "5:20",
+          status: "在线",
+          zan:"368"
+        },
+    ],
+      tableDatas:[
+        {
+          date:"开会",
+          name:"一小时",
+          address:"已完成"
+        },
+        {
+          date:"项目开发",
+          name:"两小时",
+          address:"进行中"
+        },
+        {
+          date: "吃饭",
+          name: "一小时",
+          address: "未完成"
+        },
+        {
+          date: "修改bug",
+          name: "一小时",
+          address: "未完成"
+        }
+      ],
+
+
+      echartsOption: {	// echarts选项，所有绘图数据和样式都在这里设置
+        legend: {	//图表上方的图例
+          data: ['访问量', '下载量', '平均访问量',]
+        },
+        xAxis: {
+          type: 'category',
+          data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月','8月', '9月', '10月', '11月', '12月'],   // x轴数据
+          name: '日期',   // x轴名称
+          nameTextStyle: {	// x轴名称样式
+            fontWeight: 600,
+            fontSize: 13
+          }
+        },
+        yAxis: {
+          type: 'value',
+          name: '访问量',   // y轴名称
+          nameTextStyle: {	// y轴名称样式
+            fontWeight: 600,
+            fontSize: 13
+          }
+        },
+        tooltip: {   //鼠标放到图上的数据展示样式
+          trigger: 'axis'
+        },
+        series: [	//每条折线的数据系列
+          {
+            name: '访问量',
+            data: [820, 932, 901, 934, 900,950,980,1000,800,1030,1200,1100],
+            type: 'line'
+          },
+          {
+            name: '下载量',
+            data: [620, 711, 823, 934,1178,1100,1200,1250,1204,1000,1200,1270],
+            type: 'line'
+          },
+          {
+            name: '平均访问量',
+            data: [612, 700,720,800,780,850,890,950,990,1040,1100,1180],
+            type: 'line'
+          }
+
+        ],
+      }
     }
+  },
+  methods:{
+    book(){
+      router.push({
+        name:"book"
+      })
+    },
+    schedule(){
+      router.push({
+        name:"schedule"
+      })
+    }
+  },
+  mounted() {
+    let myChart = echarts.init(document.getElementById('myChart'), 'light')	// 初始化echarts, theme为light
+    myChart.setOption(this.echartsOption)	// echarts设置选项
   }
 }
 </script>
@@ -307,5 +463,13 @@ export default {
   width: 0;
   height: 0;
 }
+#myChart{
+  width: 100%;
+  height: 280px;
 
+}
+.demo-progress .el-progress--line {
+  margin-bottom: 15px;
+  width: 350px;
+}
 </style>
