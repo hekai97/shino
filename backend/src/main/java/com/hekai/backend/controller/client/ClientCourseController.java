@@ -10,7 +10,6 @@ import com.hekai.backend.service.CourseReservationService;
 import com.hekai.backend.service.CourseService;
 import com.hekai.backend.service.StoreService;
 import com.hekai.backend.service.TeacherService;
-
 import com.hekai.backend.utils.ConstUtil;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springdoc.api.annotations.ParameterObject;
@@ -204,5 +203,13 @@ public class ClientCourseController {
             number=4;
         }
         return courseService.getRandomCourse(number);
+    }
+    @RequestMapping(value = "/getStoresPageable",method = RequestMethod.GET)
+    public ServerResponse<Page<StoreDto>> getStoresPageable(@ParameterObject Pageable pageable){
+        return storeService.getStoresPageable(pageable);
+    }
+    @RequestMapping(value = "/getCoursesPageableByStoreId",method = RequestMethod.GET)
+    public ServerResponse<Page<CourseDto>> getCoursesPageableByStoreId(@ParameterObject Pageable pageable,@Parameter Integer storeId){
+        return courseService.getCoursesPageableByStoreId(pageable,storeId);
     }
 }

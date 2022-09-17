@@ -18,4 +18,6 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     List<Course> findAllByCourseCategoryId(Integer categoryId);
 
     Page<Course> findCoursesByIdIn(Pageable pageable, List<Integer> courseIdList);
+
+    List<Course> findCoursesByIdNotIn(List<Integer> courseIdList);
 }

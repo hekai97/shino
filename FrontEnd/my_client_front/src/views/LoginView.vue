@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <el-tabs type="border-card" style="height: 400px">
+    <el-tabs type="border-card" style="height: 400px" stretch="true">
       <el-tab-pane label="登录" class="tab">
         <h1>用户登录</h1>
         <el-form ref="form" :model="form" label-width="80px" :rules="rules">

@@ -137,6 +137,35 @@ public class CourseServiceImp implements CourseService {
         return ServerResponse.createRespBySuccess(result);
     }
 
+    @Override
+    public ServerResponse<List<Course>> getCoursesNotInStore() {
+        List<RelationStoreCourse> relationStoreCourseList=relationStoreCourseRepository.findAll();
+        List<Integer> courseIdList=new ArrayList<>();
+        for(RelationStoreCourse relationStoreCourse:relationStoreCourseList){
+            courseIdList.add(relationStoreCourse.getCourseId());
+        }
+        List<Course> courseList=courseRepository.findCoursesByIdNotIn(courseIdList);
+        return ServerResponse.createRespBySuccess(courseList);
+    }
+
+    @Override
+    public ServerResponse<String> setCourseToStore(String courseNumber, Integer storeId) {
+        Course course=courseRepository.findCourseByCourseNumber(courseNumber);
+        RelationStoreCourse relationStoreCourse=new RelationStoreCourse();
+        relationStoreCourse.setCourseId(course.getId());
+        relationStoreCourse.setStoreId(storeId);
+        relationStoreCourseRepository.save(relationStoreCourse);
+        return ServerResponse.createRespBySuccessMessage("设置课程成功！");
+    }
+
+    @Override
+    public ServerResponse<String> deleteCourseFromStore(String courseNumber, Integer storeId) {
+        Course course=courseRepository.findCourseByCourseNumber(courseNumber);
+        RelationStoreCourse relationStoreCourse=relationStoreCourseRepository.findRelationStoreCourseByCourseIdAndStoreId(course.getId(),storeId);
+        relationStoreCourseRepository.delete(relationStoreCourse);
+        return ServerResponse.createRespBySuccessMessage("删除课程成功！");
+    }
+
 
     private List<CourseDto> courseListToCourseDtoList(List<Course> courses){
         List<CourseDto> courseDtos=new ArrayList<>();

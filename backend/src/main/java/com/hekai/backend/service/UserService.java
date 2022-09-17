@@ -154,4 +154,14 @@ public interface UserService {
     ServerResponse<List<TimeAndCountDto>> getRegisterUserByDate(Integer days);
 
     ServerResponse<Page<EmployeeUser>> findOnlyEmployeeUserPageableByStoreId(Pageable pageable, Integer storeId);
+
+    ServerResponse<List<EmployeeUser>> getAllStoreManager();
+
+    ServerResponse<List<EmployeeUser>> getAllFreeStoreManager();
+
+    ServerResponse<List<EmployeeUser>> getAllFreeEmployee();
+
+    ServerResponse<String> setEmployeeToStore(String employeeUserNumber, Integer storeId);
+
+    ServerResponse<String> deleteEmployeeToStore(String employeeUserNumber, Integer storeId);
 }

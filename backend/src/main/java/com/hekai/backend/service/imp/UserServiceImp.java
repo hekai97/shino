@@ -248,4 +248,65 @@ public class UserServiceImp implements UserService {
         Page<EmployeeUser> employeeUsers=employeeUserRepository.findEmployeeUsersByStoreIdAndRoleIdIn(pageable,storeId,roleList);
         return ServerResponse.createRespBySuccess(employeeUsers);
     }
+
+    @Override
+    public ServerResponse<List<EmployeeUser>> getAllStoreManager() {
+        List<EmployeeUser> employeeUsers=employeeUserRepository.findEmployeeUsersByRoleId(ConstUtil.STORE_MANAGER);
+        return ServerResponse.createRespBySuccess(employeeUsers);
+    }
+
+    @Override
+    public ServerResponse<List<EmployeeUser>> getAllFreeStoreManager() {
+        List<EmployeeUser> employeeUsers=employeeUserRepository.findEmployeeUsersByRoleId(ConstUtil.STORE_MANAGER);
+        List<EmployeeUser> freeEmployeeUsers=new ArrayList<>();
+        for(EmployeeUser employeeUser:employeeUsers){
+            if(employeeUser.getStoreId()==null){
+                freeEmployeeUsers.add(employeeUser);
+            }
+        }
+        return ServerResponse.createRespBySuccess(freeEmployeeUsers);
+    }
+
+    @Override
+    public ServerResponse<List<EmployeeUser>> getAllFreeEmployee() {
+        List<EmployeeUser> employeeUsers=employeeUserRepository.findEmployeeUsersByRoleId(ConstUtil.EMPLOYEE_ROLE);
+        List<EmployeeUser> freeEmployeeUsers=new ArrayList<>();
+        for(EmployeeUser employeeUser:employeeUsers){
+            if(employeeUser.getStoreId()==null){
+                freeEmployeeUsers.add(employeeUser);
+            }
+        }
+        return ServerResponse.createRespBySuccess(freeEmployeeUsers);
+    }
+
+    @Override
+    public ServerResponse<String> setEmployeeToStore(String employeeUserNumber, Integer storeId) {
+        EmployeeUser employeeUser=employeeUserRepository.findEmployeeUserByNumber(employeeUserNumber);
+        if(employeeUser==null){
+            return ServerResponse.createByErrorMessage("该员工不存在！");
+        }
+        if(employeeUser.getStoreId()!=null){
+            return ServerResponse.createByErrorMessage("该员工已经在其他门店！");
+        }
+        employeeUser.setStoreId(storeId);
+        employeeUserRepository.save(employeeUser);
+        return ServerResponse.createRespBySuccessMessage("设置成功！");
+    }
+
+    @Override
+    public ServerResponse<String> deleteEmployeeToStore(String employeeUserNumber, Integer storeId) {
+        EmployeeUser employeeUser=employeeUserRepository.findEmployeeUserByNumber(employeeUserNumber);
+        if(employeeUser==null){
+            return ServerResponse.createByErrorMessage("该员工不存在！");
+        }
+        if(employeeUser.getStoreId()==null){
+            return ServerResponse.createByErrorMessage("该员工不在任何门店！");
+        }
+        if(!employeeUser.getStoreId().equals(storeId)){
+            return ServerResponse.createByErrorMessage("该员工不在该门店！");
+        }
+        employeeUser.setStoreId(null);
+        employeeUserRepository.save(employeeUser);
+        return ServerResponse.createRespBySuccessMessage("删除成功！");
+    }
 }
