@@ -6,7 +6,7 @@ public class ConstUtil {
     public static final String ADMIN_USER="admin";
 
     public static final Integer SUPER_ADMIN_ROLE=1;
-    public static final Integer ADMIN_ROLE=2;
+    public static final Integer STORE_MANAGER =2;
     public static final Integer EMPLOYEE_ROLE=3;
     public static final Integer FINANCIAL_DIRECTOR=4;
 

@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -224,5 +221,54 @@ public class AdminUserController {
             days=7;
         }
         return userService.getRegisterUserByDate(days);
+    }
+    @Operation(summary = "获取所有店长")
+    @RequestMapping(value = "/getAllStoreManager",method = RequestMethod.GET)
+    public ServerResponse<List<EmployeeUser>> getAllStoreManager(HttpSession httpSession){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return userService.getAllStoreManager();
+    }
+    @Operation(summary = "获取所有的空闲的店长")
+    @RequestMapping(value = "/getAllFreeStoreManager",method = RequestMethod.GET)
+    public ServerResponse<List<EmployeeUser>> getAllFreeStoreManager(HttpSession httpSession){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return userService.getAllFreeStoreManager();
+    }
+    @Operation(summary = "获取所有的空闲的店员")
+    @RequestMapping(value = "/getAllFreeEmployee",method = RequestMethod.GET)
+    public ServerResponse<List<EmployeeUser>> getAllFreeEmployee(HttpSession httpSession){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return userService.getAllFreeEmployee();
+    }
+    @Operation(summary = "将某个员工放到商店")
+    @RequestMapping(value = "/setEmployeeToStoreByEmployeeNumber",method = RequestMethod.POST)
+    public ServerResponse<String> setEmployeeToStore(HttpSession httpSession,
+                                                     @Parameter String employeeUserNumber,
+                                                     @Parameter Integer storeId){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return userService.setEmployeeToStore(employeeUserNumber,storeId);
+    }
+    @Operation(summary = "删除某个雇员与商店的对应关系")
+    @RequestMapping(value = "/deleteEmployeeToStoreByEmployeeNumber",method = RequestMethod.POST)
+    public ServerResponse<String> deleteEmployeeToStore(HttpSession httpSession,
+                                                     @Parameter String employeeUserNumber,
+                                                     @Parameter Integer storeId){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return userService.deleteEmployeeToStore(employeeUserNumber,storeId);
     }
 }

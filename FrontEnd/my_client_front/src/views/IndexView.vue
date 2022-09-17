@@ -8,6 +8,7 @@
           class="el-menu-demo"
           mode="horizontal"
           @select="handleSelect"
+          :ellipsis="false"
         >
           <el-menu-item index="/front">网站首页</el-menu-item>
           <el-menu-item index="/course">课程展示</el-menu-item>

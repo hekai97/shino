@@ -19,7 +19,34 @@ const router = createRouter({
           name: "front",
           component: () => import("@/views/FrontView.vue"),
         },
+        {
+          path: "/course",
+          name: "course",
+          component: () => import("@/views/CourseView.vue"),
+        },
+        {
+          path: "/store",
+          name: "store",
+          component: () => import("@/views/StoreView.vue"),
+        },
+        {
+          path: "/person",
+          name: "person",
+          component: () => import("@/views/PersonView.vue"),
+          children: [
+            {
+              path: "/info",
+              name: "info",
+              component: () => import("@/views/PersonInfo.vue"),
+            },
+          ],
+        },
       ],
+    },
+    {
+      path: "/storeDetail",
+      name: "storeDetail",
+      component: () => import("@/views/StoreDetail.vue"),
     },
   ],
 });

@@ -202,5 +202,32 @@ public ServerResponse<Page<CourseDto>> getCoursesPageableByStoreId(HttpSession h
             return ServerResponse.createByErrorMessage("未登录！");
         }
         return courseService.getAllCourseCategory();
-    }  
+    }
+    @Operation(summary = "获取不是这个门店的所有课程")
+    @RequestMapping(value = "/getCoursesNotInStore",method = RequestMethod.GET)
+    public ServerResponse<List<Course>> getCoursesNotInStore(HttpSession httpSession,@Parameter Integer storeId){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return courseService.getCoursesNotInStore();
+    }
+    @Operation(summary = "将某门课设置到某个门店")
+    @RequestMapping(value="/setCourseToStoreByCourseNumber",method = RequestMethod.POST)
+    public ServerResponse<String> setCourseToStore(HttpSession httpSession,@Parameter String courseNumber,@Parameter Integer storeId){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return courseService.setCourseToStore(courseNumber,storeId);
+    }
+    @Operation(summary = "删除某个门店的某个课程")
+    @RequestMapping(value="/deleteCourseFromStore",method = RequestMethod.POST)
+    public ServerResponse<String> deleteCourseFromStore(HttpSession httpSession,@Parameter String courseNumber,@Parameter Integer storeId){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return courseService.deleteCourseFromStore(courseNumber,storeId);
+    }
 }

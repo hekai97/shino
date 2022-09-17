@@ -3,6 +3,8 @@ package com.hekai.backend.service;
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.StoreDto;
 import com.hekai.backend.entity.Store;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -51,4 +53,6 @@ public interface StoreService {
      * @return {@link ServerResponse}<{@link String}>
      */
     ServerResponse<String> deleteStore(Integer storeId);
+
+    ServerResponse<Page<StoreDto>> getStoresPageable(Pageable pageable);
 }

@@ -12,7 +12,8 @@ public class CommonFunction {
         try {
             File file=new File(path, UUIDUtil.generationFileName()+ Objects.requireNonNull(image.getOriginalFilename()).substring(image.getOriginalFilename().lastIndexOf(".")));
             image.transferTo(file);
-            return ServerResponse.createRespBySuccess(file.getPath());
+            String newPath=file.getPath();
+            return ServerResponse.createRespBySuccess(RegexUtil.getRelativePath(newPath));
         } catch (IOException e) {
             return ServerResponse.createByErrorMessage("图片上传错误！");
         }

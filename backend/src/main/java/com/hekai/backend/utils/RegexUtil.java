@@ -1,5 +1,6 @@
 package com.hekai.backend.utils;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegexUtil {
@@ -29,5 +30,14 @@ public class RegexUtil {
         String pattern = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
         Pattern p = Pattern.compile(pattern);
         return p.matcher(account).matches();
+    }
+    public static String getRelativePath(String absolutePath){
+        String pattern="\\/images\\/.*";
+        Pattern p = Pattern.compile(pattern);
+        Matcher m = p.matcher(absolutePath);
+        if(m.find()){
+            return m.group();
+        }
+        return null;
     }
 }

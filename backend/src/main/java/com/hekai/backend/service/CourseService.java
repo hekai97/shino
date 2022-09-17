@@ -94,4 +94,10 @@ public interface CourseService {
     ServerResponse<List<CourseDto>> getRandomCourse(int number);
 
     ServerResponse<Page<CourseDto>> getCoursesPageableByStoreId(Pageable pageable, Integer storeId);
+
+    ServerResponse<List<Course>> getCoursesNotInStore();
+
+    ServerResponse<String> setCourseToStore(String courseNumber, Integer storeId);
+
+    ServerResponse<String> deleteCourseFromStore(String courseNumber, Integer storeId);
 }

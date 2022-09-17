@@ -10,4 +10,6 @@ import java.util.List;
 public interface RelationStoreCourseRepository extends JpaRepository<RelationStoreCourse, Integer> {
 
     List<RelationStoreCourse> findRelationStoreCoursesByStoreId(Integer storeId);
+
+    RelationStoreCourse findRelationStoreCourseByCourseIdAndStoreId(Integer courseId, Integer storeId);
 }

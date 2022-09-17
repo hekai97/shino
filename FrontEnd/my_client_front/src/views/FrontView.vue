@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div>
+    <div class="content-center">
       <el-carousel trigger="click" height="450px">
         <el-carousel-item v-for="item in imgList" :key="item.id">
-          <img :src="item.url" alt="" />
+          <el-image :src="item.url" alt="" />
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -11,7 +11,11 @@
     <div class="mid">
       <div class="activity">
         <div class="img0" v-for="(item, index) in activityList" :key="index">
-          <img :src="baseUrl + item.pictureUrl" width="200px" height="200px" />
+          <el-image
+            :src="baseUrl + item.pictureUrl"
+            width="200px"
+            height="200px"
+          />
         </div>
       </div>
     </div>
@@ -24,7 +28,7 @@
           :key="index"
           @click="goCourse"
         >
-          <img
+          <el-image
             v-bind:src="baseUrl + item.pictureUrl"
             width="200px"
             height="200px"
@@ -34,9 +38,9 @@
     </div>
     <div class="end">
       <h1>店铺展示</h1>
-      <div class="out" v-for="(item, index) in storeList" :key="index">
-        <div class="son">
-          <img
+      <div class="out">
+        <div class="son" v-for="(item, index) in storeList" :key="index">
+          <el-image
             v-bind:src="baseUrl + item.pictureUrl"
             width="250px"
             height="200px"
@@ -59,11 +63,11 @@ export default {
       imgList: [
         {
           id: 0,
-          url: "../assets/491c2f52033045633864a5ec2c1eba9b.jpeg",
+          url: "src/assets/491c2f52033045633864a5ec2c1eba9b.jpeg",
         },
         {
           id: 1,
-          url: "../assets/6ad79cc7fea95496c878c6ab112e6ea7.jpeg",
+          url: "src/assets/6ad79cc7fea95496c878c6ab112e6ea7.jpeg",
         },
       ],
       storeList: [],
@@ -138,6 +142,9 @@ export default {
 };
 </script>
 <style scoped>
+.content-center {
+  text-align: center;
+}
 .title {
   margin-top: 0px;
   padding-top: 50px;
@@ -156,34 +163,39 @@ export default {
   color: white;
   padding-top: 10px;
   background-color: rgba(0, 0, 0, 0.9);
-  height: 350px;
+  /* height: 350px; */
 }
 .img0 {
   width: 25%;
-  float: left;
+  display: inline-flex;
   height: 200px;
 }
 .img4 {
+  padding: 5px;
   width: 200px;
-  float: left;
+  display: inline-flex;
   height: 200px;
   margin: auto;
 }
 .out {
-  margin-left: 10%;
+  margin: auto;
+  width: 100%;
+  height: 200px;
+  display: inline-flex;
 }
 .son {
   width: 20%;
-  height: 200px;
-  float: left;
+  /* height: 200px; */
+  margin: auto;
 }
 .bottom {
   display: flex;
   margin-bottom: 20px;
+  text-align: center;
 }
 .course {
-  width: 100%;
-  margin: auto;
+  /* width: 100%; */
+  margin: 0 auto;
 }
 .footer {
   width: 100%;
