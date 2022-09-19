@@ -1,9 +1,7 @@
 package com.hekai.backend.service.imp;
 
 import com.hekai.backend.common.ServerResponse;
-import com.hekai.backend.dto.OrderDetailDto;
-import com.hekai.backend.dto.OrderItemDto;
-import com.hekai.backend.dto.TimeAndCountDto;
+import com.hekai.backend.dto.*;
 import com.hekai.backend.entity.*;
 import com.hekai.backend.repository.*;
 import com.hekai.backend.service.OrderService;
@@ -41,6 +39,18 @@ public class OrderServiceImp implements OrderService {
     private CoursePackageRepository coursePackageRepository;
     @Autowired
     private RelationStoreCourseRepository relationStoreCourseRepository;
+    @Autowired
+    private OrderGoodsRepository orderGoodsRepository;
+    @Autowired
+    private CourseReservationRepository courseReservationRepository;
+    @Autowired
+    private CourseTableRepository courseTableRepository;
+    @Autowired
+    private StoreRepository storeRepository;
+    @Autowired
+    private TeacherRepository teacherRepository;
+    @Autowired
+    private CourseTimeConfigRepository courseTimeConfigRepository;
     @Override
     public ServerResponse<Page<OrderItemDto>> getOrderListPageable(Pageable pageable) {
         Page<OrderItem> orderItemPage=orderItemRepository.findAll(pageable);
@@ -211,6 +221,155 @@ public class OrderServiceImp implements OrderService {
         List<OrderItem> orderItemList=orderItemRepository.findOrderItemsByUserIdAndStatus(id,ConstUtil.OrderStatus.AFTER_SALE);
         List<OrderItemDto> orderItemDtoList=orderItemListToOrderItemDtoList(orderItemList);
         return ServerResponse.createRespBySuccess(orderItemDtoList);
+    }
+
+    @Override
+    public ServerResponse<List<OrderGoodsDto>> getNoReservations(Integer userId) {
+        List<OrderItem> orderItemList=orderItemRepository.findOrderItemsByUserIdAndAndStatusIsNot(userId,ConstUtil.OrderStatus.UNPAID);
+        List<Integer> orderIdList=new ArrayList<>();
+        for(OrderItem orderItem:orderItemList){
+            orderIdList.add(orderItem.getId());
+        }
+        List<OrderDetail> orderDetailList=orderDetailRepository.findOrderDetailsByOrderIdIn(orderIdList);
+        List<Integer> orderDetailIdList=new ArrayList<>();
+        for(OrderDetail orderDetail:orderDetailList){
+            orderDetailIdList.add(orderDetail.getId());
+        }
+        List<OrderGoods> orderGoodsList=orderGoodsRepository.findOrderGoodsByOrderDetailIdInAndReserveIdIsNull(orderDetailIdList);
+        List<OrderGoodsDto> orderGoodsDtoList=orderGoodsListToOrderGoodsDtoList(orderItemList,orderDetailList,orderGoodsList);
+        return ServerResponse.createRespBySuccess(orderGoodsDtoList);
+    }
+
+    @Override
+    public ServerResponse<List<OrderGoodsDto>> getReservations(Integer userId) {
+        List<OrderItem> orderItemList=orderItemRepository.findOrderItemsByUserIdAndAndStatusIsNot(userId,ConstUtil.OrderStatus.UNPAID);
+        List<Integer> orderIdList=new ArrayList<>();
+        for(OrderItem orderItem:orderItemList){
+            orderIdList.add(orderItem.getId());
+        }
+        List<OrderDetail> orderDetailList=orderDetailRepository.findOrderDetailsByOrderIdIn(orderIdList);
+        List<Integer> orderDetailIdList=new ArrayList<>();
+        for(OrderDetail orderDetail:orderDetailList){
+            orderDetailIdList.add(orderDetail.getId());
+        }
+        List<OrderGoods> orderGoodsList=orderGoodsRepository.findOrderGoodsByOrderDetailIdInAndReserveIdIsNotNull(orderDetailIdList);
+        List<OrderGoodsDto> orderGoodsDtoList=orderGoodsListToOrderGoodsDtoListWithReservationAndTable(orderItemList,orderDetailList,orderGoodsList);
+        return ServerResponse.createRespBySuccess(orderGoodsDtoList);
+    }
+
+    @Override
+    public ServerResponse<String> userCreateReservations(Integer userId, Integer orderDetailId, Integer storeId, String date, Integer group) {
+        OrderDetail orderDetail=orderDetailRepository.findOrderDetailById(orderDetailId);
+        if(orderDetail==null){
+            return ServerResponse.createByErrorMessage("订单不存在");
+        }
+        OrderItem orderItem=orderItemRepository.findOrderItemById(orderDetail.getOrderId());
+        if(orderItem==null){
+            return ServerResponse.createByErrorMessage("订单不存在");
+        }
+        if(!Objects.equals(orderItem.getUserId(), userId)){
+            return ServerResponse.createByErrorMessage("订单不属于该用户");
+        }
+        CourseReservation courseReservation=new CourseReservation();
+        courseReservation.setStoreId(storeId);
+        courseReservation.setCourseId(orderDetail.getCourseId());
+        courseReservation.setOrderId(orderDetail.getOrderId());
+        courseReservation.setState(ConstUtil.COURSE_RESERVATION_STATUS_WAITING);
+        courseReservation.setDate(DateFormatUtil.formatTimestamp(date));
+        CourseTimeConfig courseTimeConfig=courseTimeConfigRepository.findAll().get(0);
+        switch (group){
+            case 1 -> {
+                courseReservation.setBeginTime(DateFormatUtil.formatTimestamp(courseTimeConfig.getCourse1StartTime()));
+                courseReservation.setEndTime(DateFormatUtil.formatTimestamp(courseTimeConfig.getCourse1EndTime()));
+            }
+            case 2 -> {
+                courseReservation.setBeginTime(DateFormatUtil.formatTimestamp(courseTimeConfig.getCourse2StartTime()));
+                courseReservation.setEndTime(DateFormatUtil.formatTimestamp(courseTimeConfig.getCourse2EndTime()));
+            }
+            case 3 -> {
+                courseReservation.setBeginTime(DateFormatUtil.formatTimestamp(courseTimeConfig.getCourse3StartTime()));
+                courseReservation.setEndTime(DateFormatUtil.formatTimestamp(courseTimeConfig.getCourse3EndTime()));
+            }
+            case 4 -> {
+                courseReservation.setBeginTime(DateFormatUtil.formatTimestamp(courseTimeConfig.getCourse4StartTime()));
+                courseReservation.setEndTime(DateFormatUtil.formatTimestamp(courseTimeConfig.getCourse4EndTime()));
+            }
+            default -> {
+                return ServerResponse.createByErrorMessage("时间参数错误");
+            }
+        }
+        CourseReservation result=courseReservationRepository.save(courseReservation);
+        if(result==null){
+            return ServerResponse.createByErrorMessage("预约失败");
+        }
+        OrderGoods orderGoods=orderGoodsRepository.findOrderGoodsByOrderDetailIdAndReserveIdIsNull(orderDetailId);
+        if(orderGoods==null){
+            return ServerResponse.createByErrorMessage("预约失败");
+        }
+        orderGoods.setReserveId(result.getId());
+        orderGoodsRepository.save(orderGoods);
+        return ServerResponse.createRespBySuccess("预约成功");
+    }
+
+    @Override
+    public ServerResponse<CourseReservation> getReservationsDetailByReservationId(Integer courseReservationId) {
+        CourseReservation courseReservation=courseReservationRepository.findCourseReservationById(courseReservationId);
+        if(courseReservation==null){
+            return ServerResponse.createByErrorMessage("预约不存在");
+        }
+        return ServerResponse.createRespBySuccess(courseReservation);
+    }
+
+    private List<OrderGoodsDto> orderGoodsListToOrderGoodsDtoListWithReservationAndTable(List<OrderItem> orderItemList, List<OrderDetail> orderDetailList, List<OrderGoods> orderGoodsList) {
+        List<OrderGoodsDto> orderGoodsDtoList=orderGoodsListToOrderGoodsDtoList(orderItemList,orderDetailList,orderGoodsList);
+        for(OrderGoodsDto orderGoodsDto:orderGoodsDtoList){
+            Integer reserveId=orderGoodsDto.getReserveId();
+            if(reserveId!=null) {
+                CourseReservation courseReservation = courseReservationRepository.findCourseReservationById(reserveId);
+                orderGoodsDto.setCourseReservation(courseReservation);
+            }
+            if(orderGoodsDto.getCourseTableId()!=null){
+                CourseTable courseTable=courseTableRepository.findCourseTableById(orderGoodsDto.getCourseTableId());
+                orderGoodsDto.setCourseTable(courseTableToCourseTableDto(courseTable));
+            }
+        }
+        return orderGoodsDtoList;
+    }
+    private CourseTableDto courseTableToCourseTableDto(CourseTable courseTable) {
+        CourseTableDto courseTableDto = modelMapper.map(courseTable, CourseTableDto.class);
+        courseTableDto.setCourseName(courseRepository.findCourseById(courseTable.getCourseId()).getCourseName());
+        courseTableDto.setStoreName(storeRepository.findStoreById(courseTable.getStoreId()).getStoreName());
+        courseTableDto.setTeacherName(teacherRepository.findTeacherById(courseTable.getTeacherId()).getName());
+        courseTableDto.setUserName(userRepository.findUserById(courseTable.getUserId()).getName());
+        courseTableDto.setCreateTime(DateFormatUtil.formatTimeNoSecond(courseTable.getCreateTime()));
+        courseTableDto.setReservationDate(DateFormatUtil.formatDate(courseTable.getReservationDate()));
+        return courseTableDto;
+    }
+
+    private List<OrderGoodsDto> orderGoodsListToOrderGoodsDtoList(List<OrderItem> orderItemList, List<OrderDetail> orderDetailList, List<OrderGoods> orderGoodsList) {
+        List<OrderGoodsDto> orderGoodsDtoList=new ArrayList<>();
+        for(OrderGoods orderGoods:orderGoodsList) {
+            OrderGoodsDto orderGoodsDto= new OrderGoodsDto();
+            modelMapper.map(orderGoods,orderGoodsDto);
+            for(OrderDetail orderDetail:orderDetailList){
+                if(orderGoodsDto.getOrderDetailId().equals(orderDetail.getId())){
+                    orderGoodsDto.setOrderId(orderDetail.getOrderId());
+                    orderGoodsDto.setPrice(orderDetail.getPrice());
+                    Course course=courseRepository.findCourseById(orderDetail.getCourseId());
+                    orderGoodsDto.setCourseName(course.getCourseName());
+                    orderGoodsDto.setPictureUrl(course.getPictureUrl());
+                    orderGoodsDto.setCategoryName(courseCategoryRepository.findCourseCategoryById(course.getCourseCategoryId()).getCategoryName());
+                    break;
+                }
+            }
+            for(OrderItem orderItem:orderItemList){
+                if(orderGoodsDto.getOrderId().equals(orderItem.getId())){
+                    orderGoodsDto.setOrderNumber(orderItem.getOrderNumber());
+                    break;
+                }
+            }
+        }
+        return orderGoodsDtoList;
     }
 
 

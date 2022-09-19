@@ -166,6 +166,36 @@ public class CourseServiceImp implements CourseService {
         return ServerResponse.createRespBySuccessMessage("删除课程成功！");
     }
 
+    @Override
+    public ServerResponse<String> addCourseCategory(Integer id, CourseCategory courseCategory) {
+        CourseCategory isExistCourseCategory=courseCategoryRepository.findCourseCategoryByCategoryName(courseCategory.getCategoryName());
+        if(isExistCourseCategory!=null){
+            return ServerResponse.createByErrorMessage("该课程分类已存在！");
+        }
+        courseCategory.setCreatedId(id);
+        courseCategory.setCreateTime(new Timestamp(new Date().getTime()));
+        courseCategoryRepository.save(courseCategory);
+        return ServerResponse.createRespBySuccessMessage("添加课程分类成功！");
+    }
+
+    @Override
+    public ServerResponse<String> updateCourseCategory(CourseCategory courseCategory) {
+        if(courseCategory.getId()==null){
+            return ServerResponse.createByErrorMessage("请输入课程分类id！");
+        }
+        courseCategoryRepository.save(courseCategory);
+        return ServerResponse.createRespBySuccessMessage("修改课程分类成功！");
+    }
+
+    @Override
+    public ServerResponse<String> deleteCourseCategory(Integer categoryId) {
+        if(courseRepository.findAllByCourseCategoryId(categoryId).size()>0){
+            return ServerResponse.createByErrorMessage("该课程分类下存在课程，无法删除！");
+        }
+        courseCategoryRepository.deleteById(categoryId);
+        return ServerResponse.createRespBySuccessMessage("删除课程分类成功！");
+    }
+
 
     private List<CourseDto> courseListToCourseDtoList(List<Course> courses){
         List<CourseDto> courseDtos=new ArrayList<>();

@@ -29,5 +29,19 @@ public class DateFormatUtil {
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat(pattern);
         return simpleDateFormat.format(date);
     }
+    public static Timestamp formatTimestamp(String time){
+        if(time==null){
+            return null;
+        }
+        String pattern="yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat(pattern);
+        try {
+            Date date=simpleDateFormat.parse(time);
+            return new Timestamp(date.getTime());
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }

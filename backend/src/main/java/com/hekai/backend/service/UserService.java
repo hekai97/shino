@@ -164,4 +164,6 @@ public interface UserService {
     ServerResponse<String> setEmployeeToStore(String employeeUserNumber, Integer storeId);
 
     ServerResponse<String> deleteEmployeeToStore(String employeeUserNumber, Integer storeId);
+
+    ServerResponse<EmployeeUser> getEmployeeUserByEmployeeId(Integer employeeId);
 }
