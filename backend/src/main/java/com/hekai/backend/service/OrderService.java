@@ -2,8 +2,10 @@ package com.hekai.backend.service;
 
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.OrderDetailDto;
+import com.hekai.backend.dto.OrderGoodsDto;
 import com.hekai.backend.dto.OrderItemDto;
 import com.hekai.backend.dto.TimeAndCountDto;
+import com.hekai.backend.entity.CourseReservation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -112,4 +114,12 @@ public interface OrderService {
     ServerResponse<List<OrderItemDto>> getUserPaidOrderList(int id);
 
     ServerResponse<List<OrderItemDto>> getAfterSaleOrderList(int id);
+
+    ServerResponse<List<OrderGoodsDto>> getNoReservations(Integer userId);
+
+    ServerResponse<List<OrderGoodsDto>> getReservations(Integer userId);
+
+    ServerResponse<String> userCreateReservations(Integer userId, Integer orderDetailId, Integer storeId, String time, Integer group);
+
+    ServerResponse<CourseReservation> getReservationsDetailByReservationId(Integer courseReservationId);
 }
