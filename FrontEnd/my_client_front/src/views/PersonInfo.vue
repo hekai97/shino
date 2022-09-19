@@ -4,35 +4,69 @@
     <div class="form">
       <el-form ref="form" :model="userInfo" label-width="80px">
         <el-form-item label="用户名">
-          <el-input
-            class="message-input"
-            v-model="userInfo.username"
-          ></el-input>
+          <el-input v-if="canModify" v-model="userInfo.username"></el-input>
+          <el-input v-else disabled v-model="userInfo.username"></el-input>
+        </el-form-item>
+        <el-form-item label="姓名">
+          <el-input v-if="canModify" v-model="userInfo.name"></el-input>
+          <el-input v-else disabled v-model="userInfo.name"></el-input>
         </el-form-item>
         <el-form-item label="邮箱">
-          <el-input class="message-input" v-model="userInfo.email"></el-input>
+          <el-input v-if="canModify" v-model="userInfo.email"></el-input>
+          <el-input v-else disabled v-model="userInfo.email"></el-input>
         </el-form-item>
         <el-form-item label="手机号码">
-          <el-input
-            class="message-input"
-            v-model="userInfo.phoneNumber"
-          ></el-input>
+          <el-input v-if="canModify" v-model="userInfo.phoneNumber"></el-input>
+          <el-input v-else disabled v-model="userInfo.phoneNumber"></el-input>
         </el-form-item>
         <el-form-item label="性别">
-          <el-select placeholder="请选择性别" v-model="userInfo.sex">
+          <el-select
+            placeholder="请选择性别"
+            v-model="userInfo.sex"
+            v-if="canModify"
+          >
+            <el-option label="男" value="男"></el-option>
+            <el-option label="女" value="女"></el-option>
+          </el-select>
+          <el-select
+            placeholder="请选择性别"
+            v-model="userInfo.sex"
+            v-else
+            disabled
+          >
             <el-option label="男" value="男"></el-option>
             <el-option label="女" value="女"></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="地址">
+          <el-input v-if="canModify" v-model="userInfo.address"></el-input>
+          <el-input v-else disabled v-model="userInfo.address"></el-input>
+        </el-form-item>
+        <el-form-item label="生日">
+          <el-input v-if="canModify" v-model="userInfo.birthday"></el-input>
+          <el-input v-else disabled v-model="userInfo.birthday"></el-input>
+        </el-form-item>
         <el-form-item label="密码">
-          <el-input
-            class="message-input"
-            v-model="userInfo.password"
-          ></el-input>
+          <el-input v-if="canModify" v-model="userInfo.password"></el-input>
+          <el-input v-else disabled v-model="userInfo.password"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">修改</el-button>
-          <el-button v-if="showCancleButton">取消</el-button>
+          <el-button
+            ref="submitButton"
+            type="primary"
+            v-if="!canModify"
+            @click="changeInputStatus"
+            >修改</el-button
+          >
+          <el-button ref="submitButton" type="primary" v-else @click="onSubmit"
+            >保存</el-button
+          >
+          <el-button
+            id="cancleButton"
+            v-if="showCancleButton"
+            @click="changeInputStatus"
+            >取消</el-button
+          >
         </el-form-item>
       </el-form>
     </div>
@@ -44,6 +78,7 @@ export default {
   data() {
     return {
       showCancleButton: false,
+      canModify: false,
       userInfo: {
         id: 0,
         username: "string",
@@ -68,7 +103,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log("submit!");
+      this.updateUserInfo();
     },
     getUserInfo() {
       axios({
@@ -79,6 +114,31 @@ export default {
           this.userInfo = response.data.data;
         } else {
           console.log(response.data.message);
+        }
+      });
+    },
+    changeInputStatus() {
+      this.canModify = !this.canModify;
+      this.showCancleButton = !this.showCancleButton;
+      this.getUserInfo();
+    },
+    updateUserInfo() {
+      axios({
+        method: "post",
+        url: "student/updateUserInfo",
+        data: this.userInfo,
+      }).then((response) => {
+        if (response.data.status == 0) {
+          this.$message({
+            message: "修改成功",
+            type: "success",
+          });
+          this.changeInputStatus();
+        } else {
+          this.$message({
+            message: response.data.message,
+            type: "error",
+          });
         }
       });
     },

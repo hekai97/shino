@@ -15,6 +15,8 @@ public class ConstUtil {
     public static final String COURSE_IMAGE_PATH=IMAGE_ROOT_PATH+"courses/";
     public static final String STORE_IMAGE_PATH=IMAGE_ROOT_PATH+"stores/";
 
+    public static final Integer COURSE_RESERVATION_STATUS_WAITING=0;
+    public static final Integer COURSE_RESERVATION_STATUS_COMPLETE=1;
 
     public static class OrderStatus{
 
