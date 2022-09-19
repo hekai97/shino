@@ -45,6 +45,18 @@ public class ClientOrderController {
         }
         return orderService.getUserUnPaidOrderList(user.getId());
     }
+    @Operation(summary = "通过orderItemId获取用户的订单的详情")
+    @RequestMapping(value = "/getUserOrderDetailByOrderItemId",method = RequestMethod.POST)
+    public ServerResponse<List<OrderDetailDto>> getUserOrderDetailByOrderItemId(HttpSession httpSession,
+                                                                         @Parameter(description = "订单项id") Integer orderItemId){
+        User user=(User) httpSession.getAttribute(ConstUtil.NORMAL_USER);
+        if(user==null){
+            return ServerResponse.createByErrorMessage("用户未登录！");
+        }
+        return orderService.getUserOrderDetailByOrderItemId(user.getId(),orderItemId);
+    }
+
+
     @Operation(summary = "获取用户已经付款的订单，包括已经付款的订单和交易关闭（完成）的订单")
     @RequestMapping(value = "/getUserPaidOrderList",method = RequestMethod.POST)
     public ServerResponse<List<OrderItemDto>> getUserPaidOrderList(HttpSession httpSession){
