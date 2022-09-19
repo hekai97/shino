@@ -12,4 +12,6 @@ public interface RelationStoreCourseRepository extends JpaRepository<RelationSto
     List<RelationStoreCourse> findRelationStoreCoursesByStoreId(Integer storeId);
 
     RelationStoreCourse findRelationStoreCourseByCourseIdAndStoreId(Integer courseId, Integer storeId);
+
+    List<RelationStoreCourse> findRelationStoreCoursesByCourseId(Integer id);
 }

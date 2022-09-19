@@ -131,8 +131,11 @@ public class OrderServiceImp implements OrderService {
         if(orderItem.getStatus()!=ConstUtil.OrderStatus.UNPAID){
             return ServerResponse.createByErrorMessage("订单已付款，无法取消！");
         }
-        orderItem.setStatus(ConstUtil.OrderStatus.CLOSED);
-        orderItemRepository.save(orderItem);
+//        orderItem.setStatus(ConstUtil.OrderStatus.CLOSED);
+//        orderItemRepository.save(orderItem);
+        List<OrderDetail> orderDetailList=orderDetailRepository.findOrderDetailsByOrderId(orderItem.getId());
+        orderDetailRepository.deleteAll(orderDetailList);
+        orderItemRepository.delete(orderItem);
         return ServerResponse.createRespBySuccessMessage("成功取消订单！");
     }
 
@@ -299,9 +302,6 @@ public class OrderServiceImp implements OrderService {
             }
         }
         CourseReservation result=courseReservationRepository.save(courseReservation);
-        if(result==null){
-            return ServerResponse.createByErrorMessage("预约失败");
-        }
         OrderGoods orderGoods=orderGoodsRepository.findOrderGoodsByOrderDetailIdAndReserveIdIsNull(orderDetailId);
         if(orderGoods==null){
             return ServerResponse.createByErrorMessage("预约失败");
@@ -318,6 +318,20 @@ public class OrderServiceImp implements OrderService {
             return ServerResponse.createByErrorMessage("预约不存在");
         }
         return ServerResponse.createRespBySuccess(courseReservation);
+    }
+
+    @Override
+    public ServerResponse<List<OrderDetailDto>> getUserOrderDetailByOrderItemId(Integer id, Integer orderItemId) {
+        OrderItem orderItem=orderItemRepository.findOrderItemById(orderItemId);
+        if(orderItem==null){
+            return ServerResponse.createByErrorMessage("订单不存在");
+        }
+        if(!Objects.equals(orderItem.getUserId(), id)){
+            return ServerResponse.createByErrorMessage("订单不属于该用户");
+        }
+        List<OrderDetail> orderDetailList=orderDetailRepository.findOrderDetailsByOrderId(orderItemId);
+        List<OrderDetailDto> orderDetailDtoList=orderDetailListToOrderDetailDtoList(orderDetailList);
+        return ServerResponse.createRespBySuccess(orderDetailDtoList);
     }
 
     private List<OrderGoodsDto> orderGoodsListToOrderGoodsDtoListWithReservationAndTable(List<OrderItem> orderItemList, List<OrderDetail> orderDetailList, List<OrderGoods> orderGoodsList) {
@@ -392,6 +406,7 @@ public class OrderServiceImp implements OrderService {
         orderDetailDto.setCourseType(ConstUtil.CourseType.getCourseTypeDesc(orderDetailDto.getCourseTypeId()));
         Course course=courseRepository.findCourseById(orderDetailDto.getCourseId());
         orderDetailDto.setCourseName(course.getCourseName());
+        orderDetailDto.setPictureUrl(course.getPictureUrl());
         orderDetailDto.setCategoryName(courseCategoryRepository.findCourseCategoryById(course.getCourseCategoryId()).getCategoryName());
         return orderDetailDto;
     }
