@@ -1,10 +1,11 @@
+<!--已经上完课的页面-->
 <template>
   <div class="main">
-    <div v-if="courseReservationList == null">您没有预约的订单！</div>
+    <div v-if="courseAlreadyDoneList == null">您没有已经完成的订单！</div>
     <el-card
       v-else
       class="my-card"
-      v-for="item in courseReservationList"
+      v-for="item in courseAlreadyDoneList"
       :key="item.id"
     >
       <div class="content">
@@ -19,15 +20,14 @@
             分类：{{ item.categoryName }} | 价格：￥{{ item.price }}
           </div>
           <div class="detail">
-            预约时间：{{ item.courseReservation.date }}
-            {{ item.courseReservation.beginTime }} -
-            {{ item.courseReservation.endTime }}
+            上课时间：{{ item.courseReservation.date }}
+            {{ item.courseReservation.orderBeginTime }} -
+            {{ item.courseReservation.orderEndTime }}
           </div>
         </div>
         <div class="right">
-          <div class="information-text">已预约</div>
-          <div v-if="item.reserveId == null">等待员工排课中</div>
-          <el-button v-else type="primary" @click="showDetail(item.id)"
+          <div class="information-text">已完成</div>
+          <el-button type="primary" @click="showDetail(item.id)"
             >查看详情</el-button
           >
         </div>
@@ -37,31 +37,31 @@
   <el-dialog v-model="showDialog">
     <LabelValue
       :label="'课程名称'"
-      :value="courseReservationList[selectedItemId].courseName"
+      :value="courseAlreadyDoneList[selectedItemId].courseName"
     ></LabelValue>
     <LabelValue
       :label="'预约日期'"
-      :value="courseReservationList[selectedItemId].courseTable.reservationDate"
+      :value="courseAlreadyDoneList[selectedItemId].courseTable.reservationDate"
     ></LabelValue>
     <LabelValue
       :label="'开始时间'"
-      :value="courseReservationList[selectedItemId].courseTable.beginTime"
+      :value="courseAlreadyDoneList[selectedItemId].courseTable.beginTime"
     ></LabelValue>
     <LabelValue
       :label="'结束时间'"
-      :value="courseReservationList[selectedItemId].courseTable.endTime"
+      :value="courseAlreadyDoneList[selectedItemId].courseTable.endTime"
     ></LabelValue>
     <LabelValue
       :label="'商店名称'"
-      :value="courseReservationList[selectedItemId].courseTable.storeName"
+      :value="courseAlreadyDoneList[selectedItemId].courseTable.storeName"
     ></LabelValue>
     <LabelValue
       :label="'教师名称'"
-      :value="courseReservationList[selectedItemId].courseTable.teacherName"
+      :value="courseAlreadyDoneList[selectedItemId].courseTable.teacherName"
     ></LabelValue>
     <LabelValue
       :label="'核销码'"
-      :value="courseReservationList[selectedItemId].writeOffCodeNumber"
+      :value="courseAlreadyDoneList[selectedItemId].writeOffCodeNumber"
     ></LabelValue>
     <el-button style="margin: 0 auto" type="primary" @click="showDialog = false"
       >确 定</el-button
@@ -81,7 +81,7 @@ export default {
       selectedItemId: 0,
       showDialog: false,
       baseURL: axios.defaults.baseURL,
-      courseReservationList: [
+      courseAlreadyDoneList: [
         {
           id: 0,
           courseId: 0,
@@ -131,10 +131,10 @@ export default {
     };
   },
   mounted() {
-    this.getUserReservationList();
+    this.getUserAlreadyDoneList();
   },
   methods: {
-    getUserReservationList() {
+    getUserAlreadyDoneList() {
       axios({
         method: "get",
         url: "order/getReservationsOrderGoods",
@@ -142,14 +142,14 @@ export default {
         if (response.data.status == 0) {
           let obj = new Object();
           for (let i = 0; i < response.data.data.length; i++) {
-            if (response.data.data[i].courseReservation.status == 0) {
+            if (response.data.data[i].courseReservation.status == 1) {
               obj.push(response.data.data[i]);
             }
           }
-          this.courseReservationList = obj;
+          this.courseAlreadyDoneList = obj;
         } else {
           this.$message.error(response.data.message);
-          this.courseReservationList = null;
+          this.courseAlreadyDoneList = null;
         }
       });
     },
