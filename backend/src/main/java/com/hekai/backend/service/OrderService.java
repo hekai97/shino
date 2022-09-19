@@ -122,4 +122,6 @@ public interface OrderService {
     ServerResponse<String> userCreateReservations(Integer userId, Integer orderDetailId, Integer storeId, String time, Integer group);
 
     ServerResponse<CourseReservation> getReservationsDetailByReservationId(Integer courseReservationId);
+
+    ServerResponse<List<OrderDetailDto>> getUserOrderDetailByOrderItemId(Integer id, Integer orderItemId);
 }

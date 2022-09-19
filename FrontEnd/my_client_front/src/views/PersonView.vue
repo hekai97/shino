@@ -23,7 +23,7 @@
           <el-menu-item index="/shoppingcart">购物车</el-menu-item>
           <el-menu-item index="/noReservation">未预约</el-menu-item>
           <el-menu-item index="/alreadyReservation">已预约</el-menu-item>
-          <el-menu-item>已上课</el-menu-item>
+          <el-menu-item index="/alreadyDone">已上课</el-menu-item>
         </el-submenu>
       </el-menu>
     </div>
