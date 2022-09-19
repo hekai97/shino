@@ -39,6 +39,21 @@ const router = createRouter({
               name: "info",
               component: () => import("@/views/PersonInfo.vue"),
             },
+            {
+              path: "/shoppingcart",
+              name: "shoppingcart",
+              component: () => import("@/views/ShoppingCart.vue"),
+            },
+            {
+              path: "/noReservation",
+              name: "noReservation",
+              component: () => import("@/views/NoReservationView.vue"),
+            },
+            {
+              path: "/alreadyReservation",
+              name: "alreadyReservation",
+              component: () => import("@/views/AlreadyReservation.vue"),
+            },
           ],
         },
       ],

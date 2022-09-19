@@ -230,4 +230,31 @@ public ServerResponse<Page<CourseDto>> getCoursesPageableByStoreId(HttpSession h
         }
         return courseService.deleteCourseFromStore(courseNumber,storeId);
     }
+    @Operation(summary = "新增课程分类,(说明，只需要传个CategoryName和IsPublished就行)")
+    @RequestMapping(value="/addCourseCategory",method = RequestMethod.POST)
+    public ServerResponse<String> addCourseCategory(HttpSession httpSession,@RequestBody CourseCategory courseCategory){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return courseService.addCourseCategory(curUser.getId(),courseCategory);
+    }
+    @Operation(summary = "修改课程分类,这个里面id是必传的，否则会当新分类处理")
+    @RequestMapping(value="/updateCourseCategory",method = RequestMethod.POST)
+    public ServerResponse<String> updateCourseCategory(HttpSession httpSession,@RequestBody CourseCategory courseCategory){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return courseService.updateCourseCategory(courseCategory);
+    }
+    @Operation(summary = "删除课程分类")
+    @RequestMapping(value="/deleteCourseCategory",method = RequestMethod.POST)
+    public ServerResponse<String> deleteCourseCategory(HttpSession httpSession,@Parameter Integer categoryId){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return courseService.deleteCourseCategory(categoryId);
+    }
 }

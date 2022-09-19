@@ -70,6 +70,15 @@ public class UserServiceImp implements UserService {
         if(user.getPhoneNumber()==null){
             return ServerResponse.createByErrorMessage("手机号不能为空！");
         }
+        if(user.getEmail()==null){
+            return ServerResponse.createByErrorMessage("邮箱不能为空！");
+        }
+        if(userRepository.findUserByPhoneNumber(user.getPhoneNumber())!=null){
+            return ServerResponse.createByErrorMessage("手机号已被注册！");
+        }
+        if(userRepository.findUserByEmail(user.getEmail())!=null){
+            return ServerResponse.createByErrorMessage("邮箱已被注册！");
+        }
         User result=userRepository.save(user);
         result.hidePassword();
         return ServerResponse.createRespBySuccess(result);
@@ -308,5 +317,15 @@ public class UserServiceImp implements UserService {
         employeeUser.setStoreId(null);
         employeeUserRepository.save(employeeUser);
         return ServerResponse.createRespBySuccessMessage("删除成功！");
+    }
+
+    @Override
+    public ServerResponse<EmployeeUser> getEmployeeUserByEmployeeId(Integer employeeId) {
+        EmployeeUser employeeUser=employeeUserRepository.findEmployeeUserById(employeeId);
+        if(employeeUser==null){
+            return ServerResponse.createByErrorMessage("该员工不存在！");
+        }
+        employeeUser.hidePassword();
+        return ServerResponse.createRespBySuccess(employeeUser);
     }
 }

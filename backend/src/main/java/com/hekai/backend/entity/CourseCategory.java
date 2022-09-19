@@ -10,7 +10,7 @@ public class CourseCategory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
-    private int id;
+    private Integer id;
     @Basic
     @Column(name = "category_name")
     private String categoryName;
@@ -27,11 +27,11 @@ public class CourseCategory {
     @Column(name = "create_time")
     private Timestamp createTime;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -100,4 +100,10 @@ public interface CourseService {
     ServerResponse<String> setCourseToStore(String courseNumber, Integer storeId);
 
     ServerResponse<String> deleteCourseFromStore(String courseNumber, Integer storeId);
+
+    ServerResponse<String> addCourseCategory(Integer id, CourseCategory courseCategory);
+
+    ServerResponse<String> updateCourseCategory(CourseCategory courseCategory);
+
+    ServerResponse<String> deleteCourseCategory(Integer categoryId);
 }
