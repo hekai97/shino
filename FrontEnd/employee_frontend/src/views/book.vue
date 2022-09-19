@@ -162,10 +162,9 @@
                   trigger="hover"
                   content="排课">
                   <template #reference>
-                <el-button @click="handleClick" style="position: absolute;left: 675px;top: 160px;">
+                <el-button @click="Arranging" style="position: absolute;left: 675px;top: 160px;">
                   <el-icon><Reading /></el-icon>
                 </el-button>
-                    <dialog-component v-if="Visiable" ref="dialog"></dialog-component>
                   </template>
                 </el-popover>
                 <el-popconfirm title="是否要删除?">
@@ -178,6 +177,61 @@
               </el-card>
             </el-timeline-item>
           </el-timeline>
+
+<!--        排课-->
+          <el-dialog
+          v-model="OpenArranging"
+          title="排课"
+          width="60%"
+          draggable>
+            <div>
+              <el-form :model="form" ref="form" label-width="120px">
+                <el-form-item label="学员姓名">
+                  <el-input v-model="form.name" />
+                </el-form-item>
+                <el-form-item label="上课地点">
+                  <el-input v-model="form.address" />
+                </el-form-item>
+                <el-form-item label="预约课程">
+                  <el-input v-model="form.class" />
+                </el-form-item>
+                <el-form-item label="预约讲师">
+                  <el-select v-model="form.region" placeholder="请选择">
+                    <el-option label="Zone one" value="shanghai" />
+                    <el-option label="Zone two" value="beijing" />
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="预约方式">
+                  <el-radio-group v-model="form.resource">
+                    <el-radio label="应用预约" />
+                    <el-radio label="电话预约" />
+                    <el-radio label="应用电话预约" />
+                  </el-radio-group>
+                </el-form-item>
+                <el-form-item label="排课日期">
+                  <el-col :span="11">
+                    <el-date-picker
+                      v-model="form.date1"
+                      type="date"
+                      style="width: 100%"
+                    />
+                  </el-col>
+                </el-form-item>
+                <el-form-item label="排课时间">
+                  <el-radio-group v-model="form.time">
+                    <el-radio label="09:00-11:00" />
+                    <el-radio label="13:30-15:30" />
+                    <el-radio label="16:00-18:00" />
+                    <el-radio label="19:30-21:30"/>
+                  </el-radio-group>
+                </el-form-item>
+                <el-form-item align="center">
+                  <el-button type="primary" @click="onSubmit">发送排课通知</el-button>
+                </el-form-item>
+              </el-form>
+            </div>
+          </el-dialog>
+
         </el-main>
       </el-container>
     </el-container>
@@ -207,7 +261,6 @@ import {
   Reading
 } from '@element-plus/icons'
 import router from "@/router";
-import dialogComponent from "./dialogComponent.vue";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'mybook',
@@ -232,33 +285,36 @@ export default {
     Delete,
     DeleteFilled,
     Reading,
-    dialogComponent
+
   },
   data () {
     return {
       isCollapse: false,
-      Visiable:false
+      OpenArranging:false,
+      form:{
+        name:'',//学员姓名
+        region:'',//预约讲师
+        address:'',//上课地点
+        class:'',//预约课程
+        date1:'',//排课日期
+        resource:'',//预约方式
+        time:'',//排课时间
+      }
     }
   },
-  methods:{
-    home(){
+  methods: {
+    home() {
       router.push({
-        name:"home"
+        name: "home"
       })
     },
-    schedule(){
+    schedule() {
       router.push({
-        name:"schedule"
+        name: "schedule"
       })
     },
-    handleClick(data){
-      this.Visiable=true;
-      this.$nextTick(()=>{
-        //这里的dialog与上面dialog-component组件里面的ref属性值是一致的
-        //init调用的是dialog-component组件里面的init方法
-        //data是传递给弹窗页面的值
-        this.$refs.dialog.init(data);
-      })
+    Arranging(){
+      this.OpenArranging=!this.OpenArranging
     },
   }
 }
