@@ -85,6 +85,7 @@ export default {
                   name:'firsthome',
                   query:{
                     adminname:response.data.data.name,
+                    adminid:response.data.data.id
                   }
                 })
               }, 2000)

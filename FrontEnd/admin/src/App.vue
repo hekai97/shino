@@ -21,19 +21,24 @@
 <!--  <ALogin/>-->
   <router-view/>
 <!--  <LineChart/>-->
-
+<!--<Mytest/>-->
+<!--  <mylocal-->
 </template>
 
 <script>
 //import myHome from "@/views/Home"
 // import ALogin from "@/views/Login";
 // import LineChart from "@/views/chsrts"
+// import Mytest from "@/views/test"
+// import Mylocal from "@/views/local";
 export default {
   name: 'app',
   components: {
+    // Mylocal
      //myHome,
     // ALogin
     // LineChart
+    // Mytest
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div style="margin-top: -60px">
-    <el-container style="border: 1px solid red;height: 800px">
+    <el-container style="border: 1px solid red;height: 1050px">
       <el-menu
           active-color="#ffd04b"
           background-color="#545c64"
@@ -38,12 +38,10 @@
             </el-icon>
             <span style="margin-left: 3px">课程管理</span>
           </template>
-          <el-menu-item index="1-2-1" style="margin-left: 15px">查看课程</el-menu-item>
-          <el-menu-item index="1-2-2" style="margin-left: 15px">创建新课程</el-menu-item>
-          <el-menu-item index="1-2-3" style="margin-left: 15px">修改课程信息</el-menu-item>
-          <el-menu-item index="1-2-4" style="margin-left: 15px">删除课程</el-menu-item>
-          <el-menu-item index="1-2-5" style="margin-left: 15px">配置课程</el-menu-item>
-          <el-menu-item index="1-2-6" style="margin-left: 15px">课程追踪</el-menu-item>
+          <el-menu-item index="1-2-1" style="margin-left: 15px" @click="CourseCategories">课程分类</el-menu-item>
+          <el-menu-item index="1-2-2" style="margin-left: 15px" @click="ManageCourse">管理课程</el-menu-item>
+          <el-menu-item index="1-2-3" style="margin-left: 15px">配置课程</el-menu-item>
+          <el-menu-item index="1-2-4" style="margin-left: 15px">课程追踪</el-menu-item>
         </el-sub-menu>
         <el-menu-item index="1-3" v-if="pList.get(104)===true">
           <el-icon>
@@ -89,9 +87,9 @@
         </el-menu-item>
       </el-menu>
       <el-container>
-        <el-header class="head" style="border: 1px solid blue">
-          <div style="display: table-cell;border: 1px solid red;width: 100%">
-            <div style="border:1px solid black;vertical-align: middle;margin-top: 10px;width: 100%">
+        <el-header class="head">
+          <div style="display: table-cell;width: 100%">
+            <div style="vertical-align: middle;margin-top: 10px;width: 100%">
               <el-popover
                   placement="bottom-start"
                   trigger="hover"
@@ -351,6 +349,7 @@ import {ElLoading, ElMessage} from "element-plus";
 import router from "@/router";
 
 let aname;
+let aid;
 export default {
   name: "myHome",
   setup() {
@@ -358,6 +357,7 @@ export default {
     aname = route.query.adminname;
     return {
       adminname: aname,
+      adminid: aid,
     }
   },
   components: {
@@ -504,6 +504,7 @@ export default {
           name: 'Deep',
           query: {
             adminname: aname,
+            adminid:aid
           }
         })
       }, 500)
@@ -513,14 +514,34 @@ export default {
         name: 'Store',
         query: {
           adminname: aname,
+          adminid:aid
         }
       })
     },
     OrMange(){
       router.push({
-        name:'OrMange',
+        name:'Order',
         query: {
           adminname: aname,
+          adminid:aid,
+        }
+      })
+    },
+    CourseCategories(){
+      router.push({
+        name:'CourseCategories',
+        query:{
+          adminname:aname,
+          adminid:aid
+        }
+      })
+    },
+    ManageCourse(){
+      router.push({
+        name:'ManageCourse',
+        query:{
+          adminname:aname,
+          adminid:aid
         }
       })
     },
