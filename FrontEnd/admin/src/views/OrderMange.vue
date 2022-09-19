@@ -1,6 +1,6 @@
 <template>
   <div style="margin-top: -60px">
-    <el-container style="border: 1px solid red;height: 800px">
+    <el-container style="border: 1px solid red;height: 1050px">
       <el-menu
           active-color="#ffd04b"
           background-color="#545c64"
@@ -19,7 +19,7 @@
           </el-icon>
           <span style="margin-left: 3px">统计分析</span>
         </el-menu-item>
-        <el-menu-item style="border-bottom: 1px solid white" index="0-2" v-if="pList.get(102)===true" @click="deep">
+        <el-menu-item style="border-bottom: 1px solid white" index="0-2" v-if="pList.get(102)===true" @click="Deep">
           <el-icon>
             <Coin/>
           </el-icon>
@@ -38,12 +38,10 @@
             </el-icon>
             <span style="margin-left: 3px">课程管理</span>
           </template>
-          <el-menu-item index="1-2-1" style="margin-left: 15px">查看课程</el-menu-item>
-          <el-menu-item index="1-2-2" style="margin-left: 15px">创建新课程</el-menu-item>
-          <el-menu-item index="1-2-3" style="margin-left: 15px">修改课程信息</el-menu-item>
-          <el-menu-item index="1-2-4" style="margin-left: 15px">删除课程</el-menu-item>
-          <el-menu-item index="1-2-5" style="margin-left: 15px">配置课程</el-menu-item>
-          <el-menu-item index="1-2-6" style="margin-left: 15px">课程追踪</el-menu-item>
+          <el-menu-item index="1-2-1" style="margin-left: 15px" @click="CourseCategories">课程分类</el-menu-item>
+          <el-menu-item index="1-2-2" style="margin-left: 15px" @click="ManageCourse">管理课程</el-menu-item>
+          <el-menu-item index="1-2-3" style="margin-left: 15px">配置课程</el-menu-item>
+          <el-menu-item index="1-2-4" style="margin-left: 15px">课程追踪</el-menu-item>
         </el-sub-menu>
         <el-menu-item index="1-3" v-if="pList.get(104)===true">
           <el-icon>
@@ -208,52 +206,90 @@
         </el-header>
         <el-main style="background-color: #F0F2F5" class="main">
 
-
-       <el_card>
-         <!-- 搜索栏 -->
-         <el-row :gutter="20">
-           <el-col :span="8">
-             <el-button @click="search">搜索</el-button>
-             <el-input
-                 placeholder="请输入搜索内容"
-                 v-model="inputSearch"
-             >
-             </el-input>
-           </el-col>
-         </el-row>
-
+        <div>
+          <div>
+            <el-input
+               placeholder="请输入搜索内容"
+               v-model="inputSearch"
+               size="large"
+               style="width: 25%;float: left;margin-bottom: 20px"
+            >
+            </el-input>
+          </div>
+          <div><el-button type="primary" style="float: left;margin-left: 2%" size="large">搜索</el-button></div>
+        </div>
          <el-table :data="orderList"
                    border
                    stripe
                    >
            <el-table-column type="selection" width="55" align="center" ></el-table-column>
-<!--           <el-table-column type="index"></el-table-column>-->
            <el-table-column label="订单编号" prop="order_number" align="center"></el-table-column>
            <el-table-column label="用户姓名" prop="user_name" align="center"></el-table-column>
            <el-table-column label="订单价格" prop="order_price" align="center"></el-table-column>
-<!--           <el-table-column label="是否付款" prop="pay_status">
-             <template v-slot="scope">
-               <el-tag type="success" v-if="scope.row.pay_status === '1'">已付款</el-tag>
-               <el-tag type="danger" v-else>未付款</el-tag>
-             </template>
-           </el-table-column>-->
-
            <el-table-column align="center" label="下单时间"  prop="creationTime" />
            <el-table-column label="支付方式" prop="is_send" align="center"></el-table-column>
            <el-table-column label="支付时间" prop="paytime" align="center">
            </el-table-column>
              <!--表格行操作按钮 -->
-             <el-table-column property="operation" label="操作" min-width="150px" align="center">
-               <el-button size="small" type="primary"><el-icon><Reading/></el-icon>课程</el-button>
-               <el-button size="small" type="primary"><el-icon><EditPen/></el-icon>编辑</el-button>
-               <el-button size="small" type="primary"><el-icon><Delete/></el-icon>删除</el-button>
+             <el-table-column property="operation" label="操作" min-width="60px" align="center">
+               <template #default="scope">
+                    <el-button size="small" type="primary" @click="Lookdetails(scope.row.order_number,scope.row.user_name,scope.row.creationTime,scope.row.is_send,scope.row.paytime)"><el-icon><Reading/></el-icon>查看详情</el-button>
+               </template>
              </el-table-column>
          </el-table>
 
+          <el-dialog v-model="dialogTableVisible" title="详情展示">
+            <div>
+                <div>
+                  <div style="display: inline-block;font-size: 20px">订单编号：</div>
+                  <div style="display: inline-block;font-size: 18px">{{this.OrderNumber}}</div>
+                </div>
+                <div>
+                  <div style="display: inline-block;font-size: 20px">下单课程：</div>
+                  <div style="display: inline-block;font-size: 18px">{{this.courseName}}</div>
+                </div>
+                <div>
+                  <div style="display: inline-block;font-size: 20px">课程类别：</div>
+                  <div style="display: inline-block;font-size: 18px">{{this.courseType}}</div>
+                </div>
+                <div>
+                  <div style="display: inline-block;font-size: 20px">课程分类：</div>
+                  <div style="display: inline-block;font-size: 18px">{{this.categoryName}}</div>
+                </div>
+                <div>
+                  <div style="display: inline-block;font-size: 20px">订单价格：</div>
+                  <div style="display: inline-block;font-size: 18px">{{this.price}}</div>
+                </div>
+              <div>
+                <div style="display: inline-block;font-size: 20px">用户姓名：</div>
+                <div style="display: inline-block;font-size: 18px">{{this.username}}</div>
+              </div>
+              <div>
+                <div style="display: inline-block;font-size: 20px">支付方式：</div>
+                <div style="display: inline-block;font-size: 18px">{{this.payway}}</div>
+              </div>
+              <div>
+                <div style="display: inline-block;font-size: 20px">下单时间：</div>
+                <div style="display: inline-block;font-size: 18px">{{this.createdtime}}</div>
+              </div>
+              <div>
+                <div style="display: inline-block;font-size: 20px">支付时间：</div>
+                <div style="display: inline-block;font-size: 18px">{{this.paytime}}</div>
+              </div>
+            </div>
+          </el-dialog>
+
+
          <!-- 分页 -->
-         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="queryInfo.page" :page-sizes="[3, 5, 10, 15]" :page-size="queryInfo.size" layout="total, sizes, prev, pager, next, jumper" :total="total">
+         <el-pagination
+             @size-change="handleSizeChange"
+             @current-change="handleCurrentChange"
+             :current-page="queryInfo.page"
+             :page-sizes="[3, 5, 10, 15]"
+             :page-size="queryInfo.size"
+             layout="total, sizes, prev, pager, next, jumper"
+             :total="total">
          </el-pagination>
-       </el_card>
 
         </el-main>
       </el-container>
@@ -287,13 +323,12 @@ import {
   ArrowDown,
   Van,
   Reading,
-  EditPen,
-  Delete
 } from '@element-plus/icons-vue'
 import router from "@/router";
 import axios from "axios";
 import {ElMessage} from "element-plus";
 let aname;
+let aid;
 export default {
   name: "OrderMange",
   setup() {
@@ -301,6 +336,7 @@ export default {
     aname = route.query.adminname;
     return {
       adminname: aname,
+      adminid:aid
     }
   },
   components: {
@@ -328,8 +364,6 @@ export default {
     ArrowDown,
     Van,
     Reading,
-    EditPen,
-    Delete
   },
   data() {
     return {
@@ -342,9 +376,23 @@ export default {
       value1: '',
       dpList: [],
       pList: new Map(),
+      OrderNumber:'',
+      courseName:'',
+      courseType:'',
+      categoryName:'',
+      price:'',
+      username:'',
+      createdtime:'',
+      payway:'',
+      paytime:'',
+      dialogTableVisible:false,
+      OrderDetail:[{
+        courseName:'',
+        courseTypeId:''
+      }],
       //查询条件
       queryInfo: {
-        page: 0,
+        page: 1,
         size: 10
       },
       //订单列表数据
@@ -410,6 +458,7 @@ export default {
         name: 'firsthome',
         query: {
           adminname: aname,
+          adminid:aid
         }
       })
     },
@@ -418,6 +467,7 @@ export default {
         name: 'Store',
         query: {
           adminname: aname,
+          adminid:aid
         }
       })
     },
@@ -426,29 +476,36 @@ export default {
         name: 'Deep',
         query: {
           adminname: aname,
+          adminid:aid
+        }
+      })
+    },
+    CourseCategories(){
+      router.push({
+        name:'CourseCategories',
+        query:{
+          adminname:aname,
+          adminid:aid
+        }
+      })
+    },
+    ManageCourse(){
+      router.push({
+        name:'ManageCourse',
+        query:{
+          adminname:aname,
+          adminid:aid
         }
       })
     },
     async getOrderList() {
-      //   const { data: res } = await this.$http.get('orders', {params: this.queryInfo})
-      //   if (res.meta.status !== 200) {
-      //     return this.$message.error('获取订单列表数据失败!')
-      //   }
-      //   this.total = res.data.total
-      //   this.orderList = res.data.goods
-      // },
-      // handleSizeChange(newSize){
-      //   this.queryInfo.pagesize = newSize
-      //   this.getOrderList()
-      // },
-      // handleCurrentChange(newPage){
-      //   this.queryInfo.pagenum = newPage
-      //   this.getOrderList()
-      // }
       axios({
         method:'post',
         url:'/admin/order/getOrderListPageable',
-        params:this.queryInfo
+        params:{
+          page:this.queryInfo.page-1,
+          size:this.queryInfo.size
+        }
       }).then(res=>{
         this.total=res.data.data.totalElements
         for(let i=0;i<res.data.data.content.length;i++){
@@ -464,13 +521,39 @@ export default {
       })
     },
     handleSizeChange(newSize){
-        this.queryInfo.pagesize = newSize
+        this.queryInfo.size = newSize
+        this.orderList=[];
         this.getOrderList()
       },
-      handleCurrentChange(newPage){
-        this.queryInfo.pagenum = newPage
+    handleCurrentChange(newPage){
+        this.queryInfo.page = newPage
+        this.orderList=[];
         this.getOrderList()
-      }
+      },
+    Lookdetails(order_number,username,createdtime,payway,paytime){
+        // ElMessage(order_number)
+      this.OrderNumber=order_number;
+      this.username=username;
+      this.createdtime=createdtime;
+      this.payway=payway;
+      this.paytime=paytime;
+      // const obj=new new URLSearchParams();
+      axios({
+        method:'post',
+        url:'/admin/order/getOrderDetailByOrderNumber',
+        params:{
+          orderNumber:order_number
+        }
+      }).then(res=>{
+        for(let i=0;i<res.data.data.length;i++) {
+          this.courseName = res.data.data[i].courseName;
+          this.courseType = res.data.data[i].courseType;
+          this.categoryName = res.data.data[i].categoryName;
+          this.price = res.data.data[i].price;
+        }
+      })
+      this.dialogTableVisible=!this.dialogTableVisible;
+    }
   }
 }
 </script>
@@ -483,5 +566,13 @@ export default {
   margin-top: 5px;
   margin-left: -20px;
   float: left;
+}
+.el-menu-vertical {
+  border-top: 1px solid white;
+}
+
+.el-menu-vertical:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: 800px;
 }
 </style>

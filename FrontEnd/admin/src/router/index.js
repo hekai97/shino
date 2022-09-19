@@ -4,7 +4,6 @@ import firsthome from '../views/Home.vue'
 import Login from '../views/Login'
 import Deep from '../views/Deepanalysis'
 import Store from '../views/Store'
-import teacher from "@/views/teacher";
 const routes = [
   {
     path: '/',
@@ -37,9 +36,19 @@ const routes = [
     component: Store
   },
   {
-    path: '/teacher',
-    name: 'teacher',
-    component: teacher
+    path:'/Order',
+    name:'Order',
+    component:() => import(/* webpackChunkName: "about" */ '../views/OrderMange')
+  },
+  {
+    path:'/CourseCategories',
+    name: 'CourseCategories',
+    component: ()=>import('../views/CourseCategories')
+  },
+  {
+    path:'/ManageCourse',
+    name:'ManageCourse',
+    component: ()=>import('../views/ManageCourse')
   }
 ]
 
