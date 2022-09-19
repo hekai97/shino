@@ -2,7 +2,9 @@ package com.hekai.backend.controller.client;
 
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.OrderDetailDto;
+import com.hekai.backend.dto.OrderGoodsDto;
 import com.hekai.backend.dto.OrderItemDto;
+import com.hekai.backend.entity.CourseReservation;
 import com.hekai.backend.entity.User;
 import com.hekai.backend.service.OrderService;
 import com.hekai.backend.utils.ConstUtil;
@@ -111,5 +113,47 @@ public class ClientOrderController {
             return ServerResponse.createByErrorMessage("用户未登录！");
         }
         return orderService.cancelOrder(user.getId(),orderNo);
+    }
+
+    @Operation(summary = "获取用户没有预约的订单")
+    @RequestMapping(value = "/getNoReservationsOrderGoods",method = RequestMethod.GET)
+    public ServerResponse<List<OrderGoodsDto>> getNoReservations(HttpSession httpSession){
+        User user = (User) httpSession.getAttribute(ConstUtil.NORMAL_USER);
+        if (user == null){
+            return ServerResponse.createByErrorMessage("用户未登录");
+        }
+        return orderService.getNoReservations(user.getId());
+    }
+    @Operation(summary = "获取用户已经预约的订单")
+    @RequestMapping(value = "/getReservationsOrderGoods",method = RequestMethod.GET)
+    public ServerResponse<List<OrderGoodsDto>> getReservations(HttpSession httpSession){
+        User user = (User) httpSession.getAttribute(ConstUtil.NORMAL_USER);
+        if (user == null){
+            return ServerResponse.createByErrorMessage("用户未登录");
+        }
+        return orderService.getReservations(user.getId());
+    }
+    @Operation(summary = "用户预约课程")
+    @RequestMapping(value = "/userCreateReservations",method = RequestMethod.POST)
+    public ServerResponse<String> userCreateReservations(HttpSession httpSession,
+                                                         @Parameter(description = "订单详情Id") Integer orderDetailId,
+                                                         @Parameter(description = "店铺id") Integer storeId,
+                                                         @Parameter(description = "预约日期") String time,
+                                                         @Parameter(description = "预约时间段,参数1代表第一节课，就是第一节课的开始时间和结束时间，其他同理，最高为4") Integer group){
+        User user = (User) httpSession.getAttribute(ConstUtil.NORMAL_USER);
+        if (user == null){
+            return ServerResponse.createByErrorMessage("用户未登录");
+        }
+        return orderService.userCreateReservations(user.getId(),orderDetailId,storeId,time,group);
+    }
+    @Operation(summary = "通过预约的Id查看预约详情")
+    @RequestMapping(value = "/getReservationsDetailByReservationId",method = RequestMethod.GET)
+    public ServerResponse<CourseReservation> getReservationsDetailByReservationId(HttpSession httpSession,
+                                                                                  @Parameter(description = "预约Id") Integer courseReservationId){
+        User user = (User) httpSession.getAttribute(ConstUtil.NORMAL_USER);
+        if (user == null){
+            return ServerResponse.createByErrorMessage("用户未登录");
+        }
+        return orderService.getReservationsDetailByReservationId(courseReservationId);
     }
 }
