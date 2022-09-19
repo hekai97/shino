@@ -13,6 +13,10 @@ public class OrderGoods {
     @Basic
     @Column(name = "course_id")
     private Integer courseId;
+
+    @Basic
+    @Column(name = "order_detail_id")
+    private Integer orderDetailId;
     @Basic
     @Column(name = "write_off_code_number")
     private String writeOffCodeNumber;
@@ -37,6 +41,14 @@ public class OrderGoods {
 
     public void setCourseId(Integer courseId) {
         this.courseId = courseId;
+    }
+
+    public Integer getOrderDetailId() {
+        return orderDetailId;
+    }
+
+    public void setOrderDetailId(Integer orderDetailId) {
+        this.orderDetailId = orderDetailId;
     }
 
     public String getWriteOffCodeNumber() {

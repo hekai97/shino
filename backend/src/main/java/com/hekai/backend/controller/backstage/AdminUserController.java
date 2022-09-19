@@ -271,4 +271,14 @@ public class AdminUserController {
         }
         return userService.deleteEmployeeToStore(employeeUserNumber,storeId);
     }
+    @Operation(summary = "通过employeeId获取员工信息")
+    @RequestMapping(value = "/getEmployeeUserByEmployeeId",method = RequestMethod.GET)
+    public ServerResponse<EmployeeUser> getEmployeeUserByEmployeeId(HttpSession httpSession,
+                                                                    @Parameter Integer employeeId){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return userService.getEmployeeUserByEmployeeId(employeeId);
+    }
 }
