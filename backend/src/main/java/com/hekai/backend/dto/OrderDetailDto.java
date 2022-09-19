@@ -26,6 +26,8 @@ public class OrderDetailDto implements Serializable {
     private String categoryName;
     private BigDecimal price;
 
+    private String pictureUrl;
+
     public int getId() {
         return id;
     }

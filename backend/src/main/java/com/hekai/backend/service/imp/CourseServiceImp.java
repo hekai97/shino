@@ -78,14 +78,65 @@ public class CourseServiceImp implements CourseService {
 
     @Override
     public ServerResponse<Course> updateCourseInfo(EmployeeUser operator,Course course) {
-        course.setUpdater(operator.getName());
-        course.setUpdatedTime(new Timestamp(new Date().getTime()));
-        return ServerResponse.createRespBySuccess(courseRepository.save(course));
+        Course oldCourse=courseRepository.findCourseById(course.getId());
+        if(oldCourse==null){
+            return ServerResponse.createByErrorMessage("该课程不存在！");
+        }
+        if(course.getCoursePrice()!=null){
+            oldCourse.setCoursePrice(course.getCoursePrice());
+        }
+        if(course.getCourseName()!=null){
+            oldCourse.setCourseName(course.getCourseName());
+        }
+        if(course.getCourseNumber()!=null){
+            oldCourse.setCourseNumber(course.getCourseNumber());
+        }
+        if (course.getCourseContent()!=null){
+            oldCourse.setCourseContent(course.getCourseContent());
+        }
+        if(course.getCourseLevel()!=null){
+            oldCourse.setCourseLevel(course.getCourseLevel());
+        }
+        if(course.getCourseTypeId()!=null){
+            oldCourse.setCourseTypeId(course.getCourseTypeId());
+        }
+        if(course.getCourseCategoryId()!=null){
+            oldCourse.setCourseCategoryId(course.getCourseCategoryId());
+        }
+        if(course.getCoursePoints()!=null){
+            oldCourse.setCoursePoints(course.getCoursePoints());
+        }
+        if(course.getCourseUrl()!=null){
+            oldCourse.setCourseUrl(course.getCourseUrl());
+        }
+        if(course.getIsPublic()!=null){
+            oldCourse.setIsPublic(course.getIsPublic());
+        }
+        if(course.getSlidePosition()!=null){
+            oldCourse.setSlidePosition(course.getSlidePosition());
+        }
+        if(course.getDescription()!=null){
+            oldCourse.setDescription(course.getDescription());
+        }
+        if(course.getPictureUrl()!=null){
+            oldCourse.setPictureUrl(course.getPictureUrl());
+        }
+
+        oldCourse.setUpdater(operator.getName());
+        oldCourse.setUpdatedTime(new Timestamp(new Date().getTime()));
+        return ServerResponse.createRespBySuccess(courseRepository.save(oldCourse));
     }
 
     @Override
     public ServerResponse<String> deleteCourseByNumber(EmployeeUser curUser, String courseNumber) {
         Course course=courseRepository.findCourseByCourseNumber(courseNumber);
+        if(course==null){
+            return ServerResponse.createByErrorMessage("该课程不存在！");
+        }
+        List<RelationStoreCourse> relationStoreCourseList=relationStoreCourseRepository.findRelationStoreCoursesByCourseId(course.getId());
+        if(relationStoreCourseList.size()>0){
+            return ServerResponse.createByErrorMessage("该课程已被门店使用，无法删除！");
+        }
         courseRepository.delete(course);
         return ServerResponse.createRespBySuccessMessage("删除课程成功！");
     }

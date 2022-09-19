@@ -46,7 +46,7 @@ public class AdminUserController {
         ServerResponse<EmployeeUser> response=userService.adminLogin(account,password);
         if(response.isSuccess()){
             httpSession.setAttribute(ConstUtil.ADMIN_USER,response.getData());
-            httpSession.setMaxInactiveInterval(30*60);
+            httpSession.setMaxInactiveInterval(5*60*60);
         }
         return response;
     }
