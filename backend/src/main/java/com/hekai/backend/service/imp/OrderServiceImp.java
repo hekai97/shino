@@ -70,7 +70,7 @@ public class OrderServiceImp implements OrderService {
 
     @Override
     public ServerResponse<List<OrderItemDto>> getUserUnPaidOrderList(Integer id) {
-        List<OrderItem> orderItemList=orderItemRepository.findOrderItemsByUserIdAndAndStatusIsNot(id,ConstUtil.OrderStatus.UNPAID);
+        List<OrderItem> orderItemList=orderItemRepository.findOrderItemsByUserIdAndStatusIs(id,ConstUtil.OrderStatus.UNPAID);
         List<OrderItemDto> orderItemDtoList=orderItemListToOrderItemDtoList(orderItemList);
         return ServerResponse.createRespBySuccess(orderItemDtoList);
     }
@@ -100,7 +100,7 @@ public class OrderServiceImp implements OrderService {
             orderDetail.setCourseTypeId(type);
             orderDetail.setPrice(course.getCoursePrice());
             orderDetailRepository.save(orderDetail);
-        }else{
+        }else if(type==1){
             List<CoursePackage> coursePackageList=coursePackageRepository.findCoursePackagesByPackageId(id);
             orderItem.setOrderNumber(UUIDUtil.generationOrderNumber());
             orderItem.setUserId(userId);
@@ -118,6 +118,8 @@ public class OrderServiceImp implements OrderService {
             orderItem.setCreatedTime(new Timestamp(new Date().getTime()));
             orderItem.setStatus(ConstUtil.OrderStatus.UNPAID);
             orderItemRepository.save(orderItem);
+        }else{
+            return ServerResponse.createByErrorMessage("type参数错误");
         }
         return ServerResponse.createRespBySuccess(orderItmToOrderItemDto(orderItem));
     }
@@ -228,7 +230,7 @@ public class OrderServiceImp implements OrderService {
 
     @Override
     public ServerResponse<List<OrderGoodsDto>> getNoReservations(Integer userId) {
-        List<OrderItem> orderItemList=orderItemRepository.findOrderItemsByUserIdAndAndStatusIsNot(userId,ConstUtil.OrderStatus.UNPAID);
+        List<OrderItem> orderItemList=orderItemRepository.findOrderItemsByUserIdAndStatusIsNot(userId,ConstUtil.OrderStatus.UNPAID);
         List<Integer> orderIdList=new ArrayList<>();
         for(OrderItem orderItem:orderItemList){
             orderIdList.add(orderItem.getId());
@@ -245,7 +247,7 @@ public class OrderServiceImp implements OrderService {
 
     @Override
     public ServerResponse<List<OrderGoodsDto>> getReservations(Integer userId) {
-        List<OrderItem> orderItemList=orderItemRepository.findOrderItemsByUserIdAndAndStatusIsNot(userId,ConstUtil.OrderStatus.UNPAID);
+        List<OrderItem> orderItemList=orderItemRepository.findOrderItemsByUserIdAndStatusIsNot(userId,ConstUtil.OrderStatus.UNPAID);
         List<Integer> orderIdList=new ArrayList<>();
         for(OrderItem orderItem:orderItemList){
             orderIdList.add(orderItem.getId());
@@ -264,7 +266,7 @@ public class OrderServiceImp implements OrderService {
     public ServerResponse<String> userCreateReservations(Integer userId, Integer orderDetailId, Integer storeId, String date, Integer group) {
         OrderDetail orderDetail=orderDetailRepository.findOrderDetailById(orderDetailId);
         if(orderDetail==null){
-            return ServerResponse.createByErrorMessage("订单不存在");
+            return ServerResponse.createByErrorMessage("订单详情不存在");
         }
         OrderItem orderItem=orderItemRepository.findOrderItemById(orderDetail.getOrderId());
         if(orderItem==null){
@@ -334,6 +336,29 @@ public class OrderServiceImp implements OrderService {
         return ServerResponse.createRespBySuccess(orderDetailDtoList);
     }
 
+    @Override
+    public void generateWriteOffCode(String out_trade_no) {
+        OrderItem orderItem=orderItemRepository.findOrderItemByOrderNumber(out_trade_no);
+        List<OrderDetail> orderDetailList=orderDetailRepository.findOrderDetailsByOrderId(orderItem.getId());
+        for(OrderDetail orderDetail:orderDetailList) {
+            String writeOffCode = UUIDUtil.generationSixNumber();
+            OrderGoods orderGoods = new OrderGoods();
+            orderGoods.setCourseId(orderDetail.getCourseId());
+            orderGoods.setOrderDetailId(orderDetail.getId());
+            orderGoods.setWriteOffCodeNumber(writeOffCode);
+            orderGoodsRepository.save(orderGoods);
+        }
+    }
+
+    @Override
+    public void setToPaid(String out_trade_no) {
+        updateOrderStatus(out_trade_no, ConstUtil.OrderStatus.PAID);
+        OrderItem orderItem=orderItemRepository.findOrderItemByOrderNumber(out_trade_no);
+        orderItem.setPayTime(new Timestamp(new Date().getTime()));
+        orderItemRepository.save(orderItem);
+        generateWriteOffCode(out_trade_no);
+    }
+
     private List<OrderGoodsDto> orderGoodsListToOrderGoodsDtoListWithReservationAndTable(List<OrderItem> orderItemList, List<OrderDetail> orderDetailList, List<OrderGoods> orderGoodsList) {
         List<OrderGoodsDto> orderGoodsDtoList=orderGoodsListToOrderGoodsDtoList(orderItemList,orderDetailList,orderGoodsList);
         for(OrderGoodsDto orderGoodsDto:orderGoodsDtoList){
@@ -382,6 +407,7 @@ public class OrderServiceImp implements OrderService {
                     break;
                 }
             }
+            orderGoodsDtoList.add(orderGoodsDto);
         }
         return orderGoodsDtoList;
     }

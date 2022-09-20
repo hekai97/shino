@@ -10,7 +10,7 @@ public class Teacher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
-    private int id;
+    private Integer id;
     @Basic
     @Column(name = "store_id")
     private Integer storeId;
@@ -66,11 +66,11 @@ public class Teacher {
     @Column(name = "created_user_number")
     private String createdUserNumber;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

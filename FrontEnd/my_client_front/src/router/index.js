@@ -12,51 +12,51 @@ const router = createRouter({
       path: "/index",
       name: "index",
       component: () => import("@/views/IndexView.vue"),
-      redirect: "/front", //页面默认加载的路由
+      redirect: "/index/front", //页面默认加载的路由
       children: [
         {
-          path: "/front",
-          name: "front",
+          path: "front",
+          name: "首页",
           component: () => import("@/views/FrontView.vue"),
         },
         {
-          path: "/course",
-          name: "course",
+          path: "course",
+          name: "课程界面",
           component: () => import("@/views/CourseView.vue"),
         },
         {
-          path: "/store",
-          name: "store",
+          path: "store",
+          name: "商店页面",
           component: () => import("@/views/StoreView.vue"),
         },
         {
-          path: "/person",
-          name: "person",
+          path: "person",
+          name: "个人页面",
           component: () => import("@/views/PersonView.vue"),
           children: [
             {
-              path: "/info",
-              name: "info",
+              path: "info",
+              name: "信息",
               component: () => import("@/views/PersonInfo.vue"),
             },
             {
-              path: "/shoppingcart",
-              name: "shoppingcart",
+              path: "shoppingcart",
+              name: "购物车",
               component: () => import("@/views/ShoppingCart.vue"),
             },
             {
-              path: "/noReservation",
-              name: "noReservation",
+              path: "noReservation",
+              name: "未预约",
               component: () => import("@/views/NoReservationView.vue"),
             },
             {
-              path: "/alreadyReservation",
-              name: "alreadyReservation",
+              path: "alreadyReservation",
+              name: "已预约",
               component: () => import("@/views/AlreadyReservation.vue"),
             },
             {
-              path: "/alreadyDone",
-              name: "alreadyDone",
+              path: "alreadyDone",
+              name: "上完课",
               component: () => import("@/views/AlreadyDone.vue"),
             },
           ],

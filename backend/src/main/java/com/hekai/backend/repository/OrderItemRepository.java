@@ -14,8 +14,6 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Integer> {
     OrderItem findOrderItemByOrderNumber(String orderNumber);
 
     List<OrderItem> findOrderItemsByUserId(Integer id);
-    List<OrderItem> findOrderItemsByUserIdAndAndStatusIsNot(Integer id, Integer status);
-
     OrderItem findOrderItemById(Integer id);
 
     Page<OrderItem> findOrderItemsByIdIn(List<Integer> orderIdList, Pageable pageable);
@@ -31,4 +29,8 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Integer> {
     List<OrderItem> findOrderItemsByUserIdAndStatusIn(Integer id, List<Integer> orderStatus);
 
     List<OrderItem> findOrderItemsByUserIdAndStatus(Integer id, Integer afterSale);
+
+    List<OrderItem> findOrderItemsByUserIdAndStatusIs(Integer id, Integer status);
+
+    List<OrderItem> findOrderItemsByUserIdAndStatusIsNot(Integer userId, Integer status);
 }

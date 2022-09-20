@@ -63,4 +63,6 @@ public interface TeacherService {
      * @return {@link ServerResponse}<{@link List}<{@link Teacher}>>
      */
     ServerResponse<List<Teacher>> getTeachersByStoreId(Integer storeId);
+
+    ServerResponse<String> deleteTeacherByNumber(String number);
 }

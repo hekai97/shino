@@ -107,7 +107,7 @@ export default {
     };
   },
   mounted() {
-    // this.getUnpaidOrderItem();
+    this.getUnpaidOrderItem();
   },
   methods: {
     //获取未支付订单
@@ -122,8 +122,8 @@ export default {
             axios({
               method: "post",
               url: "/order/getUserOrderDetailByOrderNumber",
-              data: {
-                orderItemId: this.unpaidOrderItem[i].id,
+              params: {
+                orderNumber: this.unpaidOrderItem[i].orderNumber,
               },
             }).then((res) => {
               if (res.data.status == 0) {
@@ -144,8 +144,8 @@ export default {
       axios({
         method: "post",
         url: "/order/cancelOrder",
-        data: {
-          orderItemId: item.id,
+        params: {
+          orderNo: item.orderNumber,
         },
       }).then((response) => {
         if (response.data.status == 0) {
@@ -158,7 +158,25 @@ export default {
     },
     //支付订单
     payOrder(item) {
-      console.log(item);
+      this.payOrderEntity.out_trade_no = item.orderNumber;
+      this.payOrderEntity.total_amount = item.totalAmount;
+      this.payOrderEntity.subject = item.unpaidOrderDetail[0].courseName;
+      this.payOrderEntity.body = item.unpaidOrderDetail[0].courseName;
+      axios({
+        method: "post",
+        url: "/alipay/pay.do",
+        params: {
+          out_trade_no: this.payOrderEntity.out_trade_no,
+          total_amount: this.payOrderEntity.total_amount,
+          subject: this.payOrderEntity.subject,
+          body: this.payOrderEntity.body,
+        },
+      }).then((response) => {
+        const div = document.createElement("div");
+        div.innerHTML = response.data;
+        document.body.appendChild(div);
+        document.forms[0].submit();
+      });
     },
   },
 };

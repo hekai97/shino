@@ -13,17 +13,21 @@
             <i class="el-icon-menu"></i>
             <span>个人中心</span>
           </template>
-          <el-menu-item index="/info">个人信息</el-menu-item>
+          <el-menu-item index="/index/person/info">个人信息</el-menu-item>
         </el-submenu>
         <el-submenu index="2">
           <template v-slot:title>
             <i class="el-icon-document"></i>
             <span>课程中心</span>
           </template>
-          <el-menu-item index="/shoppingcart">购物车</el-menu-item>
-          <el-menu-item index="/noReservation">未预约</el-menu-item>
-          <el-menu-item index="/alreadyReservation">已预约</el-menu-item>
-          <el-menu-item index="/alreadyDone">已上课</el-menu-item>
+          <el-menu-item index="/index/person/shoppingcart">购物车</el-menu-item>
+          <el-menu-item index="/index/person/noReservation">
+            未预约
+          </el-menu-item>
+          <el-menu-item index="/index/person/alreadyReservation">
+            已预约
+          </el-menu-item>
+          <el-menu-item index="/index/person/alreadyDone">已上课</el-menu-item>
         </el-submenu>
       </el-menu>
     </div>

@@ -4,6 +4,7 @@ import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.CourseDto;
 import com.hekai.backend.entity.Course;
 import com.hekai.backend.entity.CourseCategory;
+import com.hekai.backend.entity.CoursePackage;
 import com.hekai.backend.entity.EmployeeUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -106,4 +107,6 @@ public interface CourseService {
     ServerResponse<String> updateCourseCategory(CourseCategory courseCategory);
 
     ServerResponse<String> deleteCourseCategory(Integer categoryId);
+
+    ServerResponse<List<CoursePackage>> getCourseInWhichPackagesByCourseId(Integer courseId);
 }

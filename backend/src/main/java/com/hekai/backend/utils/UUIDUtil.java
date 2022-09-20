@@ -17,4 +17,7 @@ public class UUIDUtil {
         BigInteger bigInteger=new BigInteger(s1,16);
         return s2+ bigInteger;
     }
+    public static String generationSixNumber(){
+        return String.valueOf((int)((Math.random()*9+1)*100000));
+    }
 }
