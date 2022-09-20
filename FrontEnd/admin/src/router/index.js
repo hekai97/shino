@@ -4,7 +4,6 @@ import firsthome from '../views/Home.vue'
 import Login from '../views/Login'
 import Deep from '../views/Deepanalysis'
 import Store from '../views/Store'
-import * as path from "path";
 const routes = [
   {
     path: '/',
@@ -62,9 +61,9 @@ const routes = [
     component: ()=>import('../views/Teacher')
   },
   {
-    path: '/Role',
-    name: 'Role',
-    component: ()=>import('../views/Role')
+    path: '/ManageUser',
+    name:'ManageUser',
+    component: ()=>import('../views/ManageUser')
   }
 ]
 
