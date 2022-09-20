@@ -32,8 +32,7 @@
           </template>
           <el-menu-item index="1-2-1" style="margin-left: 15px" @click="CourseCategories">课程分类</el-menu-item>
           <el-menu-item index="1-2-2" style="margin-left: 15px" @click="ManageCourse">管理课程</el-menu-item>
-          <el-menu-item index="1-2-3" style="margin-left: 15px">配置课程</el-menu-item>
-          <el-menu-item index="1-2-4" style="margin-left: 15px">课程追踪</el-menu-item>
+          <el-menu-item index="1-2-3" style="margin-left: 15px" @click="ConfigureCourses">配置课程</el-menu-item>
         </el-sub-menu>
         <el-menu-item index="1-3" v-if="pList.get(104)===true" @click="teacher">
           <el-icon><User /></el-icon>
@@ -384,9 +383,22 @@ export default {
         }
       })
     },
+    ConfigureCourses(){
+      router.push({
+        name:'ConfigureCourses',
+        query:{
+          adminname:aname,
+          adminid:aid
+        }
+      })
+    },
     teacher(){
       router.push({
-        name:'teacher'
+        name:'teacher',
+        query:{
+          adminname:aname,
+          adminid:aid
+        }
       })
     },
     getAllresgitSum(){
