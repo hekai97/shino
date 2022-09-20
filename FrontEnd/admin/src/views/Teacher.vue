@@ -1,6 +1,6 @@
 <template>
   <div style="margin-top: -60px">
-    <el-container style="border: 1px solid red;height: 800px">
+    <el-container style="border: 1px solid red;height: 1050px">
       <el-menu
           active-color="#ffd04b"
           background-color="#545c64"
@@ -38,12 +38,9 @@
             </el-icon>
             <span style="margin-left: 3px">课程管理</span>
           </template>
-          <el-menu-item index="1-2-1" style="margin-left: 15px">查看课程</el-menu-item>
-          <el-menu-item index="1-2-2" style="margin-left: 15px">创建新课程</el-menu-item>
-          <el-menu-item index="1-2-3" style="margin-left: 15px">修改课程信息</el-menu-item>
-          <el-menu-item index="1-2-4" style="margin-left: 15px">删除课程</el-menu-item>
-          <el-menu-item index="1-2-5" style="margin-left: 15px">配置课程</el-menu-item>
-          <el-menu-item index="1-2-6" style="margin-left: 15px">课程追踪</el-menu-item>
+          <el-menu-item index="1-2-1" style="margin-left: 15px" @click="CourseCategories">课程分类</el-menu-item>
+          <el-menu-item index="1-2-2" style="margin-left: 15px" @click="ManageCourse">管理课程</el-menu-item>
+          <el-menu-item index="1-2-3" style="margin-left: 15px" @click="ConfigureCourses">配置课程</el-menu-item>
         </el-sub-menu>
         <el-menu-item index="1-3" v-if="pList.get(104)===true">
           <el-icon>
@@ -57,7 +54,7 @@
           </el-icon>
           <span style="margin-left: 3px">学员管理</span>
         </el-menu-item>
-        <el-menu-item index="1-5" style="border-bottom: 1px solid white" v-if="pList.get(107)===true">
+        <el-menu-item index="1-5" style="border-bottom: 1px solid white" v-if="pList.get(107)===true" @click="OrMange">
           <el-icon>
             <Files/>
           </el-icon>
@@ -300,8 +297,6 @@ import {
   Sort,
   TrendCharts,
   Search,
-  Money,
-  ShoppingCart,
   ArrowDown,
   Van,
 } from '@element-plus/icons-vue'
@@ -310,13 +305,15 @@ import {ElLoading, ElMessage} from "element-plus";
 import router from "@/router";
 import {useRoute} from "vue-router/dist/vue-router";
 let aname;
+let aid;
 export default {
-  name: "teacher",
+  name: "Teacher",
   setup () {
     let route = useRoute();
     aname = route.query.adminname;
     return {
       adminname: aname,
+      adminaid:aid
     }
   },
   components: {
@@ -341,9 +338,7 @@ export default {
     Discount,
     Sort,
     TrendCharts,
-    Money,
     Search,
-    ShoppingCart,
     ArrowDown,
     Van,
   },
@@ -423,6 +418,44 @@ export default {
         }
       })
     },
+
+    OrMange(){
+      router.push({
+        name:'Order',
+        query: {
+          adminname: aname,
+          adminid:aid,
+        }
+      })
+    },
+    CourseCategories(){
+      router.push({
+        name:'CourseCategories',
+        query:{
+          adminname:aname,
+          adminid:aid
+        }
+      })
+    },
+    ManageCourse(){
+      router.push({
+        name:'ManageCourse',
+        query:{
+          adminname:aname,
+          adminid:aid
+        }
+      })
+    },
+    ConfigureCourses(){
+      router.push({
+        name:'ConfigureCourses',
+        query:{
+          adminname:aname,
+          adminid:aid
+        }
+      })
+    },
+
     async getAllPermission() {
       await axios({
         methods: 'get',

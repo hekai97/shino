@@ -40,10 +40,9 @@
         </template>
         <el-menu-item index="1-2-1" style="margin-left: 15px" @click="CourseCategories">课程分类</el-menu-item>
         <el-menu-item index="1-2-2" style="margin-left: 15px">管理课程</el-menu-item>
-        <el-menu-item index="1-2-3" style="margin-left: 15px">配置课程</el-menu-item>
-        <el-menu-item index="1-2-4" style="margin-left: 15px">课程追踪</el-menu-item>
+        <el-menu-item index="1-2-3" style="margin-left: 15px" @click="ConfigureCourses">配置课程</el-menu-item>
       </el-sub-menu>
-      <el-menu-item index="1-3" v-if="pList.get(104)===true">
+      <el-menu-item index="1-3" v-if="pList.get(104)===true" @click="Teacher">
         <el-icon>
           <User/>
         </el-icon>
@@ -279,9 +278,11 @@
               <el-table-column label="id" property="Courseid" sortable min-width="70px" align="center" v-if="false"/>
               <el-table-column label="课程编号" property="CourseNumber" sortable min-width="80px" align="center"/>
               <el-table-column label="课程名称" property="CourseName" min-width="80px" align="center"/>
+              <el-table-column label="课程分类编号" property="CourseCateId" min-width="55px" align="center" v-if="false"/>
               <el-table-column label="课程分类" property="CourseCate" min-width="80px" align="center"/>
               <el-table-column label="等级" property="CourseGrade" min-width="80px" align="center"/>
               <el-table-column label="创建人" property="CourseCreater" min-width="80px" align="center"/>
+              <el-table-column label="课程简介" property="CourseIntroduce" min-width="100px" align="center" v-if="false"/>
               <el-table-column label="详情图片" property="CoursePic" min-width="100px" align="center">
                 <template #default="scope">
                   <div class="demo-image__preview">
@@ -291,7 +292,8 @@
                         :src="scope.row.CoursePic"
                         :preview-src-list="srcList"
                         :preview-teleported="true"
-                        fit="cover"/>
+                        fit="cover"
+                        :initial-index="scope.row.Courseid"/>
                   </div>
                 </template>
               </el-table-column>
@@ -303,12 +305,22 @@
                       active-text="已发布"
                       inactive-text="未发布"
                       width="60px"
+                      @change="ChangeCourseState(scope.row.CourseState,scope.row.Courseid,scope.row.CourseNumber,scope.row.CourseName,scope.row.CourseCateId)"
                   />
                 </template>
               </el-table-column>
               <el-table-column label="操作" property="Operation" min-width="120px" align="center">
-                <el-button type="primary"><el-icon><EditPen /></el-icon>编辑</el-button>
-                <el-button type="danger"><el-icon><Delete /></el-icon>删除</el-button>
+                <template #default="scope">
+                  <el-button type="primary" @click="UpdataCourse(scope.row.Courseid,
+                                                                 scope.row.CourseNumber,
+                                                                 scope.row.CourseName,
+                                                                 scope.row.CourseCateId,
+                                                                 scope.row.CourseCate,
+                                                                 scope.row.CourseGrade,
+                                                                 scope.row.CourseIntroduce,
+                                                                 )"><el-icon><EditPen /></el-icon>编辑</el-button>
+                  <el-button type="danger" @click="DeleteCourse(scope.row.CourseNumber,scope.row.CourseName)"><el-icon><Delete /></el-icon>删除</el-button>
+                </template>
               </el-table-column>
             </el-table>
           </div>
@@ -324,6 +336,213 @@
               style="margin-top: 30px">
           </el-pagination>
 
+<!--      添加新课程-->
+          <el-dialog v-model="OpenAddNewCourse" title="添加新课程" draggable>
+            <div>
+              <div>
+                <div style="width: 51%">
+                  <div style="display: inline-block;">选择分类：</div>
+                  <div style="display: inline-block;margin-left: 3.5%">
+                    <el-select v-model="AddNewCourseCate" placeholder="请选择分类"  @change="getNewCourseCate">
+                      <el-option
+                          v-for="item in CourseCate"
+                          :key="item.id"
+                          :label="item.categoryName"
+                          :value="item.id"
+                      />
+                    </el-select>
+                  </div>
+                </div>
+              </div>
+
+              <div style="width: 89%;margin-top: 10px">
+                <div style="display: inline-block;">课程编号：</div>
+                <div style="display: inline-block;margin-left: 13px">
+                  <el-input v-model="CreateCourseNumber" placeholder="设置课程编号"></el-input>
+                </div>
+                <div style="display: inline-block;margin-left: 5px;font-weight: lighter;color: red">（注：课程编号不能和已存在的课程编号重复）</div>
+              </div>
+
+              <div style="width: 75.2%;margin-top: 10px">
+                <div style="display: inline-block">课程价格：</div>
+                <div style="display: inline-block"><el-input v-model="CreateCoursePrice" placeholder="请输入课程价格" style="width:150px;margin-left: 8.5%"></el-input></div>
+                <div style="margin-left: 7%;display: inline-block">课程点数：</div>
+                <div style="display: inline-block"><el-input v-model="CreateCoursePoints" placeholder="请输入课程点数" style="width:150px;margin-left: 5%" /></div>
+              </div>
+
+              <div  style="width: 60%;margin-top: 10px">
+                <div style="display: inline-block;">课程名称：</div>
+                <div style="display: inline-block;">
+                  <el-input v-model="CreateNewCourseName" placeholder="请输入课程名称" style="width:300px;margin-left: 5%"/>
+                </div>
+              </div>
+
+              <div style="margin-top: 10px">
+                <div style="height: 148px;margin-left:35px;line-height: 150px;float: left;">课程照片:</div>
+                <div style="display: inline-block;width: 80%">
+                  <el-upload action="http://124.221.159.221:8080/admin/course/uploadCourseImage" style="float:left"
+                             list-type="picture-card"
+                             :auto-upload="true" limit="1"
+                             :on-success="handleAvatarSuccess" name="image">
+                    <el-icon><Plus /></el-icon>
+                    <template #file="{ file }">
+                      <div>
+                        <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+                        <span class="el-upload-list__item-actions">
+                              <span
+                                  class="el-upload-list__item-preview"
+                                  @click="handlePictureCardPreview(file)"
+                              >
+                                <el-icon><zoom-in /></el-icon>
+                              </span>
+                            </span>
+                      </div>
+                    </template>
+
+                  </el-upload>
+                  <el-dialog v-model="enlargePic">
+                    <img :src="dialogImageUrl" alt="Preview Image" style="width: 50%;"/>
+                  </el-dialog>
+                </div>
+              </div>
+
+              <div style="margin-top: 20px;width: 55%;">
+                <div style="display: inline-block;">课程等级：</div>
+                <div style="display: inline-block;width: 65%">
+                  <el-radio-group v-model="ChooseGrade" style="margin-left: 5%;">
+                    <el-radio :label="1">初级</el-radio>
+                    <el-radio :label="2">中级</el-radio>
+                    <el-radio :label="3">高级</el-radio>
+                  </el-radio-group>
+                </div>
+              </div>
+
+              <div style="margin-top: 20px;width: 30%;">
+                <div style="display: inline-block;">发布状态：</div>
+                <div style="display: inline-block;margin-left: 15px;width: 30%;">
+                  <el-switch
+                      v-model="NewCourseState"
+                      inline-prompt
+                      active-text="已发布"
+                      inactive-text="未发布"
+                      width="60px"
+                      @change="getNewCourseState(this.NewCourseState)"
+                  />
+                </div>
+              </div>
+
+              <div style="margin-top: 10px">
+                <div style="display: inline-block;float: left;margin-left: 35px;margin-top: 15px">课程内容：</div>
+                <div style="display: inline-block;width: 81%;margin-left: 0%">
+                  <el-input
+                      v-model="CourseIntroduction"
+                      :rows="2"
+                      type="textarea"
+                      placeholder="请输入课程内容"
+                  />
+                </div>
+              </div>
+
+              <div style="margin-top: 20px">
+                <el-button type="primary" @click="AddCourse">确定</el-button>
+              </div>
+
+            </div>
+          </el-dialog>
+
+<!--      更新课程信息-->
+          <el-dialog v-model="OpenUpdataCourse" title="添加新课程" draggable>
+            <div>
+              <div>
+                <div style="width: 51%">
+                  <div style="display: inline-block;">选择分类：</div>
+                  <div style="display: inline-block;margin-left: 3.5%">
+                    <el-select v-model="UpdataCourseCate" placeholder="请选择分类"  @change="getNewCourseCate">
+                      <el-option
+                          v-for="item in CourseCate"
+                          :key="item.id"
+                          :label="item.categoryName"
+                          :value="item.id"
+                      />
+                    </el-select>
+                  </div>
+                </div>
+              </div>
+
+              <div style="width: 89%;margin-top: 10px">
+                <div style="display: inline-block;">课程编号：</div>
+                <div style="display: inline-block;margin-left: 13px">
+                  <el-input v-model="UpdataCourseNumber" placeholder="设置课程编号"></el-input>
+                </div>
+                <div style="display: inline-block;margin-left: 5px;font-weight: lighter;color: red">（注：课程编号不能和已存在的课程编号重复）</div>
+              </div>
+
+              <div  style="width: 60%;margin-top: 10px">
+                <div style="display: inline-block;">课程名称：</div>
+                <div style="display: inline-block;">
+                  <el-input v-model="UpdataCourseName" placeholder="请输入课程名称" style="width:300px;margin-left: 5%"/>
+                </div>
+              </div>
+
+              <div style="margin-top: 10px">
+                <div style="height: 148px;margin-left:35px;line-height: 150px;float: left;">课程照片:</div>
+                <div style="display: inline-block;width: 80%">
+                  <el-upload action="http://124.221.159.221:8080/admin/course/uploadCourseImage" style="float:left"
+                             list-type="picture-card"
+                             :auto-upload="true" limit="1"
+                             :on-success="handleAvatarSuccess" name="image">
+                    <el-icon><Plus /></el-icon>
+                    <template #file="{ file }">
+                      <div>
+                        <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+                        <span class="el-upload-list__item-actions">
+                              <span
+                                  class="el-upload-list__item-preview"
+                                  @click="handlePictureCardPreview(file)"
+                              >
+                                <el-icon><zoom-in /></el-icon>
+                              </span>
+                            </span>
+                      </div>
+                    </template>
+
+                  </el-upload>
+                  <el-dialog v-model="enlargePic">
+                    <img :src="dialogImageUrl" alt="Preview Image" style="width: 50%;"/>
+                  </el-dialog>
+                </div>
+              </div>
+
+              <div style="margin-top: 20px;width: 55%;">
+                <div style="display: inline-block;">课程等级：</div>
+                <div style="display: inline-block;width: 65%">
+                  <el-radio-group v-model="UpdataGrade" style="margin-left: 5%;" @change="ChangeUpdataGrade">
+                    <el-radio :label="1">初级</el-radio>
+                    <el-radio :label="2">中级</el-radio>
+                    <el-radio :label="3">高级</el-radio>
+                  </el-radio-group>
+                </div>
+              </div>
+
+              <div style="margin-top: 10px">
+                <div style="display: inline-block;float: left;margin-left: 35px;margin-top: 15px">课程内容：</div>
+                <div style="display: inline-block;width: 81%;margin-left: 0%">
+                  <el-input
+                      v-model="UpdataIntroduction"
+                      :rows="2"
+                      type="textarea"
+                      placeholder="请输入课程内容"
+                  />
+                </div>
+              </div>
+
+              <div style="margin-top: 20px">
+                <el-button type="primary" @click="UpdataCourseSure">确定</el-button>
+              </div>
+
+            </div>
+          </el-dialog>
+
         </div>
       </el-main>
     </el-container>
@@ -334,10 +553,10 @@
 <script>
 import {
   PieChart, Coin, House, Calendar, User, Edit, Setting, Files, Operation, DArrowRight, DArrowLeft, Fold,
-  ChromeFilled, Refresh,Bell, Help, Discount, Sort,ArrowDown,Van,Search,Folder,EditPen,Delete
+  ChromeFilled, Refresh,Bell, Help, Discount, Sort,ArrowDown,Van,Search,Folder,EditPen,Delete,Plus,ZoomIn
 } from '@element-plus/icons-vue'
 import axios from "axios";
-import {ElLoading, ElMessage} from "element-plus";
+import {ElLoading, ElMessage, ElMessageBox} from "element-plus";
 import router from "@/router";
 import {useRoute} from "vue-router/dist/vue-router";
 let aname;
@@ -354,7 +573,7 @@ export default {
   },
   components: {
     PieChart, Coin, House, Calendar, User, Edit, Setting, Files, Operation, DArrowLeft, DArrowRight, Fold,
-    ChromeFilled, Refresh, Bell,Help, Discount, Sort, ArrowDown, Van,Search,Folder,EditPen,Delete
+    ChromeFilled, Refresh, Bell,Help, Discount, Sort, ArrowDown, Van,Search,Folder,EditPen,Delete,Plus,ZoomIn
   },
   data() {
     return {
@@ -394,14 +613,37 @@ export default {
         Courseid:'',
         CourseNumber:'',
         CourseName:'',
+        CourseCateId:'',
         CourseCate:'',
         CourseGrade:'',
         CourseCreater:'',
         CoursePic:'',
         CourseState:false,
+        CourseIntroduce:'',
       }],
       BaseUrl:axios.defaults.baseURL,
       srcList:[],
+      OpenAddNewCourse:false,
+      ChooseGrade:1,
+      AddNewCourseCate:'',
+      CreateCourseCateid:'',
+      CreateNewCourseName:'',
+      dialogImageUrl:'',
+      enlargePic:false,
+      CourseIntroduction:'',
+      CreateCoursePictureUrl:'',
+      CreateCourseNumber:'',
+      CreateCoursePrice:'',
+      CreateCoursePoints:'',
+      NewCourseState:false,
+      OpenUpdataCourse:false,
+      UpdataCourseid:'',
+      UpdataCourseCate:'',
+      UpdataCourseNumber:'',
+      UpdataCourseName:'',
+      UpdataGrade:'',
+      UpdataIntroduction:'',
+      UpdataNewGrade:'',
     }
   },
   mounted(){
@@ -482,6 +724,24 @@ export default {
         }
       })
     },
+    ConfigureCourses() {
+      router.push({
+        name: 'ConfigureCourses',
+        query: {
+          adminname: aname,
+          adminid: aid
+        }
+      })
+    },
+    Teacher(){
+      router.push({
+        name:'Teacher',
+        query:{
+          adminname:aname,
+          adminid:aid
+        }
+      })
+    },
     async getAllPermission() {
       await axios({
         methods: 'get',
@@ -502,61 +762,217 @@ export default {
         this.dpList = res.data.data;
       })
     },
-    async getCouseCateList(){
+    async getCouseCateList() {
       await axios({
-        method:'get',
-        url:'/admin/course/getCourseCategoryList'
-      }).then(res=>{
-        this.CourseCate=res.data.data;
+        method: 'get',
+        url: '/admin/course/getCourseCategoryList'
+      }).then(res => {
+        this.CourseCate = res.data.data;
       })
     },
-    async getCourseList(){
-        axios({
-          method:'get',
-          url:'/admin/course/getAllCoursePageable',
-          params:{
-            page:this.queryInfo.page-1,
-            size:this.queryInfo.size,
+    async getCourseList() {
+      axios({
+        method: 'get',
+        url: '/admin/course/getAllCoursePageable',
+        params: {
+          page: this.queryInfo.page - 1,
+          size: this.queryInfo.size,
+        }
+      }).then(res => {
+        this.Coursetotal = res.data.data.totalElements;
+        console.log(res.data.data.content)
+        for (let i = 0; res.data.data.content.length; i++) {
+          let obj = new Object();
+          obj.Courseid = res.data.data.content[i].id;
+          obj.CourseNumber = res.data.data.content[i].courseNumber;
+          obj.CourseName = res.data.data.content[i].courseName;
+          obj.CourseCateId = res.data.data.content[i].courseCategoryId;
+          obj.CourseCate = res.data.data.content[i].courseCategoryName;
+          if (res.data.data.content[i].courseLevel === "1") {
+            obj.CourseGrade = "初级";
+          } else {
+            if (res.data.data.content[i].courseLevel === "2") {
+              obj.CourseGrade = "中级"
+            } else {
+              obj.CourseGrade = "高级"
+            }
           }
-        }).then(res=>{
-          this.Coursetotal=res.data.data.totalElements;
-          console.log(res.data.data.content)
-          for(let i=0;res.data.data.content.length;i++){
-            let obj=new Object();
-            obj.Courseid=res.data.data.content[i].id;
-            obj.CourseNumber=res.data.data.content[i].courseNumber;
-            obj.CourseName=res.data.data.content[i].courseName;
-            obj.CourseCate=res.data.data.content[i].courseCategoryName;
-            if(res.data.data.content[i].courseLevel==="1"){
-              obj.CourseGrade="初级";
-            }else{
-              if(res.data.data.content[i].courseLevel==="2"){
-                obj.CourseGrade="中级"
-              }else{
-                obj.CourseGrade="高级"
+          obj.CourseCreater = res.data.data.content[i].creator;
+          obj.CoursePic = this.BaseUrl + res.data.data.content[i].pictureUrl;
+          if (res.data.data.content[i].isPublic === 1) {
+            obj.CourseState = true
+          } else {
+            obj.CourseState = false
+          }
+          obj.CourseIntroduce = res.data.data.content[i].description;
+          this.CourseData[i] = obj;
+          this.srcList[res.data.data.content[i].id] = this.BaseUrl + res.data.data.content[i].pictureUrl;
+        }
+      })
+    },
+    handleSizeChange(newSize) {
+      this.queryInfo.size = newSize
+      this.CourseData = [];
+      this.getCourseList()
+    },
+    handleCurrentChange(newPage) {
+      this.queryInfo.page = newPage
+      this.CourseData = [];
+      this.getCourseList()
+    },
+    CreatNewCourse() {
+      this.OpenAddNewCourse = !this.OpenAddNewCourse
+    },
+    handlePictureCardPreview(file) {
+      // console.log(file)
+      this.dialogImageUrl = file.url
+      this.enlargePic = true
+    },
+    handleAvatarSuccess(res) {
+      this.CreateCoursePictureUrl = res.data;
+      console.log(this.CreateCoursePictureUrl)
+    },
+    getNewCourseState(val) {
+      console.log(val)
+    },
+    getNewCourseCate(val) {
+      this.CreateCourseCateid = val;
+    },
+    AddCourse() {
+      let CreateCourseisPublic;
+      if (this.NewCourseState === true) {
+        CreateCourseisPublic = 1;
+      } else {
+        CreateCourseisPublic = 0;
+      }
+      let AddCourse = new FormData;
+      AddCourse = {
+        courseCategoryId: this.CreateCourseCateid,
+        courseName: this.CreateNewCourseName,
+        courseNumber: this.CreateCourseNumber,
+        coursePrice: this.CreateCoursePrice,
+        coursePoints: this.CreateCoursePoints,
+        pictureUrl: this.CreateCoursePictureUrl,
+        courseLevel: this.ChooseGrade,
+        isPublic: CreateCourseisPublic,
+      };
+      console.log(AddCourse)
+      axios({
+        method: 'post',
+        url: '/admin/course/createCourse',
+        data: AddCourse
+      }).then(res => {
+        if (res.data.status === 0) {
+          ElMessage("新课程添加成功");
+          router.go(0)
+        } else {
+          ElMessage(res.data.message)
+        }
+      })
+    },
+    DeleteCourse(CourseNumber, CourseName) {
+      ElMessageBox.confirm(
+          '是否确定删除' + CourseName + '课程',
+          '提醒',
+          {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+          }
+      )
+          .then(() => {
+            axios({
+              method: 'post',
+              url: '/admin/course/deleteCourseByNumber',
+              params: {
+                courseNumber: CourseNumber
               }
-            }
-            obj.CourseCreater=res.data.data.content[i].creator;
-            obj.CoursePic=this.BaseUrl+res.data.data.content[i].pictureUrl;
-            if(res.data.data.content[i].isPublic===1){
-              obj.CourseState=true
-            }else{
-              obj.CourseState=false
-            }
-            this.CourseData[i]=obj;
-            this.srcList[i]=this.BaseUrl+res.data.data.content[i].pictureUrl;
+            }).then(res => {
+              if (res.data.status === 0) {
+                ElMessage("成功删除该课程")
+                router.go(0)
+              } else {
+                ElMessage(res.data.message)
+              }
+            })
+          })
+          .catch(() => {
+            ElMessage({
+              type: 'info',
+              message: '取消删除',
+            })
+          })
+    },
+    ChangeCourseState(CourseState, Courseid, CourseNumber, CourseName, CourseCateId,) {
+      let UpdataState;
+      if (CourseState === true) {
+        UpdataState = 1;
+      } else {
+        UpdataState = 0;
+      }
+      let UpdateCourse = new FormData;
+      UpdateCourse = {
+        id: Courseid,
+        courseCategoryId: CourseCateId,
+        courseName: CourseName,
+        CourseNumber: CourseNumber,
+        isPublic: UpdataState
+      }
+      axios({
+        method: 'post',
+        url: '/admin/course/updateCourseInfo',
+        data: UpdateCourse
+      }).then(res => {
+        console.log(res.data.message)
+      })
+    },
+    ChangeUpdataGrade(val) {
+      console.log(val);
+      this.UpdataNewGrade = val;
+    },
+    UpdataCourse(Courseid, CourseNumber, CourseName, CourseCateId, CourseCate, CourseGrade, CourseIntroduce) {
+      this.UpdataCourseid = Courseid;
+      this.UpdataCourseCate = CourseCate;
+      this.UpdataCourseNumber = CourseNumber;
+      this.UpdataCourseName = CourseName;
+      if (CourseGrade === "初级") {
+        this.UpdataGrade = 1;
+      } else {
+        if (CourseGrade === "中级") {
+          this.UpdataGrade = 2;
+        } else {
+          this.UpdataGrade = 3;
+        }
+      }
+      // console.log(CourseGrade)
+      console.log(CourseCateId)
+      this.UpdataIntroduction = CourseIntroduce;
+      this.OpenUpdataCourse = !this.OpenUpdataCourse;
+     },
+    UpdataCourseSure(){
+      let UpdataDate=new FormData;
+      UpdataDate={
+        id:this.UpdataCourseid,
+        courseCategoryId:this.CreateCourseCateid,
+        courseName:this.UpdataCourseName,
+        courseNumber:this.UpdataCourseNumber,
+        description:this.UpdataIntroduction,
+        pictureUrl:this.CreateCoursePictureUrl,
+        courseLevel:this.UpdataNewGrade
+      }
+      console.log(UpdataDate)
+        axios({
+          method:'post',
+          url:'/admin/course/updateCourseInfo',
+          data:UpdataDate
+        }).then(res=>{
+          if(res.data.status===0){
+            ElMessage("信息更改成功")
+            router.go(0)
+          }else{
+            ElMessage(res.data.message)
           }
         })
-    },
-    handleSizeChange(newSize){
-      this.queryInfo.size = newSize
-      this.CourseData=[];
-      this.getCourseList()
-    },
-    handleCurrentChange(newPage){
-      this.queryInfo.page = newPage
-      this.CourseData=[];
-      this.getCourseList()
     },
   }
 }
