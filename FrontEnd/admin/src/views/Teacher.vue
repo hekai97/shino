@@ -204,6 +204,7 @@
           </div>
         </el-header>
         <el-main style="background-color: #F0F2F5" class="main">
+
           <div>
               <p style="position: absolute;left: 230px;top: 95px;font-size: small">入职时间</p>
               <el-input v-model="input" placeholder="开始时间" style="width: 10%;position: absolute;top:100px;left: 290px"/>
@@ -235,7 +236,99 @@
               <el-button style=" position: absolute;right: 20px;top: 100px"><el-icon><Search /></el-icon></el-button>
               </div>
           <div style="margin-top: 60px;margin-right: 900px">
-          <el-button  type="primary">添加新讲师</el-button>
+          <el-button  type="primary" @click="OpenAddTeaher">添加新讲师</el-button>
+            <el-dialog v-model="OpenNewTeacher" title="添加新讲师" draggable>
+            <div>
+              <div style="border: 1px solid var(--el-border-color);height:100px">上传头像</div>
+              <div style="width: 89%">
+                <el-form :model="form" ref="form" label-width="120px">
+                  <el-form-item label="姓名">
+                    <el-input v-model="form.name" placeholder="请输入讲师姓名" />
+                  </el-form-item>
+                  <el-form-item label="性别" >
+                    <el-radio-group v-model="form.resource"  >
+                      <el-radio label="男" />
+                      <el-radio label="女" />
+                    </el-radio-group>
+                  </el-form-item>
+                  <el-form-item label="手机">
+                    <el-input v-model="form.phone" placeholder="请输入正确的手机号"/>
+                  </el-form-item>
+                  <el-form-item label="邮箱">
+                    <el-input v-model="form.email" placeholder="请输入正确的邮箱" />
+                  </el-form-item>
+                  <el-form-item label="所在门店">
+                    <el-input v-model="form.updates" placeholder="请选择"/>
+                  </el-form-item>
+                  <el-form-item label="擅长类别">
+                    <el-select v-model="form.region" placeholder="请选择标签">
+                      <el-option label="Zone one" value="语文" />
+                      <el-option label="Zone two" value="数学" />
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="出生日期">
+                    <el-col :span="11">
+                      <el-date-picker
+                          v-model="form.date1"
+                          type="date"
+                          placeholder="出生日期"
+                          style="width: 100%"
+                      />
+                    </el-col>
+                  </el-form-item>
+                  <el-form-item label="从业时间">
+                    <el-col :span="12">
+                      <el-date-picker
+                          v-model="form.date2"
+                          type="date"
+                          placeholder="从业时间"
+                          style="width: 100%"
+                      />
+                    </el-col>
+                  </el-form-item>
+                  <el-form-item label="入职日期">
+                    <el-col :span="13">
+                      <el-date-picker
+                          v-model="form.date3"
+                          type="date"
+                          placeholder="入职日期"
+                          style="width: 100%"
+                      />
+                    </el-col>
+                  </el-form-item>
+                  <el-form-item label="离职日期">
+                    <el-col :span="14">
+                      <el-date-picker
+                          v-model="form.date4"
+                          type="date"
+                          placeholder="离职日期"
+                          style="width: 100%"
+                      />
+                    </el-col>
+                  </el-form-item>
+                  <div style="margin-top: 20px">
+                    <div style="display: inline-block;float: left;margin-left: 35px;margin-top: 10px">详细地址地址:</div>
+                    <el-cascader style="display: inline-block;margin-left: 0%" size='large' :options='options' v-model="selectedOptions" @change="addressChange"></el-cascader>
+                    <div style="display: inline-block;margin-left: 2%;width: 47%">
+                      <el-input v-model="UpdataAddressDetail" size="large" placeholder="请输入详细地址"></el-input>
+                    </div>
+                  </div>
+                  <div style="margin-top: 10px">
+                    <div style="display: inline-block;float: left;margin-left: 35px;margin-top: 15px">讲师简介：</div>
+                    <div style="display: inline-block;width: 81%;margin-left: 0%">
+                      <el-input
+                          v-model="UpdataIntroduce"
+                          :rows="2"
+                          type="textarea"
+                          placeholder="请输入简介内容"
+                      />
+                    </div>
+                  </div>
+
+                </el-form>
+              </div>
+            </div>
+            </el-dialog>
           </div>
           <div style="margin-top: 20px">
             <el-card style="top: 200px;width: 100%">
@@ -267,7 +360,6 @@
               </div>
             </el-card>
           </div>
-
         </el-main>
       </el-container>
     </el-container>
@@ -307,7 +399,7 @@ import {useRoute} from "vue-router/dist/vue-router";
 let aname;
 let aid;
 export default {
-  name: "Teacher",
+  name: "myTeacher",
   setup () {
     let route = useRoute();
     aname = route.query.adminname;
@@ -357,11 +449,20 @@ export default {
       input2:'',
       dpList: [],
       pList: new Map(),
-      tableDatas:[
-        {
+      UpdataAddressDetail:'',
+      UpdataIntroduce:'',
+      form:{
+          name,
+          /*phone,
+          email,
+          updates,
+        resuorces,*/
 
-        }
-      ]
+
+
+
+      },
+      OpenNewTeacher:false,
     }
   },
   mounted() {
@@ -468,6 +569,10 @@ export default {
         }
       })
     },
+    OpenAddTeaher(){
+      this.OpenNewTeacher=!this.OpenNewTeacher
+    }
+
   }
 }
 
