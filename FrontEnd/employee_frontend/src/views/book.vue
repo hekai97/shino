@@ -28,7 +28,7 @@
             <el-menu-item index="0-2-2" style="margin-left: 30px" @click="schedule">排课</el-menu-item>
           </el-sub-menu>
 
-          <el-menu-item index="1-1">
+          <el-menu-item index="1-1" @click="sign">
             <el-icon><AlarmClock /></el-icon>
             <span style="margin-left: 3px">上课签到</span>
           </el-menu-item>
@@ -310,6 +310,11 @@ export default {
     schedule() {
       router.push({
         name: "schedule"
+      })
+    },
+    sign(){
+      router.push({
+        name:"sign"
       })
     },
     Arranging(){
