@@ -49,6 +49,16 @@ const routes = [
     path:'/ManageCourse',
     name:'ManageCourse',
     component: ()=>import('../views/ManageCourse')
+  },
+  {
+    path:'/ConfigureCourses',
+    name:'ConfigureCourses',
+    component: ()=>import('../views/ConfigureCourses')
+  },
+  {
+    path: '/Teacher',
+    name:'Teacher',
+    component: ()=>import('../views/Teacher')
   }
 ]
 

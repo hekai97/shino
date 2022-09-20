@@ -40,10 +40,9 @@
           </template>
           <el-menu-item index="1-2-1" style="margin-left: 15px" @click="CourseCategories">课程分类</el-menu-item>
           <el-menu-item index="1-2-2" style="margin-left: 15px" @click="ManageCourse">管理课程</el-menu-item>
-          <el-menu-item index="1-2-3" style="margin-left: 15px">配置课程</el-menu-item>
-          <el-menu-item index="1-2-4" style="margin-left: 15px">课程追踪</el-menu-item>
+          <el-menu-item index="1-2-3" style="margin-left: 15px" @click="ConfigureCourses">配置课程</el-menu-item>
         </el-sub-menu>
-        <el-menu-item index="1-3" v-if="pList.get(104)===true">
+        <el-menu-item index="1-3" v-if="pList.get(104)===true" @click="Teacher">
           <el-icon>
             <User/>
           </el-icon>
@@ -492,6 +491,24 @@ export default {
     ManageCourse(){
       router.push({
         name:'ManageCourse',
+        query:{
+          adminname:aname,
+          adminid:aid
+        }
+      })
+    },
+    ConfigureCourses(){
+      router.push({
+        name:'ConfigureCourses',
+        query:{
+          adminname:aname,
+          adminid:aid
+        }
+      })
+    },
+    Teacher(){
+      router.push({
+        name:'Teacher',
         query:{
           adminname:aname,
           adminid:aid
