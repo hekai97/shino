@@ -68,7 +68,7 @@
             <span style="margin-left: 3px">权限管理</span>
           </template>
           <el-menu-item index="1-6-1" style="margin-left: 15px">查看角色</el-menu-item>
-          <el-menu-item index="1-6-2" style="margin-left: 15px">角色管理</el-menu-item>
+          <el-menu-item index="1-6-2" style="margin-left: 15px" @click="role">角色管理</el-menu-item>
           <el-menu-item index="1-6-3" style="margin-left: 15px">创建员工账号</el-menu-item>
           <el-menu-item index="1-6-4" style="margin-left: 15px">查看权限</el-menu-item>
         </el-sub-menu>
@@ -556,6 +556,15 @@ export default {
     Teacher(){
       router.push({
         name:'Teacher',
+        query:{
+          adminname:aname,
+          adminid:aid
+        }
+      })
+    },
+    role(){
+      router.push({
+        name:'Role',
         query:{
           adminname:aname,
           adminid:aid
