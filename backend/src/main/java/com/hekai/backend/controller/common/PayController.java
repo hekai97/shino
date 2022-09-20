@@ -10,7 +10,6 @@ import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.configuration.AliPayConfig;
 import com.hekai.backend.dto.PayOrder;
 import com.hekai.backend.service.OrderService;
-import com.hekai.backend.utils.ConstUtil;
 import com.hekai.backend.utils.OrderInfoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -132,12 +131,12 @@ public class PayController {
             System.out.println("return sign  success");
             System.out.println(1);
             // return "验证签名成功，现在跳转到订单详情页面";
-            return "Success";
+            return "http://127.0.0.1:5173/noReservation";
         } else {
             System.out.println("return sign  failed");
             System.out.println(1);
             // return "验证签名失败";
-            return "Failed";
+            return "http://127.0.0.1:5173/noReservation";
         }
     }
 
@@ -193,7 +192,7 @@ public class PayController {
 //
 ////                actionOrderService.updateOrderToSuccessPay(Long.parseLong(params.get("out_trade_no")));
 //            }).start();
-            orderService.updateOrderStatus(params.get("out_trade_no"), ConstUtil.OrderStatus.PAID);
+            orderService.setToPaid(params.get("out_trade_no"));
             ////////////
             return "success";
         } else {

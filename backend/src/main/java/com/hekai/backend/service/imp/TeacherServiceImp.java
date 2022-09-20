@@ -2,9 +2,11 @@ package com.hekai.backend.service.imp;
 
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.TeacherDto;
+import com.hekai.backend.entity.CourseTable;
 import com.hekai.backend.entity.EmployeeUser;
 import com.hekai.backend.entity.Store;
 import com.hekai.backend.entity.Teacher;
+import com.hekai.backend.repository.CourseTableRepository;
 import com.hekai.backend.repository.StoreRepository;
 import com.hekai.backend.repository.TeacherRepository;
 import com.hekai.backend.service.TeacherService;
@@ -29,6 +31,8 @@ public class TeacherServiceImp implements TeacherService {
     private StoreRepository storeRepository;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private CourseTableRepository courseTableRepository;
     @Override
     public ServerResponse<Page<TeacherDto>> getTeacherListPageable(Pageable pageable) {
         Page<Teacher> teachers=teacherRepository.findAll(pageable);
@@ -90,13 +94,60 @@ public class TeacherServiceImp implements TeacherService {
         }
         teacher.setCreatedDate(new Date(System.currentTimeMillis()));
         teacher.setCreatedUserNumber(operator.getNumber());
+        teacher.setEntryDate(new Date(System.currentTimeMillis()));
         Teacher result = teacherRepository.save(teacher);
         return ServerResponse.createRespBySuccess(result);
     }
 
     @Override
     public ServerResponse<Teacher> updateTeacher(Teacher teacher) {
-        Teacher teacher1=teacherRepository.save(teacher);
+        if(teacher.getId()==null){
+            return ServerResponse.createByErrorMessage("必须给老师设置id！");
+        }
+        Teacher oldTeacher=teacherRepository.findTeacherById(teacher.getId());
+        if(teacherRepository.findTeacherByNumber(teacher.getNumber())!=null&&!teacher.getNumber().equals(oldTeacher.getNumber())){
+            return ServerResponse.createByErrorMessage("该编号已经存在！");
+        }
+        if(teacher.getAddress()!=null){
+            oldTeacher.setAddress(teacher.getAddress());
+        }
+        if(teacher.getBirthday()!=null){
+            oldTeacher.setBirthday(teacher.getBirthday());
+        }
+        if(teacher.getDescription()!=null){
+            oldTeacher.setDescription(teacher.getDescription());
+        }
+        if(teacher.getStoreId()!=null){
+            oldTeacher.setStoreId(teacher.getStoreId());
+        }
+        if(teacher.getName()!=null){
+            oldTeacher.setName(teacher.getName());
+        }
+        if(teacher.getEmail()!=null){
+            oldTeacher.setEmail(teacher.getEmail());
+        }
+        if(teacher.getFeature()!=null){
+            oldTeacher.setFeature(teacher.getFeature());
+        }
+        if(teacher.getLeaveDate()!=null){
+            oldTeacher.setLeaveDate(teacher.getLeaveDate());
+        }
+        if(teacher.getPhone()!=null){
+            oldTeacher.setPhone(teacher.getPhone());
+        }
+        if(teacher.getPictureUrl()!=null){
+            oldTeacher.setPictureUrl(teacher.getPictureUrl());
+        }
+        if(teacher.getSex()!=null){
+            oldTeacher.setSex(teacher.getSex());
+        }
+        if(teacher.getStatus()!=null){
+            oldTeacher.setStatus(teacher.getStatus());
+        }
+        if(teacher.getGoodCategory()!=null){
+            oldTeacher.setGoodCategory(teacher.getGoodCategory());
+        }
+        Teacher teacher1=teacherRepository.save(oldTeacher);
         return ServerResponse.createRespBySuccess(teacher1);
     }
 
@@ -104,5 +155,23 @@ public class TeacherServiceImp implements TeacherService {
     public ServerResponse<List<Teacher>> getTeachersByStoreId(Integer storeId) {
         List<Teacher> teachers=teacherRepository.findTeachersByStoreId(storeId);
         return ServerResponse.createRespBySuccess(teachers);
+    }
+
+    @Override
+    public ServerResponse<String> deleteTeacherByNumber(String number) {
+        if(teacherRepository.findTeacherByNumber(number)==null){
+            return ServerResponse.createByErrorMessage("该老师不存在！");
+        }
+        Teacher teacher=teacherRepository.findTeacherByNumber(number);
+        if(teacher.getStatus()==0){
+            return ServerResponse.createByErrorMessage("该老师已经离职！");
+        }
+        List<CourseTable> courseTables=courseTableRepository.findCourseTablesByTeacherId(teacher.getId());
+        if(courseTables.size()!=0){
+            return ServerResponse.createByErrorMessage("该老师还有课程安排，不能删除！");
+        }
+        teacher.setStatus(0);
+        teacherRepository.save(teacher);
+        return ServerResponse.createRespBySuccessMessage("删除成功！");
     }
 }

@@ -63,11 +63,11 @@ export default {
       imgList: [
         {
           id: 0,
-          url: "src/assets/491c2f52033045633864a5ec2c1eba9b.jpeg",
+          url: "@/assets/491c2f52033045633864a5ec2c1eba9b.jpeg",
         },
         {
           id: 1,
-          url: "src/assets/6ad79cc7fea95496c878c6ab112e6ea7.jpeg",
+          url: "@/assets/6ad79cc7fea95496c878c6ab112e6ea7.jpeg",
         },
       ],
       storeList: [],
@@ -86,7 +86,7 @@ export default {
   methods: {
     goCourse() {
       this.$router.push({
-        path: "/course",
+        path: "/index/course",
       });
     },
     godetail(item) {

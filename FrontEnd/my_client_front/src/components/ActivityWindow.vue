@@ -11,7 +11,7 @@
         <div>课程原价：{{ detail.coursePrice }}</div>
         <div>课程现价：{{ detail.coursePrice }}</div>
         <div>课程内容：{{ detail.courseContent }}</div>
-        <div>课程时长：120分钟</div>
+        <div>课程时长： 120分钟</div>
         <div>课程积分：{{ detail.coursePoints }}</div>
         <div>课程等级：{{ detail.courseLevel }}</div>
         <div>课程创建时间：{{ detail.createdTime }}</div>
@@ -22,11 +22,12 @@
             type="primary"
             icon="el-icon-shopping-cart-full"
             style="background-color: orangered"
+            @click="addToShoppingCart"
             >加入购物车</el-button
           >
-          <el-button type="primary" style="background-color: orangered"
+          <!-- <el-button type="primary" style="background-color: orangered"
             >立即下单</el-button
-          >
+          > -->
         </el-button-group>
       </div>
     </div>
@@ -62,6 +63,31 @@ export default {
         })
         // eslint-disable-next-line no-unused-vars
         .catch((_) => {});
+    },
+    addToShoppingCart() {
+      console.log("加入购物车");
+      console.log(this.detail);
+      axios({
+        method: "post",
+        url: "order/createOrder",
+        params: {
+          type: 0,
+          id: this.detail.id,
+        },
+      }).then((response) => {
+        console.log(response);
+        if (response.data.status == 0) {
+          this.$message({
+            message: "加入购物车成功",
+            type: "success",
+          });
+        } else {
+          this.$message({
+            message: "加入购物车失败--" + response.data.message,
+            type: "error",
+          });
+        }
+      });
     },
   },
 };
