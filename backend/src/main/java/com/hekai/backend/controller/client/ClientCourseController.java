@@ -212,4 +212,9 @@ public class ClientCourseController {
     public ServerResponse<Page<CourseDto>> getCoursesPageableByStoreId(@ParameterObject Pageable pageable,@Parameter Integer storeId){
         return courseService.getCoursesPageableByStoreId(pageable,storeId);
     }
+
+    @RequestMapping(value = "/getCourseInWhichPackagesByCourseId",method = RequestMethod.GET)
+    public ServerResponse<List<CoursePackage>> getCourseInWhichPackagesByCourseId(@Parameter Integer courseId){
+        return courseService.getCourseInWhichPackagesByCourseId(courseId);
+    }
 }

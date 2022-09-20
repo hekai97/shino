@@ -113,6 +113,7 @@ public class AdminTeacherController {
         return teacherService.updateTeacher(teacher);
     }
 
+
     /**
      * 上传老师图片
      *
@@ -122,5 +123,14 @@ public class AdminTeacherController {
     @RequestMapping(value = "/uploadTeacherImage",method = RequestMethod.POST)
     public ServerResponse<String> uploadTeacherImage(@RequestBody MultipartFile image){
         return CommonFunction.uploadImage(image,ConstUtil.TEACHER_IMAGE_PATH);
+    }
+
+    @RequestMapping(value = "deleteTeacherByNumber",method = RequestMethod.POST)
+    public ServerResponse<String> deleteTeacherByNumber(HttpSession httpSession,@Parameter String number){
+        EmployeeUser employeeUser = (EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if (employeeUser == null) {
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return teacherService.deleteTeacherByNumber(number);
     }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div v-if="courseNoReservation == null">您没有未预约的订单！</div>
+    <div v-if="courseNoReservation.length == 0">您没有未预约的订单！</div>
     <el-card
       v-else
       class="my-card"
@@ -44,7 +44,7 @@
       </el-form-item>
       <el-form-item label="预约日期">
         <el-date-picker
-          v-model="reservationForm.reservationDate"
+          v-model="reservationForm.reservationTime"
           type="date"
           placeholder="选择预约时间"
         ></el-date-picker>
@@ -145,16 +145,18 @@ export default {
       }).then((response) => {
         if (response.data.status == 0) {
           this.courseNoReservation = response.data.data;
+          console.log(this.courseNoReservation);
         } else {
           this.$message.error(response.data.message);
-          this.courseNoReservation = null;
+          this.courseNoReservation = [];
         }
       });
     },
     createReservation() {
+      console.log(this.reservationForm);
       if (
         this.reservationForm.storeId == "" ||
-        this.reservationForm.reservationDate == "" ||
+        this.reservationForm.reservationTime == "" ||
         this.reservationForm.reservationNumber == ""
       ) {
         this.$message({
@@ -163,12 +165,22 @@ export default {
         });
         return;
       }
+      for (let i = 0; i < this.courseTimeConfig.length; ++i) {
+        if (
+          this.reservationForm.reservationNumber ==
+          this.courseTimeConfig[i].time
+        ) {
+          this.reservationForm.reservationNumber = this.courseTimeConfig[i].id;
+          break;
+        }
+      }
       axios({
         method: "post",
         url: "/order/userCreateReservations",
-        data: {
+        params: {
           orderDetailId: this.reservationForm.orderDetailId,
           storeId: this.reservationForm.storeId,
+          time: this.reservationForm.reservationTime,
           group: this.reservationForm.reservationNumber,
         },
       }).then((response) => {
