@@ -43,8 +43,15 @@
           <el-input v-else disabled v-model="userInfo.address"></el-input>
         </el-form-item>
         <el-form-item label="生日">
-          <el-date-picker v-if="canModify" v-model="userInfo.birthday"></el-date-picker>
-          <el-date-picker v-else disabled v-model="userInfo.birthday"></el-date-picker>
+          <el-date-picker
+            v-if="canModify"
+            v-model="userInfo.birthday"
+          ></el-date-picker>
+          <el-date-picker
+            v-else
+            disabled
+            v-model="userInfo.birthday"
+          ></el-date-picker>
         </el-form-item>
         <!-- <el-form-item label="密码">
           <el-input v-if="canModify" v-model="userInfo.password"></el-input>
