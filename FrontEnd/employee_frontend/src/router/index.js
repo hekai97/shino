@@ -4,6 +4,7 @@ import login from '../views/demo.vue'
 import home from '../views/home.vue'
 // import book from '../views/book'
 import schedule from '../views/schedule'
+import sign from '../views/sign'
 const routes = [
   {
     path: '/',
@@ -38,6 +39,11 @@ const routes = [
     path:'/schedule',
     name:'schedule',
     component: schedule
+  },
+  {
+    path: '/sign',
+    name: 'sign',
+    component: sign
   }
 ]
 

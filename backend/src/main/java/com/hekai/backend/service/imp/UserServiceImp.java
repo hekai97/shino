@@ -67,6 +67,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public ServerResponse<User> updateUserInfo(User user) {
+        User oldUser=userRepository.findUserById(user.getId());
         if(user.getPhoneNumber()==null){
             return ServerResponse.createByErrorMessage("手机号不能为空！");
         }
@@ -79,7 +80,27 @@ public class UserServiceImp implements UserService {
         if(userRepository.findUserByEmail(user.getEmail())!=null){
             return ServerResponse.createByErrorMessage("邮箱已被注册！");
         }
-        User result=userRepository.save(user);
+        oldUser.setPhoneNumber(user.getPhoneNumber());
+        oldUser.setEmail(user.getEmail());
+        if(user.getName()!=null){
+            oldUser.setName(user.getName());
+        }
+        if(user.getSex()!=null){
+            oldUser.setSex(user.getSex());
+        }
+        if(user.getUsername()!=null){
+            oldUser.setUsername(user.getUsername());
+        }
+        if(user.getAddress()!=null){
+            oldUser.setAddress(user.getAddress());
+        }
+        if(user.getBirthday()!=null){
+            oldUser.setBirthday(user.getBirthday());
+        }
+        if(user.getNickName()!=null){
+            oldUser.setNickName(user.getNickName());
+        }
+        User result=userRepository.save(oldUser);
         result.hidePassword();
         return ServerResponse.createRespBySuccess(result);
     }

@@ -4,6 +4,7 @@ import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.CourseDto;
 import com.hekai.backend.entity.*;
 import com.hekai.backend.repository.CourseCategoryRepository;
+import com.hekai.backend.repository.CoursePackageRepository;
 import com.hekai.backend.repository.CourseRepository;
 import com.hekai.backend.repository.RelationStoreCourseRepository;
 import com.hekai.backend.service.CourseService;
@@ -27,6 +28,8 @@ public class CourseServiceImp implements CourseService {
     private CourseCategoryRepository courseCategoryRepository;
     @Autowired
     private RelationStoreCourseRepository relationStoreCourseRepository;
+    @Autowired
+    private CoursePackageRepository coursePackageRepository;
     @Autowired
     private ModelMapper modelMapper;
     @Override
@@ -245,6 +248,12 @@ public class CourseServiceImp implements CourseService {
         }
         courseCategoryRepository.deleteById(categoryId);
         return ServerResponse.createRespBySuccessMessage("删除课程分类成功！");
+    }
+
+    @Override
+    public ServerResponse<List<CoursePackage>> getCourseInWhichPackagesByCourseId(Integer courseId) {
+        List<CoursePackage> coursePackageList=coursePackageRepository.findCoursePackagesByCourseId(courseId);
+        return ServerResponse.createRespBySuccess(coursePackageList);
     }
 
 

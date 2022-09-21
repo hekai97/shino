@@ -124,4 +124,8 @@ public interface OrderService {
     ServerResponse<CourseReservation> getReservationsDetailByReservationId(Integer courseReservationId);
 
     ServerResponse<List<OrderDetailDto>> getUserOrderDetailByOrderItemId(Integer id, Integer orderItemId);
+
+    void generateWriteOffCode(String out_trade_no);
+
+    void setToPaid(String out_trade_no);
 }

@@ -1,7 +1,7 @@
 <!--已经上完课的页面-->
 <template>
   <div class="main">
-    <div v-if="courseAlreadyDoneList == null">您没有已经完成的订单！</div>
+    <div v-if="courseAlreadyDoneList.length == 0">您没有已经完成的订单！</div>
     <el-card
       v-else
       class="my-card"
@@ -140,16 +140,20 @@ export default {
         url: "order/getReservationsOrderGoods",
       }).then((response) => {
         if (response.data.status == 0) {
-          let obj = new Object();
+          let obj = new Array();
           for (let i = 0; i < response.data.data.length; i++) {
             if (response.data.data[i].courseReservation.status == 1) {
               obj.push(response.data.data[i]);
             }
           }
-          this.courseAlreadyDoneList = obj;
+          if (obj.length > 0) {
+            this.courseAlreadyDoneList = obj;
+          } else {
+            this.courseAlreadyDoneList = [];
+          }
         } else {
           this.$message.error(response.data.message);
-          this.courseAlreadyDoneList = null;
+          this.courseAlreadyDoneList = [];
         }
       });
     },

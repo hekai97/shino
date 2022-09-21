@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div v-if="courseReservationList == null">您没有预约的订单！</div>
+    <div v-if="courseReservationList.length == 0">您没有预约的订单！</div>
     <el-card
       v-else
       class="my-card"
@@ -26,7 +26,7 @@
         </div>
         <div class="right">
           <div class="information-text">已预约</div>
-          <div v-if="item.reserveId == null">等待员工排课中</div>
+          <div v-if="item.courseTableId == null">等待员工排课中</div>
           <el-button v-else type="primary" @click="showDetail(item.id)"
             >查看详情</el-button
           >
@@ -140,16 +140,23 @@ export default {
         url: "order/getReservationsOrderGoods",
       }).then((response) => {
         if (response.data.status == 0) {
-          let obj = new Object();
+          console.log(response.data.data);
+          let obj = new Array();
           for (let i = 0; i < response.data.data.length; i++) {
-            if (response.data.data[i].courseReservation.status == 0) {
+            if (response.data.data[i].courseReservation.state == 0) {
               obj.push(response.data.data[i]);
             }
           }
-          this.courseReservationList = obj;
+          if (obj.length > 0) {
+            this.courseReservationList = obj;
+          } else {
+            this.courseReservationList = [];
+          }
+
+          console.log(this.courseReservationList);
         } else {
           this.$message.error(response.data.message);
-          this.courseReservationList = null;
+          this.courseReservationList = [];
         }
       });
     },
