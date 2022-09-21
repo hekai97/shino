@@ -143,7 +143,7 @@ public interface UserService {
      * @param newPassword 新密码
      * @return {@link ServerResponse}<{@link String}>
      */
-    ServerResponse<String> forgetPassword(String account, String oldPassword, String newPassword);
+    ServerResponse<String> resetPassword(String account, String oldPassword, String newPassword);
 
     /**
      * 让注册用户按日期
@@ -166,4 +166,6 @@ public interface UserService {
     ServerResponse<String> deleteEmployeeToStore(String employeeUserNumber, Integer storeId);
 
     ServerResponse<EmployeeUser> getEmployeeUserByEmployeeId(Integer employeeId);
+
+    ServerResponse<String> forgetPassword(String account, String newPassword);
 }

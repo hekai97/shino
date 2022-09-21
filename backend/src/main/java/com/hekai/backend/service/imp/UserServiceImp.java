@@ -74,10 +74,10 @@ public class UserServiceImp implements UserService {
         if(user.getEmail()==null){
             return ServerResponse.createByErrorMessage("邮箱不能为空！");
         }
-        if(userRepository.findUserByPhoneNumber(user.getPhoneNumber())!=null){
+        if(!user.getPhoneNumber().equals(oldUser.getPhoneNumber())&&userRepository.findUserByPhoneNumber(user.getPhoneNumber())!=null){
             return ServerResponse.createByErrorMessage("手机号已被注册！");
         }
-        if(userRepository.findUserByEmail(user.getEmail())!=null){
+        if(!user.getEmail().equals(oldUser.getEmail())&&userRepository.findUserByEmail(user.getEmail())!=null){
             return ServerResponse.createByErrorMessage("邮箱已被注册！");
         }
         oldUser.setPhoneNumber(user.getPhoneNumber());
@@ -226,7 +226,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public ServerResponse<String> forgetPassword(String account, String oldPassword, String newPassword) {
+    public ServerResponse<String> resetPassword(String account, String oldPassword, String newPassword) {
         if(account==null){
             return ServerResponse.createByErrorMessage("账号不能为空！");
         }
@@ -348,5 +348,26 @@ public class UserServiceImp implements UserService {
         }
         employeeUser.hidePassword();
         return ServerResponse.createRespBySuccess(employeeUser);
+    }
+
+    @Override
+    public ServerResponse<String> forgetPassword(String account, String newPassword) {
+        RegexUtil.AccountType type=RegexUtil.getAccountType(account);
+        User user = null;
+        if(type == RegexUtil.AccountType.PHONE_NUMBER){
+            user=userRepository.findUserByPhoneNumber(account);
+        }
+        else if(type == RegexUtil.AccountType.EMAIL){
+            user=userRepository.findUserByEmail(account);
+        }else if(type== RegexUtil.AccountType.UN_KNOW){
+            return ServerResponse.createByErrorMessage("账号格式错误！");
+        }
+        if(user==null){
+            return ServerResponse.createByErrorMessage("无此用户！");
+        }else{
+            user.setPassword(newPassword);
+            userRepository.save(user);
+            return ServerResponse.createRespBySuccessMessage("修改密码成功！");
+        }
     }
 }
