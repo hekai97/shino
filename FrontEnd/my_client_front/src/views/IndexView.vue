@@ -13,7 +13,7 @@
           <el-menu-item index="/index/front">网站首页</el-menu-item>
           <el-menu-item index="/index/course">课程展示</el-menu-item>
           <el-menu-item index="/index/store">店铺展示</el-menu-item>
-          <el-menu-item index="/index/news">新闻资讯</el-menu-item>
+          <!-- <el-menu-item index="/index/news">新闻资讯</el-menu-item> -->
           <el-menu-item index="/index/person">个人中心</el-menu-item>
         </el-menu>
       </div>

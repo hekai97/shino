@@ -3,7 +3,7 @@
     <div class="content-center">
       <el-carousel trigger="click" height="450px">
         <el-carousel-item v-for="item in imgList" :key="item.id">
-          <el-image :src="item.url" alt="" />
+          <el-image :src="item.pic" alt="" />
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -56,7 +56,8 @@
 </template>
 <script>
 import axios from "axios";
-
+import pic1 from "../assets/491c2f52033045633864a5ec2c1eba9b.jpeg";
+import pic2 from "../assets/6ad79cc7fea95496c878c6ab112e6ea7.jpeg";
 export default {
   data() {
     return {
@@ -64,10 +65,12 @@ export default {
         {
           id: 0,
           url: "@/assets/491c2f52033045633864a5ec2c1eba9b.jpeg",
+          pic: pic1,
         },
         {
           id: 1,
           url: "@/assets/6ad79cc7fea95496c878c6ab112e6ea7.jpeg",
+          pic: pic2,
         },
       ],
       storeList: [],
