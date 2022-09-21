@@ -59,14 +59,20 @@
             </el-pagination>
           </div>
         </div>
-        <div class="right"></div>
+        <div class="right">
+          <MyNews></MyNews>
+        </div>
       </div>
     </el-main>
   </el-container>
 </template>
 <script>
 import axios from "axios";
+import MyNews from "../components/MyNews.vue";
 export default {
+  components: {
+    MyNews,
+  },
   data() {
     return {
       baseURL: axios.defaults.baseURL,
@@ -177,8 +183,9 @@ export default {
   float: left;
 }
 .right {
-  width: 40%;
+  width: 35%;
   float: right;
+  margin-left: calc(40% - width);
 }
 .head {
   float: left;

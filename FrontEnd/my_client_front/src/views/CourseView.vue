@@ -24,7 +24,7 @@
               </el-tab-pane>
             </el-tabs>
           </div>
-          <div class="other"></div>
+          <div class="other"><MyNews></MyNews></div>
         </div>
         <div class="footer">
           <el-pagination
@@ -47,17 +47,19 @@
         </div>
       </el-main>
     </el-container>
-    <el-dialog v-model="dialogVisible" width="60%" :before-close="handleClose">
+    <el-dialog v-model="dialogVisible" width="60%">
       <ActivityWindow :detail="detail"></ActivityWindow>
     </el-dialog>
   </div>
 </template>
 <script>
 import ActivityWindow from "../components/ActivityWindow.vue";
+import MyNews from "../components/MyNews.vue";
 import axios from "axios";
 export default {
   components: {
     ActivityWindow,
+    MyNews,
   },
   data() {
     return {
@@ -212,15 +214,6 @@ export default {
       this.getCourse();
       console.log(`当前页: ${val}`);
     },
-    handleClose(done) {
-      this.$confirm("确认关闭？")
-        // eslint-disable-next-line no-unused-vars
-        .then((_) => {
-          done();
-        })
-        // eslint-disable-next-line no-unused-vars
-        .catch((_) => {});
-    },
     prevClick() {
       this.pageable.page--;
       this.getCourse();
@@ -255,10 +248,11 @@ export default {
   background-color: lightseagreen;
 }
 .other {
-  width: 25%;
+  width: 23%;
   float: right;
-  height: 533px;
-  background-color: rosybrown;
+  margin-left: calc(25%-width);
+  /* height: 533px; */
+  /* background-color: rosybrown; */
 }
 .rowone .colone {
   width: 25%;

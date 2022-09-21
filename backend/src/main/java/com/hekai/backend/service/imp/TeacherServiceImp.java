@@ -92,6 +92,9 @@ public class TeacherServiceImp implements TeacherService {
         if(storeRepository.findStoreById(teacher.getStoreId())==null){
             return ServerResponse.createByErrorMessage("该门店不存在！");
         }
+        if(teacher.getStatus()==null){
+            teacher.setStatus(1);
+        }
         teacher.setCreatedDate(new Date(System.currentTimeMillis()));
         teacher.setCreatedUserNumber(operator.getNumber());
         teacher.setEntryDate(new Date(System.currentTimeMillis()));
@@ -170,8 +173,7 @@ public class TeacherServiceImp implements TeacherService {
         if(courseTables.size()!=0){
             return ServerResponse.createByErrorMessage("该老师还有课程安排，不能删除！");
         }
-        teacher.setStatus(0);
-        teacherRepository.save(teacher);
+        teacherRepository.delete(teacher);
         return ServerResponse.createRespBySuccessMessage("删除成功！");
     }
 }
