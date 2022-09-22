@@ -10,6 +10,12 @@
           <el-form-item prop="password" label="密码">
             <el-input v-model="form.password" type="password"></el-input>
           </el-form-item>
+          <el-link
+            href="/forgetPassword"
+            type="info"
+            class="forget-password-link"
+            >忘记密码</el-link
+          >
           <el-form-item class="loginbtn">
             <el-button type="primary" @click="login()">立即登录</el-button>
             <el-button>重置</el-button>
@@ -285,3 +291,10 @@ export default {
   },
 };
 </script>
+<style scoped>
+.forget-password-link {
+  /* width: 100%; */
+  margin-left: 43%;
+  margin-top: 10%;
+}
+</style>

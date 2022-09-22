@@ -23,6 +23,7 @@
             class="col-one"
             v-for="item in coursePageable.content"
             :key="item.id"
+            @click="showDialog(item)"
           >
             <el-image :src="baseURL + item.pictureUrl"></el-image>
           </div>
@@ -45,12 +46,21 @@
       </el-pagination>
     </div>
   </div>
+  <el-dialog v-model="showDialogVisible" width="60%">
+    <ActivityWindow :detail="selectedItem"></ActivityWindow>
+  </el-dialog>
 </template>
 <script>
 import axios from "axios";
+import ActivityWindow from "../components/ActivityWindow.vue";
 export default {
+  components: {
+    ActivityWindow,
+  },
   data() {
     return {
+      showDialogVisible: false,
+      selectedItem: {},
       baseURL: axios.defaults.baseURL,
       currentPage4: 4,
       store: {
@@ -127,6 +137,10 @@ export default {
     this.getCoursesByStoreId();
   },
   methods: {
+    showDialog(item) {
+      this.selectedItem = item;
+      this.showDialogVisible = true;
+    },
     handleSizeChange(val) {
       this.pageable.size = val;
       this.getCoursesByStoreId();

@@ -128,8 +128,12 @@ public class ClientUserController {
      * @param newPassword 新密码
      * @return {@link ServerResponse}<{@link String}>
      */
-    @RequestMapping(value = "/forgetPassword",method = RequestMethod.POST)
-    public ServerResponse<String> forgetPassword(@Parameter String account,@Parameter String oldPassword,@Parameter String newPassword){
-        return userService.forgetPassword(account,oldPassword,newPassword);
+    @RequestMapping(value = "/resetPassword",method = RequestMethod.POST)
+    public ServerResponse<String> resetPassword(@Parameter String account,@Parameter String oldPassword,@Parameter String newPassword){
+        return userService.resetPassword(account,oldPassword,newPassword);
+    }
+    @RequestMapping(value="/forgetPassword",method = RequestMethod.POST)
+    public ServerResponse<String> forgetPassword(@Parameter String account,@Parameter String newPassword){
+        return userService.forgetPassword(account,newPassword);
     }
 }

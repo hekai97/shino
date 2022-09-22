@@ -125,8 +125,6 @@ public class PayController {
 
 
             System.out.println("验签成功.....");
-
-
             ////////////
             System.out.println("return sign  success");
             System.out.println(1);
