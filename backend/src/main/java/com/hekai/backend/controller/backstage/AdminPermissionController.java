@@ -7,6 +7,7 @@ import com.hekai.backend.entity.RelationRolePermission;
 import com.hekai.backend.entity.Role;
 import com.hekai.backend.service.PermissionService;
 import com.hekai.backend.utils.ConstUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +62,7 @@ public class AdminPermissionController {
         if(employeeUser==null){
             return ServerResponse.createByErrorMessage("未登录！");
         }
-        return permissionService.getPermissionsOgRole(roleId);
+        return permissionService.getPermissionsOfRole(roleId);
     }
 
     /**
@@ -124,7 +125,7 @@ public class AdminPermissionController {
         if(employeeUser==null){
             return ServerResponse.createByErrorMessage("未登录！");
         }
-        return permissionService.addRole(role);
+        return permissionService.addRole(employeeUser,role);
     }
 
     /**
@@ -141,5 +142,15 @@ public class AdminPermissionController {
             return ServerResponse.createByErrorMessage("未登录！");
         }
         return permissionService.deleteRole(role);
+    }
+
+    @Operation(summary = "获取这个角色不存在的权限")
+    @RequestMapping(value = "/getPermissionNotInRole",method = RequestMethod.GET)
+    public ServerResponse<List<PermissionList>> getPermissionNotInRole(HttpSession httpSession,@Parameter Integer roleId){
+        EmployeeUser employeeUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(employeeUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return permissionService.getPermissionNotInRole(roleId);
     }
 }

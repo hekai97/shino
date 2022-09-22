@@ -59,6 +59,16 @@ const router = createRouter({
               name: "上完课",
               component: () => import("@/views/AlreadyDone.vue"),
             },
+            {
+              path: "suggestion",
+              name: "意见反馈",
+              component: () => import("@/views/SuggestionView.vue"),
+            },
+            {
+              path: "changePassword",
+              name: "修改密码",
+              component: () => import("@/views/ChangePassword.vue"),
+            },
           ],
         },
       ],

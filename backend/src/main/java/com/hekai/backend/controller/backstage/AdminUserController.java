@@ -281,4 +281,13 @@ public class AdminUserController {
         }
         return userService.getEmployeeUserByEmployeeId(employeeId);
     }
+
+    @RequestMapping(value = "/getAllEmployeeUserPageable",method = RequestMethod.GET)
+    public ServerResponse<Page<EmployeeUser>> getAllEmployeeUserPageable(HttpSession httpSession,@ParameterObject Pageable pageable){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.ADMIN_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return userService.getAllEmployeeUserPageable(pageable);
+    }
 }

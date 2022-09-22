@@ -16,4 +16,6 @@ public interface CourseReservationRepository extends JpaRepository<CourseReserva
     //查看每门课开课的次数,不要动这个代码
     @Query(value = "select distinct course_id as course_id, COUNT(*) as count from course_reservation group by course_id", nativeQuery = true)
     List<Object[]> findCourseRankingCount();
+
+    Page<CourseReservation> findCourseReservationsByStoreIdAndStateIs(Integer storeId, Integer courseReservationStatusWaiting, Pageable pageable);
 }

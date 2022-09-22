@@ -75,4 +75,8 @@ public interface CourseReservationService {
      * @return {@link ServerResponse}<{@link BigDecimal}>
      */
     ServerResponse<BigDecimal> getCourseCategoryIncomeByCategoryId(Integer categoryId);
+
+    ServerResponse<Page<CourseReservationDto>> getCourseReservationNoStartPageable(EmployeeUser curUser, Pageable pageable);
+
+    ServerResponse<User> getCourseReservationByOrderNumber(Integer orderId);
 }

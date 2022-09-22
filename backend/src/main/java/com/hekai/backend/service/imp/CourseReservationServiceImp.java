@@ -36,6 +36,8 @@ public class CourseReservationServiceImp implements CourseReservationService {
     @Autowired
     private OrderDetailRepository detailRepository;
     @Autowired
+    private UserRepository userRepository;
+    @Autowired
     private ModelMapper modelMapper;
     @Override
     public ServerResponse<Page<CourseReservationDto>> getCourseReservationListPageable(EmployeeUser curUser, Pageable pageable) {
@@ -132,6 +134,31 @@ public class CourseReservationServiceImp implements CourseReservationService {
             }
         }
         return ServerResponse.createRespBySuccess(result);
+    }
+
+    @Override
+    public ServerResponse<Page<CourseReservationDto>> getCourseReservationNoStartPageable(EmployeeUser curUser, Pageable pageable) {
+        EmployeeUser operator=employeeUserRepository.findEmployeeUserById(curUser.getId());
+        if(operator.getStoreId()==null){
+            return ServerResponse.createByErrorMessage("您不属于任何商店，因此无法查看课程安排，请联系管理员为您分配商店！");
+        }
+        Page<CourseReservation> courseReservationPage=courseReservationRepository.findCourseReservationsByStoreIdAndStateIs(operator.getStoreId(), ConstUtil.COURSE_RESERVATION_STATUS_WAITING,pageable);
+        List<CourseReservationDto> courseReservationDtoList=courseReservationListToCourseReservationDtoList(courseReservationPage.getContent());
+        Page<CourseReservationDto> result=new PageImpl<>(courseReservationDtoList,courseReservationPage.getPageable(),courseReservationPage.getTotalElements());
+        return ServerResponse.createRespBySuccess(result);
+    }
+
+    @Override
+    public ServerResponse<User> getCourseReservationByOrderNumber(Integer orderId) {
+        OrderItem orderItem=orderItemRepository.findOrderItemById(orderId);
+        if(orderItem==null){
+            return ServerResponse.createByErrorMessage("该订单不存在！");
+        }
+        User user=userRepository.findUserById(orderItem.getUserId());
+        if(user==null){
+            return ServerResponse.createByErrorMessage("该用户不存在！");
+        }
+        return ServerResponse.createRespBySuccess(user);
     }
 
     private CourseReservationDto courseReservationToCourseReservationDto(CourseReservation courseReservation){

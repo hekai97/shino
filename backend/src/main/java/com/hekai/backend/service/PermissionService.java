@@ -1,6 +1,7 @@
 package com.hekai.backend.service;
 
 import com.hekai.backend.common.ServerResponse;
+import com.hekai.backend.entity.EmployeeUser;
 import com.hekai.backend.entity.PermissionList;
 import com.hekai.backend.entity.RelationRolePermission;
 import com.hekai.backend.entity.Role;
@@ -30,7 +31,7 @@ public interface PermissionService {
      * @param roleId 角色id
      * @return {@link ServerResponse}<{@link List}<{@link PermissionList}>>
      */
-    ServerResponse<List<PermissionList>> getPermissionsOgRole(Integer roleId);
+    ServerResponse<List<PermissionList>> getPermissionsOfRole(Integer roleId);
 
     /**
      * 得到所有权限列表
@@ -61,7 +62,7 @@ public interface PermissionService {
      * @param role 角色
      * @return {@link ServerResponse}<{@link Role}>
      */
-    ServerResponse<Role> addRole(Role role);
+    ServerResponse<Role> addRole(EmployeeUser operator,Role role);
 
     /**
      * 删除角色
@@ -70,4 +71,6 @@ public interface PermissionService {
      * @return {@link ServerResponse}<{@link Role}>
      */
     ServerResponse<Role> deleteRole(Role role);
+
+    ServerResponse<List<PermissionList>> getPermissionNotInRole(Integer roleId);
 }
