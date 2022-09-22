@@ -1,6 +1,10 @@
 <template>
   <div class="box">
-    <el-tabs type="border-card" style="width:750px;height: 400px" stretch="true">
+    <el-tabs
+      type="border-card"
+      style="width: 750px; height: 400px"
+      stretch="true"
+    >
       <el-tab-pane label="登录" class="tab">
         <div class="login-head">
           <h1>用户登录</h1>
@@ -17,11 +21,11 @@
               <el-button type="primary" @click="login()">立即登录</el-button>
               <el-button>重置</el-button>
               <el-link
-              href="/forgetPassword"
-              type="info"
-              class="forget-password-link"
-              >忘记密码</el-link
-            >
+                href="/forgetPassword"
+                type="info"
+                class="forget-password-link"
+                >忘记密码</el-link
+              >
             </el-form-item>
           </div>
           <el-checkbox ref="check" v-model="agree" class="checkbox"
@@ -398,10 +402,10 @@ export default {
 };
 </script>
 <style scoped>
-.el-link{
+.el-link {
   margin-left: 10px;
 }
-.item{
+.item {
   margin-left: -35px;
 }
 .login-head {
@@ -410,11 +414,10 @@ export default {
   left: 50%;
   transform: translateX(-50%);
 }
-.el-checkbox{
+.el-checkbox {
   margin-left: 25px;
 }
-.reform{
+.reform {
   display: inline-block;
-  
 }
 </style>
