@@ -3,8 +3,10 @@ package com.hekai.backend.controller.employee;
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.CourseReservationDto;
 import com.hekai.backend.entity.EmployeeUser;
+import com.hekai.backend.entity.User;
 import com.hekai.backend.service.CourseReservationService;
 import com.hekai.backend.utils.ConstUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,16 @@ public class EmployeeCourseReservationController {
         return courseReservationService.getCourseReservationListPageable(curUser,pageable);
     }
 
+    @Operation(summary = "获取预约还没开始，员工所处商店的那些预约")
+    @RequestMapping(value = "/getCourseReservationNoStartPageable",method = RequestMethod.GET)
+    public ServerResponse<Page<CourseReservationDto>> getCourseReservationNoStartPageable(HttpSession httpSession, @ParameterObject Pageable pageable){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.EMPLOYEE_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return courseReservationService.getCourseReservationNoStartPageable(curUser,pageable);
+    }
+
     /**
      * 删除预订
      *
@@ -58,5 +70,15 @@ public class EmployeeCourseReservationController {
             return ServerResponse.createByErrorMessage("未登录！");
         }
         return courseReservationService.deleteReservation(reservationId);
+    }
+
+    @Operation(summary = "通过订单Id来找到用户")
+    @RequestMapping(value = "/getUserInformationByOrderId",method = RequestMethod.GET)
+    public ServerResponse<User> getCourseReservationByOrderNumber(HttpSession httpSession, @Parameter Integer orderId){
+        EmployeeUser curUser=(EmployeeUser) httpSession.getAttribute(ConstUtil.EMPLOYEE_USER);
+        if(curUser==null){
+            return ServerResponse.createByErrorMessage("未登录！");
+        }
+        return courseReservationService.getCourseReservationByOrderNumber(orderId);
     }
 }

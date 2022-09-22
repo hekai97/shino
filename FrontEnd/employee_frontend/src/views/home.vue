@@ -242,6 +242,12 @@
                   <p style="font-size: x-small;position: absolute;left: 1px;top: 1px" >用户留言</p>
                 </div>
               </template>
+              <el-table :data="suggestionData" height="250" style="width: 100%;font-size: xx-small">
+                <el-table-column prop="phone" label="用户手机号"/>
+                <el-table-column prop="question" label="问题"/>
+                <el-table-column prop="description" label="描述" show-overflow-tooltip="true"/>
+                <el-table-column prop="createTime" label="创建时间"/>
+              </el-table>
             </el-card>
           </el-space>
           <el-space wrap>
@@ -311,6 +317,7 @@ import {
 } from '@element-plus/icons'
 import router from "@/router";
 import *as echarts from 'echarts'	// 引入echarts
+import axios from 'axios'
 export default {
   name: 'myHome',
   components: {
@@ -430,7 +437,33 @@ export default {
           }
 
         ],
-      }
+      },
+      suggestionData:[
+        {
+          phone:"18888888888",
+          question:"222",
+          description:"111111111111111111111111111111111111111111111111111111111111",
+          createTime:"2021-01-01 12:00:00"
+        },
+        {
+          phone:"18888888888",
+          question:"222",
+          description:"111",
+          createTime:"2021-01-01 12:00:00"
+        },
+        {
+          phone:"18888888888",
+          question:"222",
+          description:"111",
+          createTime:"2021-01-01 12:00:00"
+        },
+        {
+          phone:"18888888888",
+          question:"222",
+          description:"111",
+          createTime:"2021-01-01 12:00:00"
+        },
+      ]
     }
   },
   methods:{
@@ -448,11 +481,25 @@ export default {
       router.push({
         name:"sign"
       })
+    },
+    getSuggestions() {
+      axios({
+        method: 'get',
+        url: "suggest/getAllSuggest",
+      }).then((res) => {
+        console.log(res.data)
+        if(res.data.status==0){
+          this.suggestionData=res.data.data;
+        }else{
+          this.$message.error(res.data.message);
+        }
+      })
     }
   },
   mounted() {
     let myChart = echarts.init(document.getElementById('myChart'), 'light')	// 初始化echarts, theme为light
     myChart.setOption(this.echartsOption)	// echarts设置选项
+    this.getSuggestions();
   }
 }
 </script>

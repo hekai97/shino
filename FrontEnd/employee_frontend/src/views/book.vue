@@ -260,6 +260,7 @@ import {
   Reading
 } from '@element-plus/icons'
 import router from "@/router";
+import axios from 'axios';
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'mybook',
@@ -298,8 +299,83 @@ export default {
         date1:'',//排课日期
         resource:'',//预约方式
         time:'',//排课时间
-      }
+      },
+      //传入的实体类型
+      pageable: {
+        page: 1,
+        size: 10,
+      },
+      //分页排课表实体
+      courseReservationPageable: {
+        //总共有多少条数据
+        totalElements: 0,
+        //总共有多少页
+        totalPages: 0,
+        //传入的size
+        size: 0,
+        content: [
+          {
+            id: 0,
+            courseId: 0,
+            courseName: "string",
+            storeId: 0,
+            storeName: "string",
+            //这是用户预约的日期
+            date: "string",
+            //这是用户预约的时间段
+            beginTime: "string",
+            endTime: "string",
+            //这是员工端将要给他排的日期
+            arrangementDate: "2022-09-22T03:24:25.076Z",
+            //这是员工端将要给他排的时间段
+            orderBeginTime: "2022-09-22T03:24:25.076Z",
+            orderEndTime: "2022-09-22T03:24:25.076Z",
+
+            orderId: 0,
+            operateTime: "string",
+            display: 0,
+            startTime: "2022-09-22T03:24:25.076Z",
+            //状态，0是未排课，1是已上课
+            state: 0,
+
+            //新增的属性,代表是哪个用户预约的，这些是用户信息
+            username:"",
+            name:"",
+            phoneNumber:"",
+            email:"",
+          },
+        ],
+        number: 0,
+        //sort属性暂时没用
+        sort: {
+          empty: true,
+          sorted: true,
+          unsorted: true,
+        },
+        pageable: {
+          offset: 0,
+          sort: {
+            empty: true,
+            sorted: true,
+            unsorted: true,
+          },
+          pageNumber: 0,
+          pageSize: 0,
+          unpaged: true,
+          paged: true,
+        },
+        first: true,
+        last: true,
+        //这个数据代表当前这一页有多少条数据
+        numberOfElements: 0,
+
+        empty: true,
+      },
     }
+  },
+  mounted() {
+    //填完之后把这个解开
+    // this.getAllCourseReservation();
   },
   methods: {
     home() {
@@ -320,6 +396,45 @@ export default {
     Arranging(){
       this.OpenArranging=!this.OpenArranging
     },
+
+    //获取所有的预约信息
+    getAllCourseReservation() {
+      axios({
+        method: 'get',
+        url: '/employee/reservation/getCourseReservationNoStartPageable',
+        params: {
+          size: this.pageable.size,
+          page: this.pageable.page,
+        },
+      }).then((response) => {
+        if(response.data.status==0){
+          this.courseReservationPageable = response.data.data
+          for(let i=0;i<this.courseReservationPageable.content.length;++i){
+            this.getUserInformationByOrderId(i,this.courseReservationPageable.content[i].orderId);
+          }
+        }else{
+          this.$message.error(response.data.message)
+        }
+      })
+    },
+    getUserInformationByOrderId(index,orderId) {
+      axios({
+        method: 'get',
+        url: '/employee/reservation/getUserInformationByOrderId',
+        params: {
+          orderId: orderId,
+        },
+      }).then(res=>{
+        if(res.data.status==0){
+          this.courseReservationPageable.content[index].username=res.data.data.username
+          this.courseReservationPageable.content[index].name=res.data.data.name
+          this.courseReservationPageable.content[index].phoneNumber=res.data.data.phoneNumber
+          this.courseReservationPageable.content[index].email=res.data.data.email
+        }else{
+          this.$message.error(res.data.message)
+        }
+      })
+    }
   }
 }
 </script>

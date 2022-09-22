@@ -15,12 +15,10 @@ public interface SuggestService {
     /**
      * 创建显示
      *
-     * @param phone       电话
-     * @param question    问题
-     * @param description 描述
+     * @param suggestion 建议
      * @return {@link ServerResponse}<{@link String}>
      */
-    ServerResponse<String> createSuggest(String phone, String question, String description);
+    ServerResponse<String> createSuggest(Suggestion suggestion);
 
     /**
      * 得到所有建议

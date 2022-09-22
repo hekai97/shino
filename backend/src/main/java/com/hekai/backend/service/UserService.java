@@ -168,4 +168,6 @@ public interface UserService {
     ServerResponse<EmployeeUser> getEmployeeUserByEmployeeId(Integer employeeId);
 
     ServerResponse<String> forgetPassword(String account, String newPassword);
+
+    ServerResponse<Page<EmployeeUser>> getAllEmployeeUserPageable(Pageable pageable);
 }

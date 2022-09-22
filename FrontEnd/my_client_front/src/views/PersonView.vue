@@ -15,6 +15,9 @@
           </template>
           <el-menu-item index="/index/person/info">个人信息</el-menu-item>
         </el-submenu>
+        <el-menu-item index="/index/person/changePassword"
+          >修改密码</el-menu-item
+        >
         <el-submenu index="2">
           <template v-slot:title>
             <i class="el-icon-document"></i>
@@ -28,6 +31,7 @@
             已预约
           </el-menu-item>
           <el-menu-item index="/index/person/alreadyDone">已上课</el-menu-item>
+          <el-menu-item index="/index/person/suggestion">意见反馈</el-menu-item>
         </el-submenu>
       </el-menu>
     </div>

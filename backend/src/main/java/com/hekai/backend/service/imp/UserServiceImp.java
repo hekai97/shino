@@ -199,6 +199,7 @@ public class UserServiceImp implements UserService {
         Timestamp timestamp=new Timestamp(new Date().getTime());
         employeeUser.setCreatedTime(timestamp);
         employeeUser.setCreator(creator.getName());
+        employeeUser.setEnabled((byte)1);
         return ServerResponse.createRespBySuccess(employeeUserRepository.save(employeeUser));
     }
 
@@ -369,5 +370,11 @@ public class UserServiceImp implements UserService {
             userRepository.save(user);
             return ServerResponse.createRespBySuccessMessage("修改密码成功！");
         }
+    }
+
+    @Override
+    public ServerResponse<Page<EmployeeUser>> getAllEmployeeUserPageable(Pageable pageable) {
+        Page<EmployeeUser> employeeUsers=employeeUserRepository.findEmployeeUsersByRoleIdNot(pageable,ConstUtil.SUPER_ADMIN_ROLE);
+        return ServerResponse.createRespBySuccess(employeeUsers);
     }
 }

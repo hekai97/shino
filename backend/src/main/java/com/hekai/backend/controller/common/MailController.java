@@ -39,10 +39,14 @@ public class MailController {
         //响应信息
         httpSession.setAttribute("code",captcha);
         httpSession.setMaxInactiveInterval(5*60);
+        System.out.println("session为"+httpSession.getId()+"  验证码为："+captcha);
         return ServerResponse.createRespBySuccess(email,captcha);
     }
     @RequestMapping(value = "/verifyCode",method = RequestMethod.POST)
     public ServerResponse<String> verifyCode(HttpSession httpSession,@RequestParam String code) {
+        String code1 = (String) httpSession.getAttribute("code");
+        System.out.println("session为"+httpSession.getId()+"  验证码为："+code1);
+        System.out.println("传入的code为："+code);
         if(httpSession.getAttribute("code").equals(code)){
             return ServerResponse.createRespBySuccess("验证成功");
         }else {

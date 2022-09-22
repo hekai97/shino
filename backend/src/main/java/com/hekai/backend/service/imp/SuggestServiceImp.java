@@ -16,18 +16,17 @@ public class SuggestServiceImp implements SuggestService {
     @Autowired
     private SuggestionRepository suggestionRepository;
     @Override
-    public ServerResponse<String> createSuggest(String phone, String question, String description) {
-        if(phone==null||phone.equals("")){
+    public ServerResponse<String> createSuggest(Suggestion suggestion) {
+        if(suggestion.getPhone()==null||suggestion.getPhone().equals("")){
             return ServerResponse.createByErrorMessage("手机号不能为空！");
         }
-        if(question==null||question.equals("")){
+        if(suggestion.getQuestion()==null||suggestion.getQuestion().equals("")) {
             return ServerResponse.createByErrorMessage("问题不能为空！");
         }
-        Suggestion suggestion=new Suggestion();
+        if(suggestion.getDescription()==null||suggestion.getDescription().equals("")){
+            return ServerResponse.createByErrorMessage("描述不能为空！");
+        }
         suggestion.setCreateTime(new Timestamp(new Date().getTime()));
-        suggestion.setPhone(phone);
-        suggestion.setQuestion(question);
-        suggestion.setDescription(description);
         suggestionRepository.save(suggestion);
         return ServerResponse.createRespBySuccess("提交成功！");
     }
