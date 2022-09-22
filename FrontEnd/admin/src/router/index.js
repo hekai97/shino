@@ -64,6 +64,16 @@ const routes = [
     path: '/ManageUser',
     name:'ManageUser',
     component: ()=>import('../views/ManageUser')
+  },
+  {
+    path:'/ManageRole',
+    name:'ManageRole',
+    component: ()=>import('../views/ManageRole')
+  },
+  {
+    path: '/ManageStudent',
+    name: 'ManageStudent',
+    component:()=>import('../views/ManageStudent')
   }
 ]
 

@@ -38,7 +38,7 @@
             </el-icon>
             <span style="margin-left: 3px">课程管理</span>
           </template>
-          <el-menu-item index="1-2-1" style="margin-left: 15px">课程分类</el-menu-item>
+          <el-menu-item index="1-2-1" style="margin-left: 15px" @click="CourseCategories">课程分类</el-menu-item>
           <el-menu-item index="1-2-2" style="margin-left: 15px" @click="ManageCourse">管理课程</el-menu-item>
           <el-menu-item index="1-2-3" style="margin-left: 15px" @click="ConfigureCourses">配置课程</el-menu-item>
         </el-sub-menu>
@@ -48,7 +48,7 @@
           </el-icon>
           <span style="margin-left: 3px">讲师管理</span>
         </el-menu-item>
-        <el-menu-item index="1-4" v-if="pList.get(105)===true">
+        <el-menu-item index="1-4" v-if="pList.get(105)===true" @click="ManageStudent">
           <el-icon>
             <Edit/>
           </el-icon>
@@ -67,10 +67,8 @@
             </el-icon>
             <span style="margin-left: 3px">权限管理</span>
           </template>
-          <el-menu-item index="1-6-1" style="margin-left: 15px">查看角色</el-menu-item>
+          <el-menu-item index="1-6-1" style="margin-left: 15px" @click="ManageUser">用户管理</el-menu-item>
           <el-menu-item index="1-6-2" style="margin-left: 15px">角色管理</el-menu-item>
-          <el-menu-item index="1-6-3" style="margin-left: 15px">创建员工账号</el-menu-item>
-          <el-menu-item index="1-6-4" style="margin-left: 15px">查看权限</el-menu-item>
         </el-sub-menu>
         <el-menu-item index="1-7" v-if="pList.get(110)===true">
           <el-icon>
@@ -207,114 +205,115 @@
           <div style="margin-top: 10px;background-color: white;height: 650px">
             <div style="height: 50px;">
               <div style="width: 100px;float: left;margin-left: 20px;margin-top: 20px;">角色管理</div>
-              <div style="float:left;width: 100px;margin-top: 18px;margin-left: 0px">内容搜索</div>
-              <div style="margin-top: 14px;float: left"><el-input v-model="input"  placeholder="输入店铺名称进行搜索" style="width: 200px;" /></div>
-              <div style="margin-top: 14px;float:left;margin-left: 10px"><el-button  style="width: 60px;float: left;background-color: #79bbff;">
+              <div style="float:left;width: 100px;margin-top: 22px;margin-left: 100px">内容搜索</div>
+              <div style="margin-top: 18px;float: left"><el-input v-model="input"  placeholder="输入店铺名称进行搜索" style="width: 200px;" /></div>
+              <div style="margin-top: 18px;float:left;margin-left: 10px"><el-button  style="width: 60px;float: left;background-color: #79bbff;">
                 <el-icon>
                   <Search/>
                 </el-icon>
               </el-button></div>
             </div>
             <div style="margin-left: 30px;height: 35px;margin-top: 20px">
-              <el-button type="primary" style="float: left;" @click="CreatNewCourseCate" >创建用户</el-button>
+              <el-button type="primary" style="float: left;" @click="CreatNewRole" >创建角色</el-button>
             </div>
             <div style="margin-top: 20px;">
               <el-table
                   ref="multipleTableRef"
                   style="width: 100%"
                   border
-                  :data="CourseCateData"
+                  :data="RoleData"
               >
                 <el-table-column type="selection" width="55" align="center" ></el-table-column>
-                <el-table-column label="角色ID" property="CourseCateid" sortable min-width="70px" align="center"/>
-                <el-table-column label="角色名称" property="CourseCateName" min-width="100px" align="center"/>
-                <el-table-column label="创建者" property="CourseCreater" min-width="100px" align="center"/>
+                <el-table-column label="角色ID" property="id" sortable min-width="70px" align="center"/>
+                <el-table-column label="角色名称" property="name" min-width="100px" align="center"/>
+                <el-table-column label="创建者" property="creator" min-width="100px" align="center"/>
                 <el-table-column label="操作" property="Operation" min-width="120px" align="center">
                   <template #default="scope">
-                    <el-button type="primary" @click="UpdataCorseCate(scope.row.isPublished,scope.row.CourseCateid,scope.row.CourseCateName,scope.row.CourseCreaterid,scope.row.CourseCreatTime,scope.row.CourseCreater,scope.row.CourseInCate)"><el-icon><EditPen /></el-icon>编辑</el-button>
-                    <el-button type="danger" @click="DeleteCrouseCate(scope.row.CourseCateid,scope.row.CourseCateName)"><el-icon><Delete /></el-icon>删除</el-button>
+                    <el-button type="primary" @click="UpdataRole(scope.row)"><el-icon><EditPen /></el-icon>编辑</el-button>
+                    <el-button type="danger" @click="DeleteRole(scope.row)"><el-icon><Delete /></el-icon>删除</el-button>
                   </template>
                 </el-table-column>
               </el-table>
             </div>
+
+            <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="queryInfo.page"
+                :page-sizes="[3, 5, 10, 15]"
+                :page-size="queryInfo.size"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="Roletotal"
+                style="margin-top: 50px;margin-left: 30px">
+            </el-pagination>
+
+
             <!--        添加新的课程分类-->
             <el-dialog
-                title="添加新用户"
-                v-model="OpenNewCouseCate"
+                title="添加新角色"
+                v-model="OpenNewRole"
                 draggable
                 style="background-color:#F0F2F5">
               <div>
-                <div>
-                  <div style="display: inline-block;">用户名称：</div>
-                  <div style="display: inline-block;margin-left: 15px;width: 30%">
-                    <el-input  placeholder="请输入用户名称" v-model="NewCourseCateName"></el-input>
-                  </div>
-                </div>
-                <div>
-                  <div style="display: inline-block;">用户密码：</div>
-                  <div style="display: inline-block;margin-left: 15px;width: 30%">
-                    <el-input  placeholder="请输入密码" v-model="NewRolePassword"></el-input>
-                  </div>
-                </div>
-                <div>
-                <div style="display: inline-block;">选择角色：</div>
-                <div style="display: inline-block;margin-left: 15px;width: 30%">
-                    <el-select v-model="role" ref="role" placeholder="请选择标签"></el-select>
-                  </div>
-                  </div>
-                <div style="margin-top: 20px">
-                  <el-button type="primary" @click="CreateNewCrouseCate">确定</el-button>
+                <div style="display: inline-block">角色名称</div>
+                <div style="display: inline-block;margin-left: 20px">
+                  <el-input v-model="NewRoleName"></el-input>
                 </div>
               </div>
+              <div style="margin-top: 20px">
+                <el-button type="primary" @click="AddRole">确定</el-button>
+              </div>
             </el-dialog>
-            <!--        更新课程分类信息-->
+
+
+            <!--        更新角色信息-->
+
             <el-dialog
-                title=this.UpdataCourseCateName
-                v-model="OpenUpdataCourseCate"
+                v-model="OpenUpdataRole"
                 draggable
                 style="background-color:#F0F2F5">
               <template #title>
-                <div>{{this.UpdataTitle}}</div>
+                <div>{{this.UpdataRoleName}}</div>
               </template>
-              <div>
-                <div style="width: 90%;">
-                  <div style="display: inline-block;">课程编号：</div>
-                  <div style="display: inline-block;margin-left: 13px">
-                    <el-input v-model="UpdataCourseCateid" disabled></el-input>
+                <div>
+
+                  <div>
+                    <div style="display: inline-block">选择权限</div>
+                    <div style="display: inline-block;margin-left: 10px">
+                      <el-select v-model="RolePermissionSelect" placeholder="请选择权限" @change="getNewPermission">
+                        <el-option
+                            v-for="item in RolePermission"
+                            :key="item.id"
+                            :label="item.permissionName"
+                            :value="item.id">
+                          <span style="float: left"><el-icon><UserFilled /></el-icon></span>
+                          <span style="float: left">{{ item.permissionCode }}</span>
+                          <span style="float: left;margin-left: 10%">{{ item.permissionName}}</span>
+                        </el-option>
+                        ` </el-select>
+                    </div>
+                    <div style="display: inline-block;margin-left: 10px"><el-button @click="AddPermissionToRole" type="primary"><el-icon><Plus /></el-icon>添加</el-button></div>
                   </div>
-                </div>
-                <div  style="width: 90%;margin-top: 10px;">
-                  <div style="display: inline-block;">分类名称：</div>
-                  <div style="display: inline-block;margin-left: 13px">
-                    <el-input v-model="UpdataCourseCateName"/>
+                  <div style="margin-left:20px;margin-top: 20px;width:89%;background-color: white;font-size:15px;height: 40px;"
+                       v-for="item in LookAllPermissionInRole"
+                       :key="item.id"
+                  >
+                    <div style="display: inline-block;margin-left: 2%"><el-icon><UserFilled /></el-icon></div>
+                    <div style="display: inline-block;margin-left: 2%;line-height: 40px">编号：</div>
+                    <div style="display: inline-block;width: 10%;text-align: left">{{item.permissionCode}}</div>
+                    <div style="display: inline-block;margin-left: 5%;">姓名：</div>
+                    <div style="display: inline-block;width: 20%;text-align: left">{{item.permissionName}}</div>
+                    <div style="display: inline-block;margin-left: 0%">
+                      <el-button type="danger" size="small" @click="DeleteUserPermission(item.id)"><el-icon><Delete /></el-icon>删除</el-button>
+                    </div>
                   </div>
-                </div>
-                <div style="width: 90%;margin-top: 10px;">
-                  <div style="display: inline-block;">课程数量：</div>
-                  <div style="display: inline-block;margin-left:13px;">
-                    <el-input v-model="UpdataCourseInCate" disabled></el-input>
-                  </div>
+
+
                 </div>
 
-                <div style="margin-top: 10px;width: 93%;">
-                  <div style="display: inline-block;">创建人:</div>
-                  <div style="display: inline-block;margin-left: 13px;">
-                    <el-input v-model="UpdataCourseCateCreater" disabled></el-input>
-                  </div>
-                </div>
 
-                <div style="margin-top: 10px;width: 100%;">
-                  <div style="display: inline-block;">创建时间：</div>
-                  <div style="display: inline-block;margin-left: 13px;width:37.5%;">
-                    <el-input v-model="UpdataCourseCateTime"  disabled></el-input>
-                  </div>
-                </div>
-
-                <div style="margin-top: 20px">
-                  <el-button type="primary" @click="UpdataCourseDetail">确定</el-button>
-                </div>
-              </div>
             </el-dialog>
+
 
           </div>
         </el-main>
@@ -326,7 +325,7 @@
 <script>
 import {
   PieChart, Coin, House, Calendar, User, Edit, Setting, Files, Operation, DArrowRight, DArrowLeft, Fold,
-  ChromeFilled, Refresh,Bell, Help, Discount, Sort,ArrowDown,Van,HomeFilled,Search,Delete,EditPen
+  ChromeFilled, Refresh,Bell, Help, Discount, Sort,ArrowDown,Van,HomeFilled,Search,Delete,EditPen,UserFilled
 } from '@element-plus/icons-vue'
 import axios from "axios";
 import {ElLoading, ElMessage, ElMessageBox} from "element-plus";
@@ -346,7 +345,7 @@ export default {
   },
   components: {
     PieChart, Coin, House, Calendar, User, Edit, Setting, Files, Operation, DArrowLeft, DArrowRight, Fold,
-    ChromeFilled, Refresh, Bell,Help, Discount, Sort, ArrowDown, Van,HomeFilled,Search,EditPen,Delete
+    ChromeFilled, Refresh, Bell,Help, Discount, Sort, ArrowDown, Van,HomeFilled,Search,EditPen,Delete,UserFilled
   },
   data() {
     return {
@@ -363,33 +362,34 @@ export default {
       dpList: [],
       tabled: [],
       pList: new Map(),
-      CourseCateData:[{
-        CourseCateid:'',
-        CourseCateName:'',
-        CourseInCate:'',
-        CourseCreaterid:'',
-        CourseCreater:'',
-        CourseCreatTime:'',
-        isPublished:false,
-      }],
-      SumCourse:'',
-      OpenNewCouseCate:false,
-      NewCourseCateName:'',
-      NewCourseCateState:false,
-      OpenUpdataCourseCate:false,
-      UpdataCourseCateid:'',
-      UpdataCourseCateName:'',
-      UpdataCourseCateCreater:'',
-      UpdataCourseCateCreaterid:'',
-      UpdataCourseCateTime:'',
-      UpdataCourseInCate:'',
-      UpdataTitle:'',
-      UpdataCourseCateState:'',
+      RoleData:[],
+      queryInfo: {
+        page: 1,
+        size: 10
+      },
+      Roletotal:0,
+      OpenNewRole:false,
+      NewRoleName:'',
+      OpenUpdataRole:false,
+      UpdataRoleName:'',
+      RolePermissionSelect:'',
+      RolePermission:{
+        id:'',
+        permissionCode:'',
+        permissionName:''
+      },
+      UpdateNewPermission:'',
+      Updataid:'',
+      LookAllPermissionInRole:{
+        id:'',
+        permissionCode:'',
+        permissionName:'',
+      },
     }
   },
   mounted() {
     this.getAllPermission()
-    this.getAllCourseCate()
+    this.getAllRole()
   },
   methods: {
     exchange() {
@@ -481,6 +481,33 @@ export default {
         }
       })
     },
+    CourseCategories(){
+      router.push({
+        name:'CourseCategories',
+        query:{
+          adminname:aname,
+          adminid:aid
+        }
+      })
+    },
+    ManageStudent(){
+      router.push({
+        name:'ManageStudent',
+        query:{
+          adminname:aname,
+          adminid:aid
+        }
+      })
+    },
+    ManageUser(){
+      router.push({
+        name:'ManageUser',
+        query:{
+          adminname:aname,
+          adminid:aid
+        }
+      })
+    },
     async getAllPermission(){
       await axios({
         methods: 'get',
@@ -493,105 +520,56 @@ export default {
         }
       })
     },
-    async getAllCourseCate(){
-      await axios({
+    async getAllRole(){
+      axios({
         method:'get',
-        url:'/admin/course/getCourseCategoryList',
-      }).then(res=>{
-        for(let i=0;i<res.data.data.length;i++){
-          let obj=new Object();
-          obj.CourseCateid=res.data.data[i].id;
-          obj.CourseCateName=res.data.data[i].categoryName;
-          obj.CourseCreatTime=res.data.data[i].createTime;
-          obj.CourseCreaterid=res.data.data[i].createdId;
-          if(res.data.data[i].isPublished===1){
-            obj.isPublished=true
-          }
-          else{
-            obj.isPublished=false
-          }
-          axios({
-            method:'get',
-            url:'/admin/user/getEmployeeUserByEmployeeId',
-            params:{
-              employeeId:res.data.data[i].createdId
-            }
-          }).then(respone=>{
-            this.CourseCateData[i].CourseCreater=respone.data.data.name
-          })
-          axios({
-            method:'get',
-            url:'/admin/course/getCoursesPageableByCategoryId',
-            params:{
-              page:0,
-              size:50,
-              categoryId:res.data.data[i].id
-            }
-          }).then(respone=>{
-            this.CourseCateData[i].CourseInCate=respone.data.data.totalElements
-          })
-          this.CourseCateData[i]=obj
+        url:'/admin/permission/getRoleListPageable',
+        params:{
+          page: this.queryInfo.page - 1,
+          size: this.queryInfo.size,
         }
-      })
-    },
-    CreatNewCourseCate(){
-      this.OpenNewCouseCate=!this.OpenNewCouseCate
-    },
-    getNewCourseCateState(val){
-      console.log(val)
-    },
-    ChangeRowState(state,CourseCateid,CourseCateName,CourseCreaterid,CourseCreatTime){
-      let UpdataState;
-      if(state===true){
-        UpdataState=1;
-      }
-      else{
-        UpdataState=0;
-      }
-      let UpdataCourse={
-        id: CourseCateid,
-        categoryName:CourseCateName,
-        isPublished: UpdataState,
-        createdId: CourseCreaterid,
-        createTime: CourseCreatTime
-      }
-      // console.log(UpdataCourse)
-      axios({
-        method:'post',
-        url:'/admin/course/updateCourseCategory',
-        data:UpdataCourse
       }).then(res=>{
-        console.log(res.data.message)
+        this.Roletotal=res.data.data.totalElements;
+        this.RoleData=res.data.data.content;
       })
     },
-    CreateNewCrouseCate(){
-      let CreatData=new FormData;
-      let isPublic;
-      if(this.NewCourseCateState===true){
-        isPublic=1;
-      }else {
-        isPublic=0;
-      }
-      CreatData={
-        categoryName:this.NewCourseCateName,
-        isPublished:isPublic
+    getNewPermission(Val){
+      this.UpdateNewPermission=Val;
+    },
+    handleSizeChange(newSize) {
+      this.queryInfo.size = newSize
+      this.RoleData = [];
+      this.getAllRole()
+    },
+    handleCurrentChange(newPage) {
+      this.queryInfo.page = newPage
+      this.RoleData = [];
+      this.getAllRole()
+    },
+    CreatNewRole(){
+      this.OpenNewRole=!this.OpenNewRole
+    },
+    AddRole(){
+      let NewRole=new FormData();
+      NewRole={
+        name:this.NewRoleName
       }
       axios({
         method:'post',
-        url:'/admin/course/addCourseCategory',
-        data:CreatData
+        url:'/admin/permission/addRole',
+        data:NewRole
       }).then(res=>{
         if(res.data.status===0){
-          ElMessage("添加课程分类成功");
+          ElMessage("角色创建成功")
           router.go(0)
         }else{
-          ElMessage(res.data.message);
+          ElMessage(res.data.message)
         }
       })
     },
-    DeleteCrouseCate(CourseCateid,CourseCateName){
+    DeleteRole(Val){
       ElMessageBox.confirm(
-          '是否确定删除'+CourseCateName+'课程分类',
+          '是否确定删除' + Val.name + '角色',
           '提醒',
           {
             confirmButtonText: '确定',
@@ -602,16 +580,14 @@ export default {
           .then(() => {
             axios({
               method:'post',
-              url:'/admin/course/deleteCourseCategory',
-              params:{
-                categoryId:CourseCateid
-              }
+              url:'/admin/permission/deleteRole',
+              data:Val
             }).then(res=>{
               if(res.data.status===0){
-                ElMessage("删除成功");
+                ElMessage("删除成功")
                 router.go(0)
-              }else {
-                ElMessage(res.data.message);
+              }else{
+                ElMessage(res.data.message)
               }
             })
           })
@@ -622,42 +598,93 @@ export default {
             })
           })
     },
-    UpdataCorseCate(isPublished,CourseCateid,CourseCateName,CourseCreaterid,CourseCreatTime,CourseCreater,CourseInCate){
-      this.UpdataCourseCateid=CourseCateid;
-      this.UpdataCourseCateName=CourseCateName;
-      this.UpdataCourseCateCreater=CourseCreater;
-      this.UpdataCourseCateTime=CourseCreatTime;
-      this.UpdataCourseCateCreaterid=CourseCreaterid;
-      this.UpdataCourseInCate=CourseInCate;
-      this.UpdataTitle=CourseCateName;
-      if(isPublished===true){
-        this.UpdataCourseCateState=1;
-      }else{
-        this.UpdataCourseCateState=0;
-      }
-      this.OpenUpdataCourseCate=!this.OpenUpdataCourseCate;
-    },
-    UpdataCourseDetail(){
-      let UpdataCourse={
-        id: this.UpdataCourseCateid,
-        categoryName:this.UpdataCourseCateName,
-        isPublished:this.UpdataCourseCateState,
-        createdId: this.UpdataCourseCateCreaterid,
-        createTime: this.UpdataCourseCateTime
-      }
-      axios({
-        method:'post',
-        url:'/admin/course/updateCourseCategory',
-        data:UpdataCourse
-      }).then(res=>{
-        if(res.data.status===0){
-          ElMessage("课程属性更新成功");
-          router.go(0)
-        }else{
-          ElMessage(res.data.message)
+    async UpdataRole(Val){
+      this.Updataid=Val.id;
+      this.UpdataRoleName=Val.name;
+      await axios({
+        method:'get',
+        url:'/admin/permission/getPermissionNotInRole',
+        params:{
+          roleId:Val.id
         }
+      }).then(res=>{
+        this.RolePermission=res.data.data;
       })
+
+      await axios({
+        method:'get',
+        url:'/admin/permission/getPermissionOfRole',
+        params:{
+          roleId:Val.id
+        }
+      }).then(res=>{
+        this.LookAllPermissionInRole=res.data.data
+      })
+
+      this.OpenUpdataRole=!this.OpenUpdataRole
+     },
+    AddPermissionToRole(){
+      let NewPermission=new FormData();
+      NewPermission={
+        roleId:this.Updataid,
+        permissionId:this.UpdateNewPermission
+      }
+        axios({
+          method:'post',
+          url:'/admin/permission/addPermissionToRole',
+          data:NewPermission
+        }).then(res=>{
+          if(res.data.status===0){
+            ElMessage("权限添加成功")
+            router.go(0)
+          }else{
+            ElMessage(res.data.message)
+          }
+        })
     },
+    DeleteUserPermission(permissionid){
+      let deletepermission=new FormData();
+      deletepermission={
+        roleId:this.Updataid,
+        permissionId:permissionid
+      }
+
+      ElMessageBox.confirm(
+          '确定删除该角色此权限吗',
+          '提醒',
+          {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+          }
+      )
+          .then(() => {
+            axios({
+              method:'post',
+              url:'/admin/permission/deletePermissionToRole',
+              data:deletepermission
+            }).then(res=>{
+              if(res.data.status===0){
+                ElMessage("删除成功");
+                router.go(0)
+              }else {
+                ElMessage(res.data.message)
+              }
+            })
+          })
+          .catch(() => {
+            ElMessage({
+              type: 'info',
+              message: '取消删除',
+            })
+          })
+
+
+
+
+
+
+    }
   }
 }
 </script>
