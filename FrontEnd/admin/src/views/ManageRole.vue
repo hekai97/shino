@@ -300,7 +300,7 @@
                   >
                     <div style="display: inline-block;margin-left: 2%"><el-icon><UserFilled /></el-icon></div>
                     <div style="display: inline-block;margin-left: 2%;line-height: 40px">编号：</div>
-                    <div style="display: inline-block;width: 10%;text-align: left">{{item.permissionCode}}</div>
+                    <div style="display: inline-block;width: 10%;text-align: left;">{{item.permissionCode}}</div>
                     <div style="display: inline-block;margin-left: 5%;">姓名：</div>
                     <div style="display: inline-block;width: 20%;text-align: left">{{item.permissionName}}</div>
                     <div style="display: inline-block;margin-left: 0%">

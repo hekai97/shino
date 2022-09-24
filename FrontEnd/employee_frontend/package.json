@@ -14,7 +14,8 @@
     "element-plus": "^2.2.16",
     "element-ui": "^2.15.9",
     "vue": "^3.2.13",
-    "vue-router": "^4.0.3"
+    "vue-router": "^4.0.3",
+    "js-sha3": "0.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

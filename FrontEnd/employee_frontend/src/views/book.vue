@@ -1,8 +1,7 @@
-t<template>
+<template>
   <div>
-    <el-container style="border: 1px solid red">
+    <el-container>
       <el-aside style="border: 1px solid white;background-color: #7ab8cc;color: white" width="isCollapse ? '30px' : '270px'" class="lef">
-
         <el-menu
             active-color="#ffd04b"
             background-color="#7ab8cc"
@@ -144,37 +143,58 @@ t<template>
             </div>
           </div>
         </el-header>
-        <el-main style="border: 1px solid black" class="main">
+        <el-main class="main">
           <el-timeline>
             <el-timeline-item timestamp="2022/9/13" placement="top">
-              <el-card style="height: 200px">
-                <h4 style="position: absolute;left: 50px;top: 20px">订单号：</h4>
+              <div  v-for="item in courseReservationPageable.content" :key="item.id">
+                <div v-if="item.arrangementDate==null  ">
+              <el-card style="height: 220px;margin-top: 30px">
                 <el-divider />
-                <p style="position: absolute;left: 50px;top: 60px">课程名称</p>
-                <p style="position: absolute;left: 400px;top: 60px">预约时间</p>
-                <p style="position: absolute;left: 700px;top: 60px;">预约地点</p>
-                <el-divider style="top: 60px"/>
-                <p style="position: absolute;top: 160px;left: 50px">联系人：</p>
-                <p style="position: absolute;left: 400px;top: 160px">手机号：</p>
-                <el-popover
-                  placement="top-start"
-                  :width="20"
-                  trigger="hover"
-                  content="排课">
-                  <template #reference>
-                <el-button @click="Arranging" style="position: absolute;left: 675px;top: 160px;">
-                  <el-icon><Reading /></el-icon>
-                </el-button>
-                  </template>
-                </el-popover>
-                <el-popconfirm title="是否要删除?">
-                  <template #reference>
-                <el-button style="position: absolute;left: 710px;top: 160px;">
-                  <el-icon><DeleteFilled /></el-icon>
-                </el-button>
-                  </template>
-                </el-popconfirm>
+                <div style="width: 17%;margin-top: -1%;display: inline-block;float: left">
+                  <p style="left: 50px;width: 100%;text-align: left">课程名称</p>
+                  <div style="margin-top: 10px;width: 100%;text-align: left">{{item.courseName}}</div>
+                </div>
+                <div style="width: 17%;margin-top: -1%;display: inline-block;float: left;margin-left: 24%">
+                  <p style="left: 0px;top: 60px;width: 100%;text-align: left">预约时间</p>
+                  <div style="margin-top: 10px;width: 100%;text-align: left">{{item.date}}456</div>
+                </div>
+                <div style="width: 17%;margin-top: -1%;display: inline-block;float: left;margin-left: 24%">
+                  <p style="left: 0px;top: 60px;width: 100%;text-align: left">预约地点</p>
+                  <div style="margin-top:10px;width: 100%;text-align: left">{{item.storeName}}</div>
+                </div>
+                  <el-divider style="top: 60px"/>
+                <div style="width: 17%;margin-top: 1%;display: inline-block;float: left">
+                  <p style="top: 60px;left: 0px;width: 100%;text-align: left">联系人：</p>
+                  <div style="margin-top: 10px;width: 100%;text-align: left">{{item.name}}  </div>
+                </div>
+                <div style="width: 17%;margin-top: 1%;display: inline-block;float: left;margin-left: 24%">
+                  <p style="top: 60px;left: 0px;width: 100%;text-align: left">手机号：</p>
+                  <div style="margin-top: 10px;width: 100%;text-align: left">{{item.phoneNumber}}147</div>
+                </div>
+                <div style="width: 17%;display: inline-block;margin-left: 15%;margin-top: 2.5%">
+                  <el-popover
+                    placement="top-start"
+                    :width="20"
+                    trigger="hover"
+                    content="排课">
+                    <template #reference>
+                  <el-button @click="Arranging(item.name,item.courseName,item.storeId,item.storeName,item.date,item.courseId,item.id,item.orderId)"
+                             style="">
+                    <el-icon><Reading /></el-icon>
+                  </el-button>
+                    </template>
+                  </el-popover>
+                  <el-popconfirm title="是否要删除?">
+                    <template #reference>
+                  <el-button style="" @click="DeleteSchedule(item.id)">
+                    <el-icon><DeleteFilled /></el-icon>
+                  </el-button>
+                    </template>
+                  </el-popconfirm>
+                </div>
               </el-card>
+                </div>
+              </div>
             </el-timeline-item>
           </el-timeline>
 
@@ -182,31 +202,18 @@ t<template>
           <el-dialog
           v-model="OpenArranging"
           title="排课"
-          width="60%"
+          width="40%"
           draggable>
             <div>
               <el-form :model="form" ref="form" label-width="120px">
                 <el-form-item label="学员姓名">
-                  <el-input v-model="form.name" />
+                  <el-input v-model="form.name" style="width: 70%" disabled/>
                 </el-form-item>
                 <el-form-item label="上课地点">
-                  <el-input v-model="form.address" />
+                  <el-input v-model="form.address" style="width: 70%" disabled />
                 </el-form-item>
                 <el-form-item label="预约课程">
-                  <el-input v-model="form.class" />
-                </el-form-item>
-                <el-form-item label="预约讲师">
-                  <el-select v-model="form.region" placeholder="请选择">
-                    <el-option label="Zone one" value="shanghai" />
-                    <el-option label="Zone two" value="beijing" />
-                  </el-select>
-                </el-form-item>
-                <el-form-item label="预约方式">
-                  <el-radio-group v-model="form.resource">
-                    <el-radio label="应用预约" />
-                    <el-radio label="电话预约" />
-                    <el-radio label="应用电话预约" />
-                  </el-radio-group>
+                  <el-input v-model="form.class" style="width: 70%" disabled />
                 </el-form-item>
                 <el-form-item label="排课日期">
                   <el-col :span="11">
@@ -214,19 +221,33 @@ t<template>
                       v-model="form.date1"
                       type="date"
                       style="width: 100%"
+                      format="YYYY/MM/DD"
+                      value-format="YYYY-MM-DD"
+                      @change="getDate"
                     />
                   </el-col>
                 </el-form-item>
                 <el-form-item label="排课时间">
-                  <el-radio-group v-model="form.time">
+                  <el-radio-group v-model="form.time" @change="getNewTime">
                     <el-radio label="09:00-11:00" />
                     <el-radio label="13:30-15:30" />
                     <el-radio label="16:00-18:00" />
                     <el-radio label="19:30-21:30"/>
                   </el-radio-group>
                 </el-form-item>
+                <el-form-item label="预约讲师">
+                  <el-select v-model="form.region"  placeholder="请选择" @change="getNewTeacher">
+                    <el-option
+                      v-for="item in TeacherData"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.id"
+
+                    />
+                  </el-select>
+                </el-form-item>
                 <el-form-item align="center">
-                  <el-button type="primary" @click="onSubmit">发送排课通知</el-button>
+                  <el-button type="primary" @click="SendSchedule">发送排课通知</el-button>
                 </el-form-item>
               </el-form>
             </div>
@@ -261,6 +282,7 @@ import {
 } from '@element-plus/icons'
 import router from "@/router";
 import axios from 'axios';
+import {ElMessage} from "element-plus";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'mybook',
@@ -299,10 +321,12 @@ export default {
         date1:'',//排课日期
         resource:'',//预约方式
         time:'',//排课时间
+        // TeacherData:[],
       },
+      TeacherData:[],
       //传入的实体类型
       pageable: {
-        page: 1,
+        page: 0,
         size: 10,
       },
       //分页排课表实体
@@ -370,12 +394,21 @@ export default {
         numberOfElements: 0,
 
         empty: true,
+        StoreId:'',
+        courseId:'',
+        NewDate:'',
+
+        tableid:'',
+        userid:'',
+        teacherid:'',
+        NewTime:'',
       },
     }
   },
   mounted() {
     //填完之后把这个解开
-    // this.getAllCourseReservation();
+    this.getAllCourseReservation();
+
   },
   methods: {
     home() {
@@ -393,7 +426,25 @@ export default {
         name:"sign"
       })
     },
-    Arranging(){
+    Arranging(name,courseName,storeid,storeName,date,courseId,id,orderId){
+      this.StoreId=storeid;
+      this.courseId=courseId;
+      this.form.name=name;
+      this.form.class=courseName;
+      this.form.address=storeName;
+      this.tableid=id;
+      axios({
+        method:'get',
+        url:'/employee/reservation/getUserInformationByOrderId',
+        params:{
+          orderId:orderId
+        }
+      }).then(res=>{
+        if(res.data.status===0){
+          this.userid=res.data.data.id;
+          // console.log("用户"+this.userid)
+        }
+      })
       this.OpenArranging=!this.OpenArranging
     },
 
@@ -434,7 +485,106 @@ export default {
           this.$message.error(res.data.message)
         }
       })
-    }
+    },
+    getDate(Val){
+      this.NewDate=Val;
+      console.log(this.NewDate)
+    },
+    getNewTime(Val){
+      // let date=this.form.date1.slice(0,10);
+      let date=this.form.date1;
+      // console.log(this.StoreId)
+      // console.log(date)
+      // console.log(Val)
+      let timeId;
+      this.NewTime=Val;
+      if(Val==="09:00-11:00"){
+          timeId=1;
+      }else{
+        if(Val==="13:30-15:30"){
+          timeId=2;
+        }else{
+          if(Val==="16:00-18:00"){
+            timeId=3
+          }else{
+            if(Val==="19:30-21:30"){
+              timeId=4;
+            }
+          }
+        }
+      }
+      axios({
+        method:'get',
+        url:'/employee/Scheduling/getFreeTeacherByTime',
+        params:{
+          date:date,
+          timeId:timeId,
+          courseId:this.courseId
+        }
+      }).then(res=>{
+        console.log(res.data.data)
+        this.TeacherData=res.data.data;
+      })
+    },
+    getNewTeacher(Val){
+      this.teacherid=Val;
+      console.log(Val)
+    },
+    SendSchedule(){
+        // let ScheduleData=new FormData();
+      console.log(this.NewDate)
+      console.log(this.NewTime)
+      let beginTime,endTime;
+      if(this.NewTime==="09:00-11:00"){
+          beginTime="09:00:00"
+        endTime="11:00:00"
+      }else{
+        if(this.NewTime==="13:30-15:30"){
+          beginTime="13:30:00";
+          endTime="15:30:00";
+        }else{
+          if(this.NewTime==="16:00-18:00"){
+            beginTime="16:00:00";
+            endTime="18:00:00"
+          }else{
+            if(this.NewTime==="19:30-21:30"){
+              beginTime="19:30:00";
+              endTime="21:30:30;"
+            }
+          }
+        }
+      }
+
+
+        // let ScheduleData={
+        //   courseReservationId:this.tableid,
+        // }
+        let myCourseTable= {
+          storeId: this.StoreId,
+          courseId: this.courseId,
+          teacherId: this.teacherid,
+          userId: this.userid,
+          courseReservationId:this.tableid,
+          date:this.NewDate,
+          beginTime:beginTime,
+          endTime:endTime
+        }
+        // console.log(ScheduleData)
+      console.log(myCourseTable)
+        axios({
+          method:'post',
+          url:'/employee/Scheduling/createScheduling',
+          data:myCourseTable
+        }).then(res=>{
+          if(res.data.status===0){
+            ElMessage("成功预约课程")
+            router.go(0)
+          }
+        })
+    },
+    DeleteSchedule(id){
+     console.log(id)
+    },
   }
 }
 </script>

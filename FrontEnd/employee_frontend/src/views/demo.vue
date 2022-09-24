@@ -45,6 +45,7 @@ import {
   CircleCheck
 } from '@element-plus/icons-vue'
 import router from "@/router";
+import {sha3_256} from "js-sha3";
 
 const {ElMessage} = require("element-plus");
 export default {
@@ -84,7 +85,7 @@ export default {
             url:'/employee/user/login',
             params:{
               account:this.form.account,
-              password:this.form.password
+              password:sha3_256(this.form.password)
             }
           }).then(res=>{
             if(res.data.status===0){

@@ -27,6 +27,7 @@ import { ElMessage } from 'element-plus'
 import { User ,Lock,Edit} from '@element-plus/icons-vue'
 import axios from 'axios'
 import router from "@/router";
+import {sha3_256} from "js-sha3";
 export default {
   name: "ALogin",
   setup(){
@@ -64,7 +65,7 @@ export default {
             url: '/admin/user/login',
             params:{
               account:this.form.account,
-              password:this.form.password
+              password:sha3_256(this.form.password)
             }
           }).then(response=>{
              // alert(response.data.message)

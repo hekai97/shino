@@ -361,6 +361,7 @@ import axios from "axios";
 import {ElLoading, ElMessage, ElMessageBox} from "element-plus";
 import router from "@/router";
 import {useRoute} from "vue-router/dist/vue-router";
+import {sha3_256} from "js-sha3";
 let aname;
 let aid;
 export default {
@@ -647,7 +648,7 @@ export default {
       NewUserData={
         number:this.form.number,
         name:this.form.name,
-        password:this.form.password,
+        password:sha3_256(this.form.password),
         roleId:this.NewRoleId
       }
       axios({
