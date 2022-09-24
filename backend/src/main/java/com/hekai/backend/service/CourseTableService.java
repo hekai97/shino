@@ -2,10 +2,14 @@ package com.hekai.backend.service;
 
 import com.hekai.backend.common.ServerResponse;
 import com.hekai.backend.dto.CourseTableDto;
+import com.hekai.backend.dto.NewCourseTableDto;
+import com.hekai.backend.dto.TeacherDto;
 import com.hekai.backend.entity.CourseTable;
 import com.hekai.backend.entity.EmployeeUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 /**
  * 课程表服务
@@ -38,7 +42,7 @@ public interface CourseTableService {
      * @param courseTable 当然表
      * @return {@link ServerResponse}<{@link CourseTableDto}>
      */
-    ServerResponse<CourseTableDto> createScheduling(CourseTable courseTable);
+    ServerResponse<CourseTableDto> createScheduling(NewCourseTableDto newCourseTableDto);
 
     /**
      * 删除表id
@@ -55,4 +59,8 @@ public interface CourseTableService {
      * @return {@link ServerResponse}<{@link CourseTableDto}>
      */
     ServerResponse<CourseTableDto> updateCourseTable(CourseTable courseTable);
+
+    ServerResponse<List<TeacherDto>> getFreeTeacherByTime(Integer storeId,String date, Integer timeId,Integer courseId);
+
+    ServerResponse<List<CourseTableDto>> getAllCourseTableList(Integer storeId);
 }

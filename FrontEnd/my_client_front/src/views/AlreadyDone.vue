@@ -131,6 +131,7 @@ export default {
     };
   },
   mounted() {
+    this.courseAlreadyDoneList = [];
     this.getUserAlreadyDoneList();
   },
   methods: {

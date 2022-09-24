@@ -202,9 +202,9 @@ public class OrderServiceImp implements OrderService {
             Date date=DateUtils.addDays(now,-i);
             Date start=DateUtils.truncate(date,Calendar.DATE);
             Date end=DateUtils.addMilliseconds(DateUtils.ceiling(date,Calendar.DATE),-1);
-            int count=orderItemRepository.findPaidOrderByStatusIsNotAndPayTimeBetween(ConstUtil.OrderStatus.UNPAID, DateFormatUtil.formatDate(start),DateFormatUtil.formatDate(end));
+            int count=orderItemRepository.findPaidOrderByStatusIsNotAndPayTimeBetween(ConstUtil.OrderStatus.UNPAID, DateFormatUtil.formatDateToString(start),DateFormatUtil.formatDateToString(end));
             TimeAndCountDto timeAndCountDto=new TimeAndCountDto();
-            timeAndCountDto.setTime(DateFormatUtil.formatDate(date));
+            timeAndCountDto.setTime(DateFormatUtil.formatDateToString(date));
             timeAndCountDto.setCount(count);
             timeAndCountDtoList.add(timeAndCountDto);
         }
@@ -264,6 +264,7 @@ public class OrderServiceImp implements OrderService {
 
     @Override
     public ServerResponse<String> userCreateReservations(Integer userId, Integer orderDetailId, Integer storeId, String date, Integer group) {
+        System.out.println("传入的时间为"+date);
         OrderDetail orderDetail=orderDetailRepository.findOrderDetailById(orderDetailId);
         if(orderDetail==null){
             return ServerResponse.createByErrorMessage("订单详情不存在");
@@ -280,29 +281,32 @@ public class OrderServiceImp implements OrderService {
         courseReservation.setCourseId(orderDetail.getCourseId());
         courseReservation.setOrderId(orderDetail.getOrderId());
         courseReservation.setState(ConstUtil.COURSE_RESERVATION_STATUS_WAITING);
-        courseReservation.setDate(DateFormatUtil.formatTimestamp(date));
+        courseReservation.setDate(DateFormatUtil.formatToTimestamp(date,"yyyy-MM-dd"));
         CourseTimeConfig courseTimeConfig=courseTimeConfigRepository.findAll().get(0);
+        System.out.println(courseTimeConfig.toString());
         switch (group){
             case 1 -> {
-                courseReservation.setBeginTime(DateFormatUtil.formatTimestamp(courseTimeConfig.getCourse1StartTime()));
-                courseReservation.setEndTime(DateFormatUtil.formatTimestamp(courseTimeConfig.getCourse1EndTime()));
+                courseReservation.setBeginTime(DateFormatUtil.formatToTimestamp((date+" "+courseTimeConfig.getCourse1StartTime()),"yyyy-MM-dd HH:mm"));
+                courseReservation.setEndTime(DateFormatUtil.formatToTimestamp(date+" "+courseTimeConfig.getCourse1EndTime(),"yyyy-MM-dd HH:mm"));
             }
             case 2 -> {
-                courseReservation.setBeginTime(DateFormatUtil.formatTimestamp(courseTimeConfig.getCourse2StartTime()));
-                courseReservation.setEndTime(DateFormatUtil.formatTimestamp(courseTimeConfig.getCourse2EndTime()));
+                courseReservation.setBeginTime(DateFormatUtil.formatToTimestamp(date+" "+courseTimeConfig.getCourse2StartTime(),"yyyy-MM-dd HH:mm"));
+                courseReservation.setEndTime(DateFormatUtil.formatToTimestamp(date+" "+courseTimeConfig.getCourse2EndTime(),"yyyy-MM-dd HH:mm"));
             }
             case 3 -> {
-                courseReservation.setBeginTime(DateFormatUtil.formatTimestamp(courseTimeConfig.getCourse3StartTime()));
-                courseReservation.setEndTime(DateFormatUtil.formatTimestamp(courseTimeConfig.getCourse3EndTime()));
+                courseReservation.setBeginTime(DateFormatUtil.formatToTimestamp(date+" "+courseTimeConfig.getCourse3StartTime(),"yyyy-MM-dd HH:mm"));
+                courseReservation.setEndTime(DateFormatUtil.formatToTimestamp(date+" "+courseTimeConfig.getCourse3EndTime(),"yyyy-MM-dd HH:mm"));
             }
             case 4 -> {
-                courseReservation.setBeginTime(DateFormatUtil.formatTimestamp(courseTimeConfig.getCourse4StartTime()));
-                courseReservation.setEndTime(DateFormatUtil.formatTimestamp(courseTimeConfig.getCourse4EndTime()));
+                courseReservation.setBeginTime(DateFormatUtil.formatToTimestamp(date+" "+courseTimeConfig.getCourse4StartTime(),"yyyy-MM-dd HH:mm"));
+                courseReservation.setEndTime(DateFormatUtil.formatToTimestamp(date+" "+courseTimeConfig.getCourse4EndTime(),"yyyy-MM-dd HH:mm"));
             }
             default -> {
                 return ServerResponse.createByErrorMessage("时间参数错误");
             }
         }
+        System.out.println("课程开始时间"+courseReservation.getStartTime());
+        System.out.println("课程结束时间"+courseReservation.getEndTime());
         CourseReservation result=courseReservationRepository.save(courseReservation);
         OrderGoods orderGoods=orderGoodsRepository.findOrderGoodsByOrderDetailIdAndReserveIdIsNull(orderDetailId);
         if(orderGoods==null){
@@ -381,7 +385,7 @@ public class OrderServiceImp implements OrderService {
         courseTableDto.setTeacherName(teacherRepository.findTeacherById(courseTable.getTeacherId()).getName());
         courseTableDto.setUserName(userRepository.findUserById(courseTable.getUserId()).getName());
         courseTableDto.setCreateTime(DateFormatUtil.formatTimeNoSecond(courseTable.getCreateTime()));
-        courseTableDto.setReservationDate(DateFormatUtil.formatDate(courseTable.getReservationDate()));
+        courseTableDto.setReservationDate(DateFormatUtil.formatDateToString(courseTable.getReservationDate()));
         return courseTableDto;
     }
 

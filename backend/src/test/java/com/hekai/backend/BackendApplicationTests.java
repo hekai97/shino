@@ -1,10 +1,8 @@
 package com.hekai.backend;
 
+import com.hekai.backend.utils.DateFormatUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import com.hekai.backend.utils.RegexUtil;
-
 
 @SpringBootTest
 class BackendApplicationTests {
@@ -14,8 +12,8 @@ class BackendApplicationTests {
 	}
 
 	public static void main(String[] args) {
-		String path="/home/ubuntu/images/1.jpg";
-		String res=RegexUtil.getRelativePath(path);
-		System.out.println(res);
+		String date="2022-09-29T16:00:00.000Z";
+		date=date.substring(0,9);
+		System.out.println(DateFormatUtil.formatToTimestamp(date,"yyyy-MM-dd"));
 	}
 }

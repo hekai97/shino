@@ -2,7 +2,13 @@
   <div>
     <el-container>
       <el-header>
-        <div class="head"></div>
+        <div class="head">
+          <el-image
+            :src="picture"
+            fit="fill"
+            style="width: 100%; height: 80px"
+          ></el-image>
+        </div>
       </el-header>
       <el-main>
         <div class="content">
@@ -56,6 +62,7 @@
 import ActivityWindow from "../components/ActivityWindow.vue";
 import MyNews from "../components/MyNews.vue";
 import axios from "axios";
+import pic1 from "../assets/491c2f52033045633864a5ec2c1eba9b.jpeg";
 export default {
   components: {
     ActivityWindow,
@@ -63,6 +70,7 @@ export default {
   },
   data() {
     return {
+      picture: pic1,
       activeIndex: "/course",
       CategoryList: [],
       courseList: [],
@@ -231,7 +239,6 @@ export default {
 .head {
   width: 100%;
   height: 100px;
-  background-color: cadetblue;
 }
 .img {
   display: inline-flex;

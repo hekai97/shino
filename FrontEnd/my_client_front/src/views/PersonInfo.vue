@@ -155,6 +155,7 @@ export default {
 <style scoped>
 .content {
   width: 100%;
+  text-align: center;
 }
 .form {
   width: 70%;
@@ -162,5 +163,8 @@ export default {
 }
 h1 {
   margin-top: 0px;
+}
+.el-button {
+  margin: auto;
 }
 </style>

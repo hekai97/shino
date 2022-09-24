@@ -115,7 +115,6 @@ public class CourseReservationServiceImp implements CourseReservationService {
             courseRankingDto.setCount(Integer.valueOf(courseRanking[1].toString()));
             result.add(courseRankingDto);
         }
-
         return ServerResponse.createRespBySuccess(result);
     }
 
@@ -165,7 +164,7 @@ public class CourseReservationServiceImp implements CourseReservationService {
         CourseReservationDto courseReservationDto=modelMapper.map(courseReservation,CourseReservationDto.class);
         Course course=courseRepository.findCourseById(courseReservation.getCourseId());
         courseReservationDto.setCourseName(course.getCourseName());
-        Store store=storeRepository.findStoreById(course.getId());
+        Store store=storeRepository.findStoreById(courseReservation.getStoreId());
         courseReservationDto.setStoreName(store.getStoreName());
         courseReservationDto.setDate(DateFormatUtil.formatTimeNoSecond(courseReservation.getDate()));
         courseReservationDto.setBeginTime(DateFormatUtil.formatTimeNoSecond(courseReservation.getBeginTime()));

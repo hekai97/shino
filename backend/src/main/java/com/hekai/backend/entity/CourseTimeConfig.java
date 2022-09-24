@@ -130,4 +130,20 @@ public class CourseTimeConfig {
     public int hashCode() {
         return Objects.hash(id, course1StartTime, course1EndTime, course2StartTime, course2EndTime, course3StartTime, course3EndTime, course4StartTime, course4EndTime, classAttendance);
     }
+
+    @Override
+    public String toString() {
+        return "CourseTimeConfig{" +
+                "id=" + id +
+                ", course1StartTime='" + course1StartTime + '\'' +
+                ", course1EndTime='" + course1EndTime + '\'' +
+                ", course2StartTime='" + course2StartTime + '\'' +
+                ", course2EndTime='" + course2EndTime + '\'' +
+                ", course3StartTime='" + course3StartTime + '\'' +
+                ", course3EndTime='" + course3EndTime + '\'' +
+                ", course4StartTime='" + course4StartTime + '\'' +
+                ", course4EndTime='" + course4EndTime + '\'' +
+                ", classAttendance=" + classAttendance +
+                '}';
+    }
 }

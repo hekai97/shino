@@ -1,5 +1,6 @@
 <template>
   <div class="suggestion-area">
+    <h1>意见反馈</h1>
     <el-input v-model="suggestion.question" placeholder="请输入问题"></el-input>
     <el-input
       v-model="suggestion.description"
@@ -68,9 +69,17 @@ export default {
 .suggestion-area {
   width: 50%;
   margin: 0 auto;
+  text-align: center;
 }
 .submit-button {
   margin-left: 45%;
+  margin-top: 20px;
+}
+.el-input {
+  margin-bottom: 10px;
+}
+.el-button {
+  margin: auto;
   margin-top: 20px;
 }
 </style>

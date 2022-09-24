@@ -27,8 +27,12 @@
         <div class="right">
           <div class="information-text">已预约</div>
           <div v-if="item.courseTableId == null">等待员工排课中</div>
-          <el-button v-else type="primary" @click="showDetail(item.id)"
-            >查看详情</el-button
+          <el-button
+            v-else
+            type="primary"
+            @click="showDetail(courseReservationList.indexOf(item))"
+          >
+            查看详情</el-button
           >
         </div>
       </div>
@@ -37,7 +41,7 @@
   <el-dialog v-model="showDialog">
     <LabelValue
       :label="'课程名称'"
-      :value="courseReservationList[selectedItemId].courseName"
+      :value="courseReservationList[selectedItemId].courseTable.courseName"
     ></LabelValue>
     <LabelValue
       :label="'预约日期'"
@@ -131,6 +135,7 @@ export default {
     };
   },
   mounted() {
+    this.courseReservationList = [];
     this.getUserReservationList();
   },
   methods: {
@@ -160,8 +165,9 @@ export default {
         }
       });
     },
-    showDetail(id) {
-      this.selectedItemId = id;
+    showDetail(index) {
+      this.selectedItemId = index;
+      console.log(this.selectedItemId);
       this.showDialog = true;
     },
   },
