@@ -22,10 +22,11 @@
           placeholder="请再次输入新密码"
         ></el-input>
       </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="submitForm"
+      >确认修改</el-button>
+      </el-form-item>
     </el-form>
-    <el-button type="primary" @click="submitForm" style="float: right"
-      >确认修改</el-button
-    >
   </div>
 </template>
 <script>
@@ -108,6 +109,9 @@ export default {
 <style scoped>
 .reset-password-body {
   width: 60%;
-  margin: 0 auto;
+  margin: auto;
+}
+.el-button{
+  margin: auto;
 }
 </style>

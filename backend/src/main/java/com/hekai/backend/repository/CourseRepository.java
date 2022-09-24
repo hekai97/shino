@@ -1,7 +1,6 @@
 package com.hekai.backend.repository;
 
 import com.hekai.backend.entity.Course;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,4 +19,6 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     Page<Course> findCoursesByIdIn(Pageable pageable, List<Integer> courseIdList);
 
     List<Course> findCoursesByIdNotIn(List<Integer> courseIdList);
+
+//    CourseReservation findCourseReservationById(Integer courseReservationId);
 }

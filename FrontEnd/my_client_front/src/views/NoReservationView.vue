@@ -46,6 +46,8 @@
         <el-date-picker
           v-model="reservationForm.reservationTime"
           type="date"
+          format="YYYY/MM/DD"
+          value-format="YYYY-MM-DD"
           placeholder="选择预约时间"
         ></el-date-picker>
       </el-form-item>
@@ -134,6 +136,7 @@ export default {
     };
   },
   mounted() {
+    this.courseNoReservation = [];
     this.getCourseNoReservation();
     this.getAllStoreList();
   },

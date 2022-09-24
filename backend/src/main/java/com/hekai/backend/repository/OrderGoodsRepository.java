@@ -13,4 +13,6 @@ public interface OrderGoodsRepository extends JpaRepository<OrderGoods, Integer>
     List<OrderGoods> findOrderGoodsByOrderDetailIdInAndReserveIdIsNotNull(List<Integer> orderDetailIdList);
 
     OrderGoods findOrderGoodsByOrderDetailIdAndReserveIdIsNull(Integer orderDetailId);
+
+    OrderGoods findOrderGoodsByReserveId(Integer reserveId);
 }

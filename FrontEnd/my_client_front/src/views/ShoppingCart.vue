@@ -107,6 +107,7 @@ export default {
     };
   },
   mounted() {
+    this.unpaidOrderItem = [];
     this.getUnpaidOrderItem();
   },
   methods: {

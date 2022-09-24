@@ -20,6 +20,7 @@
             <el-form-item class="loginbtn">
               <el-button type="primary" @click="login()">立即登录</el-button>
               <el-button>重置</el-button>
+              <el-link href="/index" type="primary">游客进入</el-link>
               <el-link
                 href="/forgetPassword"
                 type="info"
@@ -92,7 +93,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item prop="code" label="验证码">
-                <el-input v-model="reform.code"></el-input>
+                <el-input v-model="reform.code" style="width: 220px"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -112,6 +113,7 @@
                   type="password"
                   v-model="reform.repassword"
                   autocomplete="off"
+                  style="width: 220px"
                 ></el-input>
               </el-form-item>
             </el-col>
@@ -419,5 +421,15 @@ export default {
 }
 .reform {
   display: inline-block;
+}
+.registerbtn {
+  margin-left: 45px;
+  margin-top: 20px;
+}
+.recheckbox {
+  margin-left: 50px;
+}
+.reform {
+  margin-left: -15px;
 }
 </style>

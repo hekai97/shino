@@ -155,8 +155,10 @@ public class UserServiceImp implements UserService {
         if(!employeeUser.getPassword().equals(password)){
             return ServerResponse.createByErrorMessage("密码错误！");
         }else{
-            employeeUser.hidePassword();
-            return ServerResponse.createRespBySuccess(employeeUser);
+            employeeUser.setLastLoginTime(new Timestamp(new Date().getTime()));
+            EmployeeUser result=employeeUserRepository.save(employeeUser);
+            result.hidePassword();
+            return ServerResponse.createRespBySuccess(result);
         }
     }
 
@@ -264,7 +266,7 @@ public class UserServiceImp implements UserService {
 
             int count=userRepository.countByRegisterTimeBetween(start,end);
             TimeAndCountDto timeAndCountDto=new TimeAndCountDto();
-            timeAndCountDto.setTime(DateFormatUtil.formatDate(date));
+            timeAndCountDto.setTime(DateFormatUtil.formatDateToString(date));
             timeAndCountDto.setCount(count);
             list.add(timeAndCountDto);
         }

@@ -7,7 +7,7 @@
         </el-carousel-item>
       </el-carousel>
     </div>
-    <h1>优惠活动</h1>
+    <div class="activity"><h1>优惠活动</h1></div>
     <div class="mid">
       <div class="activity">
         <div class="img0" v-for="(item, index) in activityList" :key="index">
@@ -19,7 +19,9 @@
         </div>
       </div>
     </div>
-    <h1>课程展示</h1>
+    <div>
+      <h1 class="course">课程展示</h1>
+    </div>
     <div class="bottom">
       <div class="course">
         <div
@@ -104,8 +106,15 @@ export default {
         method: "get",
         url: "/course/getStoreList",
       }).then((res) => {
-        this.storeList = res.data.data.slice(0, 4);
-        console.log(this.storeList);
+        if (res.data.status == 0) {
+          if (res.data.data.length < 4) {
+            this.storeList = res.data.data;
+          } else {
+            for (let i = 0; i < 4; ++i) {
+              this.storeList.push(res.data.data[i]);
+            }
+          }
+        }
       });
     },
     getCategory() {
@@ -125,7 +134,7 @@ export default {
           number: 6,
         },
       }).then((res) => {
-        this.courseList = res.data.data;
+        this.courseList = res.data.data.slice(0, 5);
         console.log(this.courseList);
       });
     },
@@ -145,6 +154,12 @@ export default {
 };
 </script>
 <style scoped>
+.activity {
+  text-align: center;
+}
+.course {
+  text-align: center;
+}
 .content-center {
   text-align: center;
 }
@@ -164,6 +179,7 @@ export default {
 .end {
   width: 100%;
   color: white;
+  text-align: center;
   padding-top: 10px;
   background-color: rgba(0, 0, 0, 0.9);
   /* height: 350px; */
@@ -203,6 +219,7 @@ export default {
 .footer {
   width: 100%;
   height: 150px;
+  text-align: center;
   background-color: rgba(0, 0, 0, 0.75);
 }
 </style>

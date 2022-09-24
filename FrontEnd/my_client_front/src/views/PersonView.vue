@@ -32,6 +32,7 @@
           </el-menu-item>
           <el-menu-item index="/index/person/alreadyDone">已上课</el-menu-item>
           <el-menu-item index="/index/person/suggestion">意见反馈</el-menu-item>
+          <!-- <el-menu-item @click="logout">退出登录</el-menu-item> -->
         </el-submenu>
       </el-menu>
     </div>

@@ -27,21 +27,8 @@
                 fit="fill"
                 @click="goStoreDetail(item)"
               ></el-image>
-              <!-- <div>{{ item.id }}</div> -->
             </div>
-            <!-- <div class="col-two"></div>
-            <div class="col-three"></div> -->
           </div>
-          <!-- <div class="row-0">
-            <div class="col-one"></div>
-            <div class="col-two"></div>
-            <div class="col-three"></div>
-          </div>
-          <div class="row-1">
-            <div class="col-one"></div>
-            <div class="col-two"></div>
-            <div class="col-three"></div>
-          </div> -->
           <div class="footer">
             <el-pagination
               v-model="storeListPageable"
@@ -183,12 +170,13 @@ export default {
   float: left;
 }
 .right {
-  width: 35%;
+  width: 38%;
   float: right;
-  margin-left: calc(40% - width);
+  padding-left: 10px;
 }
 .head {
   float: left;
+  padding-left: 10px;
 }
 .footer {
   display: table;
@@ -200,6 +188,7 @@ h1 {
 .search {
   width: 30%;
   float: right;
+  padding-right: 15px;
 }
 .row {
   margin-top: 50px;

@@ -32,6 +32,7 @@ const router = createRouter({
         {
           path: "person",
           name: "个人页面",
+          redirect: "/index/person/info",
           component: () => import("@/views/PersonView.vue"),
           children: [
             {
