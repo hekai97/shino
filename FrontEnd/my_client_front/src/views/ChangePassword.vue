@@ -23,8 +23,7 @@
         ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm"
-      >确认修改</el-button>
+        <el-button type="primary" @click="submitForm">确认修改</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -111,7 +110,7 @@ export default {
   width: 60%;
   margin: auto;
 }
-.el-button{
+.el-button {
   margin: auto;
 }
 </style>
