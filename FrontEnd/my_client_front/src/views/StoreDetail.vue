@@ -2,10 +2,12 @@
   <div>
     <div class="content">
       <div class="left">
-        <el-image :src="baseURL + store.pictureUrl"></el-image>
+        <el-image :src="baseURL + store.pictureUrl" style="width: 500px;height: 600px;align-self: center"></el-image>
       </div>
       <div class="right">
-        <h1>{{ store.storeName }}</h1>
+        <div class="name">
+          <h2>{{ store.storeName }}</h2>
+        </div>
         <div class="detail">
           <div>门店编号：{{ store.storeNumber }}</div>
           <div>门店类型：{{ store.type }}</div>
@@ -17,7 +19,9 @@
     </div>
     <div>
       <div class="other">
-        <h1>本店开设的课程</h1>
+        <div class="open">
+          <h2>本店开设的课程</h2>
+        </div>
         <div class="row-one">
           <div
             class="col-one"
@@ -179,10 +183,16 @@ export default {
 };
 </script>
 <style scoped>
+.name{
+  text-align: center;
+}
+.open{
+  text-align: center;
+}
 .left {
   width: 50%;
   float: left;
-  height: 800px;
+  height: auto;
   display: flex;
   justify-content: center;
   /* background-color: skyblue; */

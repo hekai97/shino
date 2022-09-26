@@ -1,7 +1,7 @@
 <!--已经上完课的页面-->
 <template>
   <div class="main">
-    <div v-if="courseAlreadyDoneList.length == 0">您没有已经完成的订单！</div>
+    <div v-if="courseAlreadyDoneList.length == 0" class="already">您没有已经完成的订单！</div>
     <el-card
       v-else
       class="my-card"
@@ -167,6 +167,9 @@ export default {
 </script>
 
 <style scoped>
+.already{
+  text-align: center;
+}
 .main {
   width: 70%;
 }

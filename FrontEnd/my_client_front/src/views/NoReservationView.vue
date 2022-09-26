@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div v-if="courseNoReservation.length == 0">您没有未预约的订单！</div>
+    <div v-if="courseNoReservation.length == 0" class="if">您没有未预约的订单！</div>
     <el-card
       v-else
       class="my-card"
@@ -222,6 +222,9 @@ export default {
 <style scoped>
 .main {
   width: 70%;
+}
+.if{
+  text-align: center;
 }
 .my-card {
   width: 100%;
