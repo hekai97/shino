@@ -407,6 +407,10 @@ export default {
 .el-link {
   margin-left: 10px;
 }
+.el-tabs{
+  margin-left: -50px;
+
+}
 .item {
   margin-left: -35px;
 }
