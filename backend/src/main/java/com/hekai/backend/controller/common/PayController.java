@@ -46,7 +46,7 @@ public class PayController {
 
     @RequestMapping("/home")
     public String index(ModelMap modelMap) {
-        return "home/home";
+        return "redirect:/orderRedirect.html";
     }
     //调起支付
     @RequestMapping(value = "/pay.do",method = RequestMethod.POST)
@@ -100,7 +100,6 @@ public class PayController {
 
     //支付完成后的返回
     @RequestMapping("/return.do")
-    @ResponseBody
     public String returnCall(HttpServletRequest request, HttpSession session, Model model) throws Exception {
         // 获取支付宝GET过来反馈信息
         Map<String, String> params = new HashMap<>();
@@ -120,6 +119,7 @@ public class PayController {
         System.out.println("\n验签开始.....\n");
 
         boolean signVerified = AlipaySignature.rsaCheckV1(params, AliPayConfig.ALIPAY_PUBLIC_KEY, AliPayConfig.CHARSET, AliPayConfig.sign_type); //调用SDK验证签名
+//        boolean signVerified = true; //调用SDK验证签名
         if (signVerified) {
             ////////////    设置用户订单状态
 
@@ -127,15 +127,12 @@ public class PayController {
             System.out.println("验签成功.....");
             ////////////
             System.out.println("return sign  success");
-            System.out.println(1);
             // return "验证签名成功，现在跳转到订单详情页面";
-            return "http://127.0.0.1:5173/noReservation";
         } else {
             System.out.println("return sign  failed");
-            System.out.println(1);
             // return "验证签名失败";
-            return "http://127.0.0.1:5173/noReservation";
         }
+        return "/alipay/home";
     }
 
     /**

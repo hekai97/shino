@@ -303,7 +303,7 @@ export default {
       //传入的实体类型
       pageable: {
         page: 1,
-        size: 10,
+        size: 10000,
       },
       //分页排课表实体
       courseReservationPageable: {
