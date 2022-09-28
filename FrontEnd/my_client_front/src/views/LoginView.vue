@@ -328,6 +328,8 @@ export default {
                 if (res.data.status == 0) {
                   alert("注册成功！");
                   this.$router.push("/login");
+                } else {
+                  this.$message.error(res.data.message);
                 }
               });
             });

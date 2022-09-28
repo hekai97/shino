@@ -8,6 +8,7 @@ import com.hekai.backend.entity.*;
 import com.hekai.backend.repository.*;
 import com.hekai.backend.service.CourseTableService;
 import com.hekai.backend.utils.DateFormatUtil;
+import com.hekai.backend.utils.SendMail;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,6 +41,8 @@ public class CourseTableServiceImp implements CourseTableService {
     private OrderGoodsRepository orderGoodsRepository;
     @Autowired
     private CourseReservationRepository courseReservationRepository;
+    @Autowired
+    private SendMail emailUtil;
 
     @Override
     public ServerResponse<Page<CourseTableDto>> getAllSchedulingPageable(EmployeeUser curUser, Pageable pageable) {
@@ -102,6 +105,12 @@ public class CourseTableServiceImp implements CourseTableService {
         OrderGoods orderGoods=orderGoodsRepository.findOrderGoodsByReserveId(newCourseTableDto.getCourseReservationId());
         orderGoods.setCourseTableId(courseTable1.getId());
         orderGoodsRepository.save(orderGoods);
+        //发送邮件通知上课
+        String content=userRepository.findUserById(courseTable1.getUserId()).getUsername()+" 同学您好，您的课程预约成功，预约的课程为："+courseRepository.findCourseById(courseTable1.getCourseId()).getCourseName()
+                +"，上课时间为："+courseTable1.getReservationDate()+" "+courseTable1.getBeginTime()+"-"+courseTable1.getEndTime()
+                +"上课地点为："+storeRepository.findStoreById(courseTable1.getStoreId()).getStoreName()
+                +"，核销码为："+orderGoods.getWriteOffCodeNumber()+",请在上课时将该核销码告诉管理人员，届时将会有签到，请准时参加！";
+        emailUtil.sendMail(userRepository.findUserById(courseTable1.getUserId()).getEmail(),content);
         return ServerResponse.createRespBySuccessMessage("创建成功");
     }
 
