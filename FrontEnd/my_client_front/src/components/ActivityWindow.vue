@@ -98,7 +98,7 @@ export default {
 .dialog {
   width: 100%;
 }
-.kcxq{
+.kcxq {
   text-align: center;
 }
 .left {

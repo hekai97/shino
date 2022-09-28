@@ -2,7 +2,10 @@
   <div>
     <div class="content">
       <div class="left">
-        <el-image :src="baseURL + store.pictureUrl" style="width: 500px;height: 600px;align-self: center"></el-image>
+        <el-image
+          :src="baseURL + store.pictureUrl"
+          style="width: 500px; height: 600px; align-self: center"
+        ></el-image>
       </div>
       <div class="right">
         <div class="name">
@@ -183,10 +186,10 @@ export default {
 };
 </script>
 <style scoped>
-.name{
+.name {
   text-align: center;
 }
-.open{
+.open {
   text-align: center;
 }
 .left {
