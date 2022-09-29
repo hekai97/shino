@@ -139,6 +139,7 @@ export default {
       baseUrl: axios.defaults.baseURL,
       detail: {
         id: 0,
+        courseName: "",
         courseTypeId: 0,
         courseTypeName: "",
         courseCategoryName: "",
@@ -159,6 +160,7 @@ export default {
     showDialog(item) {
       this.dialogVisible = true;
       this.detail.id = item.id;
+      this.detail.courseName = item.courseName;
       this.detail.courseTypeId = item.courseTypeId;
       this.detail.courseTypeName = item.courseTypeName;
       this.detail.courseCategoryName = item.courseCategoryName;

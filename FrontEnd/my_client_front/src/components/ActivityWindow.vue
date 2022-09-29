@@ -4,7 +4,7 @@
       <el-image :src="baseUrl + detail.pictureUrl"></el-image>
     </div>
     <div class="right">
-      <h2>金情物语</h2>
+      <h2>{{ detail.courseName }}</h2>
       <div class="detail">
         <div>商品类型：{{ detail.courseTypeName }}</div>
         <div>课程分类：{{ detail.courseCategoryName }}</div>

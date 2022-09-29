@@ -327,7 +327,7 @@ export default {
                 console.log(res.data.message);
                 if (res.data.status == 0) {
                   alert("注册成功！");
-                  this.$router.push("/login");
+                  this.$router.push("/");
                 } else {
                   this.$message.error(res.data.message);
                 }
@@ -342,7 +342,7 @@ export default {
               console.log(res.data.message);
               if (res.data.status == 0) {
                 alert("注册成功！");
-                this.$router.push("/login");
+                this.$router.push("/");
               }
             });
           }
@@ -397,7 +397,7 @@ export default {
           this.timerCount--;
         } else {
           clearInterval(timer);
-          this.timerCount = 60;
+          this.timerCount = 0;
           this.isSend = false;
         }
       }, 1000);
