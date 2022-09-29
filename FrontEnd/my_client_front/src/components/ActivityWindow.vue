@@ -4,9 +4,7 @@
       <el-image :src="baseUrl + detail.pictureUrl"></el-image>
     </div>
     <div class="right">
-      <div class="kcxq">
-        <h2>课程详情</h2>
-      </div>
+      <h2>{{ detail.courseName }}</h2>
       <div class="detail">
         <div>商品类型：{{ detail.courseTypeName }}</div>
         <div>课程分类：{{ detail.courseCategoryName }}</div>

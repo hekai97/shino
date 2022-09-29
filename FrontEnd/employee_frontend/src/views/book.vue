@@ -326,7 +326,7 @@ export default {
       TeacherData:[],
       //传入的实体类型
       pageable: {
-        page: 1,
+        page: 0,
         size: 10000,
       },
       //分页排课表实体
